@@ -9,11 +9,22 @@ const switchHref = withBase(lang === "zh" ? "/en/" : "/zh/");
 ---
 
 <header class="site-header">
-  <a class="brand-mark" href={homeHref} aria-label={c.brandEn}>
-    <span class="brand-emblem">TC</span>
-    <span>
-      <strong>{c.brand}</strong>
-      <small>{c.brandEn}</small>
+  <a class="brand-mark header-logo" href={homeHref} aria-label={c.brandEn}>
+    <span class="brand-logo-strip" aria-hidden="true">
+      <img
+        class="brand-logo-emblem"
+        src={withBase("/assets/brand/tanchin-logo-emblem.png")}
+        alt=""
+        width="116"
+        height="66"
+      />
+      <img
+        class="brand-logo-name"
+        src={withBase("/assets/brand/tanchin-logo-name.png")}
+        alt=""
+        width="225"
+        height="40"
+      />
     </span>
   </a>
 

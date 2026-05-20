@@ -80,6 +80,32 @@ textarea {
   min-width: 0;
 }
 
+.header-logo {
+  flex: 0 1 auto;
+  max-width: min(330px, calc(100vw - 112px));
+}
+
+.brand-logo-strip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.brand-logo-strip img {
+  flex: 0 1 auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.brand-logo-emblem {
+  width: clamp(48px, 5vw, 64px);
+}
+
+.brand-logo-name {
+  width: clamp(132px, 18vw, 205px);
+}
+
 .brand-emblem {
   display: grid;
   width: 44px;
@@ -795,6 +821,27 @@ textarea {
 .copyright {
   margin: 36px 0 0;
   font-size: 12px;
+}
+
+@media (max-width: 1180px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .site-nav {
+    position: absolute;
+    top: 76px;
+    left: 0;
+    right: 0;
+    display: none;
+    padding: 14px 18px 20px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(7, 9, 13, 0.96);
+  }
+
+  .site-nav.open {
+    display: grid;
+  }
 }
 
 @media (max-width: 1120px) {
