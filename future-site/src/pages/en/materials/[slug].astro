@@ -1,0 +1,42 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import ContactPanel from "../../../components/ContactPanel.astro";
+import { materialProducts, materials } from "../../../data/site";
+import { withBase } from "../../../utils/paths";
+
+export function getStaticPaths() {
+  return materials.map((material) => ({ params: { slug: material.slug }, props: { material } }));
+}
+
+const { material } = Astro.props;
+const items = materialProducts(material.slug);
+---
+
+<Layout lang="en" title={`${material.name.en} | TANCHIN Materials`} description={material.summary.en} active="materials">
+  <section class="page-hero">
+    <p class="eyebrow">{material.eyebrow.en}</p>
+    <h1>{material.name.en}</h1>
+    <p>{material.summary.en}</p>
+  </section>
+  <section class="section narrow material-detail">
+    <div class="material-hero-image"><img src={withBase(material.image)} alt={material.name.en} /></div>
+    <div class="feature-panel">
+      <h2>Material Traits</h2>
+      <ul class="pill-list">{material.traits.en.map((trait) => <li>{trait}</li>)}</ul>
+      <h2>Applications</h2>
+      <ul class="pill-list">{material.applications.en.map((item) => <li>{item}</li>)}</ul>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-heading split">
+      <div><p class="eyebrow">Samples</p><h2>{material.name.en} Samples</h2></div>
+      <a class="text-link" href={withBase("/en/contact/")}>Ask about this material</a>
+    </div>
+    <div class="product-gallery">
+      {items.map((product) => (
+        <figure class="product-tile"><img src={withBase(product.image)} alt={product.name.en} /><figcaption>{product.name.en}</figcaption></figure>
+      ))}
+    </div>
+  </section>
+  <ContactPanel lang="en" />
+</Layout>

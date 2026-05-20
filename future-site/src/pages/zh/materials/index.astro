@@ -1,0 +1,15 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import MaterialMatrix from "../../../components/MaterialMatrix.astro";
+import ProductGallery from "../../../components/ProductGallery.astro";
+---
+
+<Layout lang="zh" title="材料能力 | 震欣科技" description="震欣科技提供多種 MIM 材料能力，包含鎳合金鋼、鉻鉬合金鋼、不鏽鋼、高速鋼等。" active="materials">
+  <section class="page-hero">
+    <p class="eyebrow">Material Matrix</p>
+    <h1>依產品用途選擇合適的 MIM 材料</h1>
+    <p>不同材料對應不同機械性質、耐蝕性、硬度、韌性與表面表現。我們可依圖面與使用情境協助評估材料與製程可行性。</p>
+  </section>
+  <MaterialMatrix lang="zh" />
+  <ProductGallery lang="zh" />
+</Layout>

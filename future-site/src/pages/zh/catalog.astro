@@ -1,0 +1,22 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { withBase } from "../../utils/paths";
+---
+
+<Layout lang="zh" title="電子型錄 | 震欣科技" description="下載或瀏覽震欣科技 MIM 金屬射出成型電子型錄。" active="catalog">
+  <section class="page-hero">
+    <p class="eyebrow">E-Catalog</p>
+    <h1>震欣科技電子型錄</h1>
+    <p>保留型錄 PDF，並以新版介面提供更快速的瀏覽與下載入口。</p>
+  </section>
+  <section class="section narrow">
+    <article class="catalog-panel">
+      <img src={withBase("/assets/catalog/catalog-cover.jpg")} alt="震欣科技電子型錄封面" />
+      <div>
+        <h2>公司目錄</h2>
+        <p>包含公司介紹、MIM 製程能力、材料、產品樣品與品質資訊。</p>
+        <a class="button primary" href={withBase("/assets/catalog/tanchin-catalog.pdf")}>開啟 PDF 型錄</a>
+      </div>
+    </article>
+  </section>
+</Layout>

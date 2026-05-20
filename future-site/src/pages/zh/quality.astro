@@ -1,0 +1,27 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { withBase } from "../../utils/paths";
+---
+
+<Layout lang="zh" title="品質控管 | 震欣科技" description="震欣科技以 ISO 9001:2015 與製程檢驗建立品質控制系統。" active="quality">
+  <section class="page-hero">
+    <p class="eyebrow">Quality Control</p>
+    <h1>品質不是最後檢查，是每一步的控制系統</h1>
+    <p>從製程標準、巡檢抽查、量規檢查到設備履歷，品質控制被整合進每個生產階段。</p>
+  </section>
+  <section class="section narrow content-grid">
+    <article class="feature-panel">
+      <h2>ISO 9001:2015</h2>
+      <p>遵循 ISO 9001:2015 品質管理系統，是震欣科技品質保證的根基。我們持續維護程序運作，讓製造流程、檢驗紀錄與生產管理更穩定。</p>
+      <ul>
+        <li>製程階段檢驗標準</li>
+        <li>自製專用量規檢查</li>
+        <li>定期巡檢與抽查</li>
+        <li>機台生產與保養履歷</li>
+      </ul>
+    </article>
+    <div class="quality-grid">
+      <img src={withBase("/assets/quality/iso-certificate.jpg")} alt="ISO 9001:2015 證書" />
+    </div>
+  </section>
+</Layout>

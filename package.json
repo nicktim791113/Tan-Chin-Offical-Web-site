@@ -1,0 +1,16 @@
+{
+  "name": "tan-chin-offical-web-site",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "future-site"
+  ],
+  "scripts": {
+    "dev": "npm --prefix future-site run dev",
+    "build": "npm --prefix future-site run build",
+    "check": "npm --prefix future-site run check",
+    "preview": "npm --prefix future-site run preview",
+    "backup": "powershell -NoProfile -ExecutionPolicy Bypass -File \"./scripts/backup-core-assets.ps1\""
+  }
+}

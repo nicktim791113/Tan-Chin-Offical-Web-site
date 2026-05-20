@@ -1,0 +1,42 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import ContactPanel from "../../../components/ContactPanel.astro";
+import { materialProducts, materials } from "../../../data/site";
+import { withBase } from "../../../utils/paths";
+
+export function getStaticPaths() {
+  return materials.map((material) => ({ params: { slug: material.slug }, props: { material } }));
+}
+
+const { material } = Astro.props;
+const items = materialProducts(material.slug);
+---
+
+<Layout lang="zh" title={`${material.name.zh} | 震欣科技材料能力`} description={material.summary.zh} active="materials">
+  <section class="page-hero">
+    <p class="eyebrow">{material.eyebrow.zh}</p>
+    <h1>{material.name.zh}</h1>
+    <p>{material.summary.zh}</p>
+  </section>
+  <section class="section narrow material-detail">
+    <div class="material-hero-image"><img src={withBase(material.image)} alt={material.name.zh} /></div>
+    <div class="feature-panel">
+      <h2>材料特性</h2>
+      <ul class="pill-list">{material.traits.zh.map((trait) => <li>{trait}</li>)}</ul>
+      <h2>應用方向</h2>
+      <ul class="pill-list">{material.applications.zh.map((item) => <li>{item}</li>)}</ul>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-heading split">
+      <div><p class="eyebrow">Samples</p><h2>{material.name.zh} 樣品</h2></div>
+      <a class="text-link" href={withBase("/zh/contact/")}>詢問此材料</a>
+    </div>
+    <div class="product-gallery">
+      {items.map((product) => (
+        <figure class="product-tile"><img src={withBase(product.image)} alt={product.name.zh} /><figcaption>{product.name.zh}</figcaption></figure>
+      ))}
+    </div>
+  </section>
+  <ContactPanel lang="zh" />
+</Layout>

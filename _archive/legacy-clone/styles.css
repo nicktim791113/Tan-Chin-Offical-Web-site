@@ -1,0 +1,1127 @@
+@charset "utf-8";
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  color: #333;
+  font-family: Arial, "Microsoft JhengHei", "微軟正黑體", sans-serif;
+  background: #fff;
+}
+
+img {
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.clearfix::before,
+.clearfix::after {
+  content: "";
+  display: table;
+}
+
+.clearfix::after {
+  clear: both;
+}
+
+#container {
+  overflow: hidden;
+}
+
+.wrapper {
+  width: 1200px;
+  margin: auto;
+}
+
+#header .top {
+  background: url("https://www.tanchin.com.tw/images/header-top_bg.jpg") repeat-x;
+  text-align: right;
+}
+
+.top-inner {
+  min-height: 54px;
+}
+
+.language,
+.language dd,
+.language dt,
+.language ul {
+  margin: 0;
+  padding: 0;
+}
+
+.language {
+  display: inline-block;
+  min-height: 54px;
+  background: #f00;
+  position: relative;
+  text-align: left;
+}
+
+.language dt a {
+  display: inline-block;
+  padding: 0 20px 0 60px;
+  margin-top: 10px;
+  color: #fff;
+  font-size: 18px;
+  line-height: 39px;
+  background: url("https://www.tanchin.com.tw/images/language-world.png") no-repeat 10px 0;
+}
+
+.language dt a::after {
+  content: "▾";
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+.language dd ul {
+  display: none;
+  position: absolute;
+  z-index: 10;
+  top: 49px;
+  left: 0;
+  width: 100%;
+  list-style: none;
+  background: #f00;
+}
+
+.language:hover dd ul {
+  display: block;
+}
+
+.language dd li a {
+  display: block;
+  padding: 8px 15px;
+  color: #fff;
+  border-top: 1px solid #fff;
+}
+
+.language a:hover {
+  color: #ff0;
+}
+
+.header .logo {
+  float: left;
+  margin: 10px;
+}
+
+.header .logo img + img {
+  margin-left: 8px;
+}
+
+.toggle-btn {
+  display: none;
+}
+
+.main-menu {
+  float: right;
+}
+
+.main-menu ul {
+  margin: 3em 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.main-menu li {
+  display: inline-block;
+}
+
+.main-menu li:not(:last-child)::after {
+  content: "/";
+  color: #595959;
+}
+
+.main-menu a {
+  display: inline-block;
+  padding: 10px 1em;
+  font-size: 15px;
+  letter-spacing: 0;
+}
+
+.main-menu a:hover,
+.main-menu li.active a {
+  color: #d7000f;
+}
+
+.index-banner {
+  min-height: 700px;
+  padding: 0;
+  background: url("https://www.tanchin.com.tw/images/index-banner_bg.png") no-repeat top center;
+  border-bottom: 1px solid #dcdcdc;
+}
+
+.da-slider {
+  position: relative;
+  height: 700px;
+  overflow: hidden;
+}
+
+.da-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.da-slide.current {
+  opacity: 1;
+  z-index: 2;
+}
+
+.da-slide h2 {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  z-index: 3;
+  margin: 0;
+  color: #e40000;
+  font-size: 140px;
+  line-height: 0.95;
+  font-weight: bold;
+}
+
+.da-slide h2 span {
+  display: block;
+  margin-left: 0;
+  color: #fff;
+  font-size: 32px;
+  line-height: 1.25;
+  font-weight: normal;
+}
+
+.da-slide p {
+  position: absolute;
+  top: 245px;
+  left: 0;
+  z-index: 3;
+  margin: 0;
+  color: #fff;
+  font-size: 16px;
+}
+
+.da-img {
+  position: absolute;
+  top: 170px;
+  left: 30%;
+  width: 70%;
+  text-align: center;
+}
+
+.da-dots {
+  position: absolute;
+  z-index: 5;
+  bottom: 42px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.da-dots span {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 0 5px;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0.45;
+}
+
+.da-dots span.current {
+  opacity: 1;
+  background: #e40000;
+}
+
+.section-1 {
+  padding: 3em 0;
+  font-family: "Microsoft JhengHei", "微軟正黑體", Arial, sans-serif;
+}
+
+.section-1 .title {
+  margin: 0 0 1em;
+  color: #696969;
+  font-size: 24px;
+  font-weight: normal;
+  text-align: center;
+}
+
+.section-1 .title span {
+  color: #da1321;
+  font-size: 36px;
+}
+
+.samples {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.samples li {
+  display: inline-block;
+  width: 31.3333%;
+  margin: 0 0.4%;
+  vertical-align: top;
+}
+
+.samples a {
+  display: block;
+  color: #626262;
+}
+
+.samples span {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 3px 22px;
+  color: #fff;
+  background: #d7000f;
+  font-size: 14px;
+}
+
+.section-2 {
+  min-height: 452px;
+  color: #fff;
+  background: #151515;
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.com-pic {
+  position: relative;
+  width: 50%;
+  min-height: 452px;
+  overflow: hidden;
+  text-align: center;
+  background: url("https://www.tanchin.com.tw/images/right_pic_bg.jpg") center top / cover no-repeat;
+}
+
+.com-pic img {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  max-width: 72%;
+}
+
+.company {
+  width: 50%;
+  min-height: 452px;
+  padding: 3% 5%;
+  background: url("https://www.tanchin.com.tw/images/left_pic_bg.jpg") right top / cover no-repeat;
+}
+
+.company .title {
+  margin: 0 0 1em;
+  font-size: 24px;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+.company .title span {
+  color: #da1321;
+  font-size: 36px;
+}
+
+.company ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.company li {
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.company strong {
+  display: inline-block;
+  width: 48px;
+  color: #fff;
+}
+
+.company p {
+  margin-left: 1.5em;
+  color: #fff;
+}
+
+.section-3 {
+  min-height: 245px;
+  background: url("https://www.tanchin.com.tw/images/index-section-3_bg.jpg") no-repeat top center;
+}
+
+.section-3 ul {
+  margin: 0;
+  padding: 1.2em 0 0;
+  list-style: none;
+  text-align: center;
+}
+
+.section-3 li {
+  display: inline-block;
+  min-width: 200px;
+  margin: 0 1em;
+  color: #fff;
+  line-height: 1.5;
+  text-align: center;
+  vertical-align: top;
+}
+
+#footer {
+  position: relative;
+  z-index: 0;
+  border-top: 1px solid #d8d8d8;
+  background: linear-gradient(to bottom, #f3f3f3 0%, #fff 100%);
+}
+
+#footer .wrapper {
+  padding: 2em 0 0;
+}
+
+.footer-logo {
+  float: left;
+  width: 30%;
+  text-align: center;
+}
+
+.footer-logo img {
+  display: block;
+  margin: 0 auto 10px;
+}
+
+.footer-menu {
+  float: left;
+  width: 20%;
+  margin-left: 5%;
+  font-size: 14px;
+}
+
+.footer-contact {
+  float: left;
+  width: 25%;
+  font-size: 12px;
+}
+
+.footer-menu .title,
+.footer-contact .title {
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  color: #4c4c4c;
+  font-size: 20px;
+  font-weight: normal;
+  background: url("https://www.tanchin.com.tw/images/footer-title_bg.gif") repeat-x left bottom;
+}
+
+.footer-menu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-menu li {
+  line-height: 1.5;
+}
+
+.footer-menu a {
+  padding-left: 10px;
+}
+
+.footer-menu a::before {
+  content: "›";
+  margin-right: 5px;
+}
+
+.footer-menu a:hover {
+  color: #d7000f;
+}
+
+.footer-cont-area1,
+.footer-cont-area2 {
+  min-height: 24px;
+  margin-top: 10px;
+  padding-left: 30px;
+  line-height: 1.5;
+}
+
+.footer-cont-area1 {
+  background: url("https://www.tanchin.com.tw/images/footer-add.png") no-repeat top left;
+}
+
+.footer-cont-area2 {
+  background: url("https://www.tanchin.com.tw/images/footer-cont.png") no-repeat top left;
+}
+
+.footer-cont-area1 strong,
+.footer-cont-area2 strong {
+  color: #e40000;
+  font-size: 14px;
+}
+
+.footer-line {
+  float: left;
+  width: 4%;
+  margin-top: 10px;
+}
+
+.footer-qr {
+  float: right;
+  width: 12.5%;
+}
+
+.copyright {
+  margin: 20px 0 0;
+  padding: 10px 15px;
+  color: #666;
+  font-size: 12px;
+  text-align: center;
+  border-top: 1px solid #eee;
+}
+
+.slide-menu {
+  display: none;
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 1000;
+  width: min(320px, 82vw);
+  padding-bottom: 3em;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.88);
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+}
+
+.slide-menu.open {
+  display: block;
+  transform: translateX(0);
+}
+
+.slide-menu > .title {
+  margin: 0;
+  padding: 0.7em 0.5em;
+  font-size: 24px;
+  font-weight: bold;
+  background: #000;
+  border-bottom: 1px solid #f00;
+}
+
+.slide-menu .main-nav {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.slide-menu .main-nav li {
+  line-height: 24px;
+  border-bottom: 1px solid #fff;
+}
+
+.slide-menu .main-nav a {
+  display: block;
+  padding: 20px;
+}
+
+.slide-menu-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.slide-menu-backdrop.open {
+  display: block;
+}
+
+.banner {
+  overflow: hidden;
+  border-bottom: 1px solid #dcdcdc;
+}
+
+.banner img {
+  display: block;
+  width: 100%;
+  min-width: 1200px;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.breadcrumbs {
+  position: relative;
+  z-index: 2;
+  margin-top: -3em;
+  margin-bottom: 5em;
+  color: #6b6b6b;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.breadcrumbs ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.breadcrumbs li {
+  display: inline-block;
+}
+
+.breadcrumbs li + li::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 11px;
+  margin: 0 5px;
+  vertical-align: middle;
+  background: url("https://www.tanchin.com.tw/images/arrow.png") no-repeat;
+}
+
+.page-content {
+  min-height: 480px;
+}
+
+.page-layout {
+  padding-bottom: 3em;
+}
+
+.side-menu {
+  float: left;
+  width: 270px;
+}
+
+.side-menu .title {
+  margin: 0 0 0.5em;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.side-menu .title::first-letter {
+  color: #e40000;
+}
+
+.side-nav {
+  margin: 0 0 50px;
+  padding: 0;
+  list-style: none;
+}
+
+.side-nav > li > a {
+  display: block;
+  margin-top: -1px;
+  padding: 20px;
+  border: 1px solid #bfbfbf;
+}
+
+.side-nav > li > a::before {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 7px;
+  margin: 0 5px 3px 0;
+  background: url("https://www.tanchin.com.tw/images/nav-arrow.png") 0 0;
+}
+
+.side-nav > li > a:hover,
+.side-nav > li.active > a {
+  color: #e40000;
+}
+
+.main {
+  float: right;
+  width: calc(100% - 270px);
+  padding: 37px 0 3em 30px;
+  font-size: 14px;
+}
+
+.main h1 {
+  margin: 0 0 0.75em;
+  color: #333;
+  font-size: 32px;
+  font-weight: normal;
+}
+
+.main h3 {
+  font-size: 24px;
+  line-height: 1.6;
+}
+
+.main h4 {
+  margin: 1.5em 0 0.5em;
+  color: #333;
+  font-size: 18px;
+}
+
+.main p,
+.main li {
+  line-height: 1.8;
+}
+
+.main .lead {
+  color: #444;
+  font-size: 22px;
+  line-height: 1.6;
+}
+
+.content-com {
+  background: url("https://www.tanchin.com.tw/images/com_bg.png") right bottom no-repeat;
+}
+
+.quality-bg {
+  background: url("https://www.tanchin.com.tw/images/quality_bg2.png") right top / 30% auto no-repeat;
+}
+
+.history-list {
+  margin: 2em 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.history-list li {
+  display: grid;
+  grid-template-columns: 95px 1fr;
+  gap: 18px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.history-list strong {
+  color: #d7000f;
+  font-size: 24px;
+  font-weight: normal;
+}
+
+.quality-pics,
+.equipment-pics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 2em;
+}
+
+.quality-pics a,
+.equipment-pics figure {
+  display: block;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid #e4e4e4;
+  background: #fff;
+}
+
+.equipment-pics figcaption {
+  padding: 10px 0 0;
+  color: #666;
+  text-align: center;
+}
+
+.process-list {
+  margin: 1.5em 0;
+  padding-left: 1.5em;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.category-grid li,
+.product-grid li {
+  border: 1px solid #a1a1a1;
+  background: #fff;
+}
+
+.category-grid a,
+.product-grid a,
+.product-grid .product-card {
+  display: block;
+  color: #6d6d6d;
+  text-align: center;
+}
+
+.category-grid img,
+.product-grid img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  padding: 20px;
+  background: #fff;
+}
+
+.category-grid span,
+.product-grid span {
+  display: block;
+  padding: 10px 0;
+  background: #ccc;
+}
+
+.material-section {
+  margin-top: 3em;
+}
+
+.material-section h3 {
+  margin-bottom: 0.8em;
+  padding-left: 14px;
+  color: #d7000f;
+  border-left: 4px solid #d7000f;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contact-note {
+  margin-bottom: 1em;
+  padding: 12px 0;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.legacy-form fieldset {
+  border: 0;
+}
+
+.form-group {
+  margin: 10px 0;
+}
+
+.red {
+  color: #c90003;
+}
+
+.control-label {
+  display: inline-block;
+  width: 15%;
+  text-align: right;
+  vertical-align: top;
+}
+
+.controls {
+  display: inline-block;
+  width: 84%;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #dfdfdf;
+  border-radius: 0 8px 8px 0;
+}
+
+.legacy-form textarea {
+  min-height: 150px;
+}
+
+.btn {
+  padding: 7px 16px;
+  border: 0;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  background: #bf0003;
+}
+
+.btn-danger {
+  background: #c7383b;
+}
+
+.btn-primary:hover {
+  background: #864445;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.captcha-box {
+  display: inline-block;
+  min-width: 130px;
+  margin-top: 8px;
+  padding: 8px 14px;
+  color: #333;
+  letter-spacing: 6px;
+  background: repeating-linear-gradient(135deg, #f5f5f5, #f5f5f5 6px, #e2e2e2 6px, #e2e2e2 12px);
+  border: 1px solid #ccc;
+}
+
+.catalog-card {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 28px;
+  align-items: start;
+  max-width: 760px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+.catalog-card img {
+  border: 1px solid #ddd;
+}
+
+.catalog-card .btn {
+  display: inline-block;
+  margin-top: 12px;
+}
+
+@media (max-width: 1200px) {
+  .wrapper {
+    width: 100%;
+  }
+
+  #content .wrapper,
+  #footer .wrapper {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .index-banner {
+    background-position: top 0 right -10em;
+    background-size: cover;
+  }
+}
+
+@media (max-width: 800px) {
+  #header .top {
+    background: #f00;
+  }
+
+  .toggle-btn {
+    display: block;
+    float: left;
+    padding: 0 1em;
+    color: #fff;
+    font-size: 18px;
+    line-height: 54px;
+    background: #f00;
+  }
+
+  .toggle-btn::before {
+    content: "☰";
+    margin-right: 10px;
+  }
+
+  .header .logo {
+    float: none;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .main-menu {
+    display: none;
+  }
+
+  .index-banner,
+  .da-slider {
+    min-height: 410px;
+    height: 410px;
+  }
+
+  .da-slide h2 {
+    top: 10px;
+    left: 20px;
+    font-size: 96px;
+  }
+
+  .da-slide h2 span {
+    margin-left: 135px;
+    font-size: 32px;
+  }
+
+  .da-slide p {
+    top: 150px;
+    left: 20px;
+  }
+
+  .da-img {
+    top: 100px;
+    left: 30%;
+    width: 60%;
+  }
+
+  .footer-menu,
+  .footer-contact {
+    width: 30%;
+  }
+
+  .breadcrumbs {
+    margin: 20px 7px;
+  }
+
+  .side-menu {
+    display: none;
+  }
+
+  .main {
+    float: none;
+    width: 100%;
+    padding: 0 0 1em;
+  }
+
+  .category-grid,
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .index-banner {
+    background-position: top 0 right -8em;
+    background-size: 180%;
+  }
+
+  .samples li {
+    width: 45%;
+    margin: 0 2.3% 1em;
+  }
+
+  .com-pic,
+  .company {
+    width: 100%;
+  }
+
+  .section-3 li {
+    width: 32.5%;
+    min-width: 0;
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .footer-logo {
+    width: 40%;
+  }
+
+  .footer-menu {
+    width: 57%;
+    margin-left: 3%;
+  }
+
+  .footer-contact {
+    clear: both;
+    width: 100%;
+    margin-top: 1em;
+  }
+
+  .footer-line {
+    clear: both;
+    width: 50px;
+    margin-left: 25px;
+  }
+
+  .footer-qr {
+    float: left;
+    width: 25%;
+    margin-left: 20px;
+  }
+
+  .quality-pics,
+  .equipment-pics,
+  .catalog-card {
+    grid-template-columns: 1fr;
+  }
+
+  .control-label,
+  .controls {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .index-banner,
+  .da-slider {
+    min-height: 240px;
+    height: 240px;
+  }
+
+  .da-slide h2 {
+    top: 10px;
+    left: 15px;
+    font-size: 48px;
+  }
+
+  .da-slide h2 span {
+    margin-left: 105px;
+    font-size: 18px;
+  }
+
+  .da-slide p {
+    top: 70px;
+    left: 15px;
+    font-size: 12px;
+  }
+
+  .da-img {
+    top: -20px;
+    width: 60%;
+  }
+
+  .samples li {
+    display: block;
+    width: 100%;
+    margin: 0 auto 0.5em;
+  }
+
+  .section-3 {
+    padding: 1em 0;
+    background: url("https://www.tanchin.com.tw/images/index-section-3_bg.jpg");
+  }
+
+  .section-3 li {
+    display: block;
+    width: 100%;
+    margin: 0 0 0.5em;
+    font-size: 16px;
+  }
+
+  .footer-logo {
+    float: none;
+    width: 40%;
+    margin: auto;
+  }
+
+  .footer-menu {
+    display: none;
+  }
+
+  .category-grid,
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .history-list li {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}

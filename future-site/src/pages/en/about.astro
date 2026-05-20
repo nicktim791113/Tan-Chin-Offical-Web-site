@@ -1,0 +1,24 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { timeline } from "../../data/site";
+---
+
+<Layout lang="en" title="About | TANCHIN" description="TANCHIN develops precision MIM manufacturing capability for complex custom metal parts." active="about">
+  <section class="page-hero">
+    <p class="eyebrow">About TANCHIN</p>
+    <h1>Precision manufacturing for custom metal components</h1>
+    <p>TANCHIN has grown from precision component manufacturing into a specialized MIM producer, expanding equipment, materials, and quality systems to support complex metal parts.</p>
+  </section>
+  <section class="section narrow content-grid">
+    <article class="feature-panel">
+      <h2>Manufacturing capability with quality discipline</h2>
+      <p>From drawings and tooling to sampling and mass production, TANCHIN focuses on stable quality, reliable delivery, and manufacturable metal component development.</p>
+      <p>MIM is suitable for precise and complex metal components across machinery, tooling, medical, leisure, and industrial applications.</p>
+    </article>
+    <aside class="feature-panel timeline">
+      {timeline.map(([year,, en]) => (
+        <div class="timeline-item"><strong>{year}</strong><span>{en}</span></div>
+      ))}
+    </aside>
+  </section>
+</Layout>

@@ -1,0 +1,20 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ApplicationShowcase from "../../components/ApplicationShowcase.astro";
+import ContactPanel from "../../components/ContactPanel.astro";
+---
+
+<Layout
+  lang="zh"
+  title="應用案例與客製服務 | 震欣科技"
+  description="震欣科技協助精密機械、醫療儀器、工具零件與特殊結構件評估 MIM 金屬射出成型可行性、材料與量產路線。"
+  active="applications"
+>
+  <section class="page-hero">
+    <p class="eyebrow">Application & Custom Service</p>
+    <h1>讓客戶看見震欣如何解決零件問題</h1>
+    <p>從圖面、材料、製程到品質控管，震欣把 MIM 技術轉化成可被工程端與採購端理解的量產方案。</p>
+  </section>
+  <ApplicationShowcase lang="zh" />
+  <ContactPanel lang="zh" />
+</Layout>

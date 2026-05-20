@@ -1,0 +1,22 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { equipment } from "../../data/site";
+import { withBase } from "../../utils/paths";
+---
+
+<Layout lang="zh" title="製程能力 | 震欣科技" description="震欣科技具備射出成型、真空燒結、後加工與檢測能力。" active="equipment">
+  <section class="page-hero">
+    <p class="eyebrow">Equipment</p>
+    <h1>把 MIM 技術落地到穩定量產</h1>
+    <p>從射出成型、燒結、後加工到品質檢驗，設備能力與製程經驗共同支撐客製化零件的穩定製造。</p>
+  </section>
+  <section class="section narrow equipment-grid">
+    {equipment.map((item) => (
+      <article class="feature-panel">
+        <img src={withBase(item.image)} alt={item.zh[0]} />
+        <h2>{item.zh[0]}</h2>
+        <p>{item.zh[1]}</p>
+      </article>
+    ))}
+  </section>
+</Layout>

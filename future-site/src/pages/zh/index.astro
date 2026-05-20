@@ -1,0 +1,20 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import MetalHero from "../../components/MetalHero.astro";
+import StatsBand from "../../components/StatsBand.astro";
+import ProcessRail from "../../components/ProcessRail.astro";
+import MaterialMatrix from "../../components/MaterialMatrix.astro";
+import ApplicationShowcase from "../../components/ApplicationShowcase.astro";
+import ProductGallery from "../../components/ProductGallery.astro";
+import ContactPanel from "../../components/ContactPanel.astro";
+---
+
+<Layout lang="zh" title="震欣科技 | AI 金屬射出成型與精密金屬零件" description="震欣科技專注 MIM 金屬射出成型，打造未來機械所需的精密金屬零件。" active="home">
+  <MetalHero lang="zh" />
+  <StatsBand lang="zh" />
+  <ProcessRail lang="zh" />
+  <MaterialMatrix lang="zh" />
+  <ApplicationShowcase lang="zh" compact={true} />
+  <ProductGallery lang="zh" limit={10} />
+  <ContactPanel lang="zh" />
+</Layout>

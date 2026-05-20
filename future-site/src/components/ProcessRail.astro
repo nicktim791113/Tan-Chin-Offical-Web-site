@@ -1,0 +1,20 @@
+---
+import { copy, processSteps, type Lang } from "../data/site";
+const { lang } = Astro.props as { lang: Lang };
+---
+
+<section class="section process-section">
+  <div class="section-heading">
+    <p class="eyebrow">Process Intelligence</p>
+    <h2>{copy[lang].processTitle}</h2>
+  </div>
+  <div class="process-rail">
+    {processSteps.map((step, index) => (
+      <article class="process-step">
+        <span>{String(index + 1).padStart(2, "0")}</span>
+        <h3>{step[lang][0]}</h3>
+        <p>{step[lang][1]}</p>
+      </article>
+    ))}
+  </div>
+</section>

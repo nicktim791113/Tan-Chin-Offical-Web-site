@@ -1,0 +1,133 @@
+---
+import { copy, type Lang } from "../data/site";
+import { withBase } from "../utils/paths";
+const { lang } = Astro.props as { lang: Lang };
+const c = copy[lang];
+---
+
+<section class="hero-section">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="scan-grid"></div>
+    <div class="radar-ring radar-ring-a"></div>
+    <div class="radar-ring radar-ring-b"></div>
+  </div>
+
+  <div class="hero-copy">
+    <p class="eyebrow">{c.heroKicker}</p>
+    <h1>{c.heroTitle}</h1>
+    <p>{c.heroText}</p>
+    <div class="hero-actions">
+      <a class="button primary" href={withBase(`/${lang}/contact/`)}>{c.primaryCta}</a>
+      <a class="button ghost" href={withBase(`/${lang}/materials/`)}>{c.secondaryCta}</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="scene-frame" data-metal-scene>
+      <canvas aria-label="AI metal manufacturing visualization"></canvas>
+      <div class="scene-fallback">
+        <img src={withBase("/assets/products/stainless-174ph-01.png")} alt="" />
+      </div>
+    </div>
+    <div class="telemetry">
+      <span>MIM CORE ONLINE</span>
+      <span>SCAN: 98.7%</span>
+      <span>ALLOY MATRIX READY</span>
+    </div>
+  </div>
+</section>
+
+<script>
+  import * as THREE from "three";
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const mount = document.querySelector("[data-metal-scene]");
+  const canvas = mount?.querySelector("canvas");
+
+  if (mount && canvas && !reduceMotion) {
+    const host = mount as HTMLElement;
+    const targetCanvas = canvas as HTMLCanvasElement;
+    const scene = new THREE.Scene();
+    const renderer = new THREE.WebGLRenderer({ canvas: targetCanvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
+
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+    camera.position.set(0, 0.35, 6);
+
+    const group = new THREE.Group();
+    scene.add(group);
+
+    const metal = new THREE.MeshStandardMaterial({
+      color: 0xbfc8d2,
+      metalness: 0.92,
+      roughness: 0.23
+    });
+    const red = new THREE.MeshStandardMaterial({
+      color: 0xe40012,
+      metalness: 0.8,
+      roughness: 0.18,
+      emissive: 0x4a0008,
+      emissiveIntensity: 0.35
+    });
+    const cyan = new THREE.MeshStandardMaterial({
+      color: 0x16d9ff,
+      metalness: 0.2,
+      roughness: 0.12,
+      emissive: 0x16d9ff,
+      emissiveIntensity: 0.65
+    });
+
+    const torus = new THREE.Mesh(new THREE.TorusKnotGeometry(1.06, 0.22, 180, 18), metal);
+    torus.rotation.x = 0.6;
+    group.add(torus);
+
+    for (let i = 0; i < 18; i++) {
+      const capsule = new THREE.Mesh(new THREE.CapsuleGeometry(0.055, 0.55, 6, 12), i % 5 === 0 ? red : metal);
+      const angle = (i / 18) * Math.PI * 2;
+      capsule.position.set(Math.cos(angle) * 2.1, Math.sin(angle * 1.7) * 0.55, Math.sin(angle) * 1.1);
+      capsule.rotation.set(angle, angle * 0.7, angle * 1.4);
+      group.add(capsule);
+    }
+
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(2.25, 0.01, 8, 160), cyan);
+    ring.rotation.x = Math.PI / 2.15;
+    group.add(ring);
+
+    const points = [];
+    for (let i = 0; i < 130; i++) {
+      points.push((Math.random() - 0.5) * 5, (Math.random() - 0.5) * 3, (Math.random() - 0.5) * 4);
+    }
+    const pointGeometry = new THREE.BufferGeometry();
+    pointGeometry.setAttribute("position", new THREE.Float32BufferAttribute(points, 3));
+    const pointMaterial = new THREE.PointsMaterial({ color: 0x16d9ff, size: 0.018, transparent: true, opacity: 0.75 });
+    scene.add(new THREE.Points(pointGeometry, pointMaterial));
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+    const key = new THREE.DirectionalLight(0xffffff, 2.2);
+    key.position.set(3, 4, 5);
+    scene.add(key);
+    const rim = new THREE.PointLight(0x16d9ff, 16, 9);
+    rim.position.set(-2.4, 1.5, 2);
+    scene.add(rim);
+
+    function resize() {
+      const rect = host.getBoundingClientRect();
+      renderer.setSize(rect.width, rect.height, false);
+      camera.aspect = rect.width / rect.height;
+      camera.updateProjectionMatrix();
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    let frame = 0;
+    function animate() {
+      frame += 0.01;
+      group.rotation.y += 0.006;
+      group.rotation.x = Math.sin(frame) * 0.06;
+      ring.rotation.z += 0.01;
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    }
+    animate();
+  }
+</script>

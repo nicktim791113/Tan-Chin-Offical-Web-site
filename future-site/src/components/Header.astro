@@ -1,0 +1,40 @@
+---
+import { copy, nav, type Lang } from "../data/site";
+import { withBase } from "../utils/paths";
+
+const { lang, active } = Astro.props as { lang: Lang; active: string };
+const c = copy[lang];
+const homeHref = withBase(`/${lang}/`);
+const switchHref = withBase(lang === "zh" ? "/en/" : "/zh/");
+---
+
+<header class="site-header">
+  <a class="brand-mark" href={homeHref} aria-label={c.brandEn}>
+    <span class="brand-emblem">TC</span>
+    <span>
+      <strong>{c.brand}</strong>
+      <small>{c.brandEn}</small>
+    </span>
+  </a>
+
+  <button class="nav-toggle" type="button" aria-label="Open navigation" data-nav-toggle>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="site-nav" data-site-nav>
+    {nav[lang].map(([key, label, href]) => (
+      <a class:list={{ active: active === key }} href={withBase(href)}>{label}</a>
+    ))}
+    <a class="language-pill" href={switchHref}>{c.switchLabel}</a>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.querySelector("[data-nav-toggle]");
+  const nav = document.querySelector("[data-site-nav]");
+  toggle?.addEventListener("click", () => {
+    nav?.classList.toggle("open");
+    toggle.classList.toggle("open");
+  });
+</script>

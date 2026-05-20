@@ -1,0 +1,22 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { withBase } from "../../utils/paths";
+---
+
+<Layout lang="en" title="Catalog | TANCHIN" description="View or download the TANCHIN MIM company catalog." active="catalog">
+  <section class="page-hero">
+    <p class="eyebrow">E-Catalog</p>
+    <h1>TANCHIN Company Catalog</h1>
+    <p>Browse the catalog PDF through a faster, modern interface.</p>
+  </section>
+  <section class="section narrow">
+    <article class="catalog-panel">
+      <img src={withBase("/assets/catalog/catalog-cover.jpg")} alt="TANCHIN catalog cover" />
+      <div>
+        <h2>Company Catalog</h2>
+        <p>Company profile, MIM process, material capability, samples, and quality information.</p>
+        <a class="button primary" href={withBase("/assets/catalog/tanchin-catalog.pdf")}>Open PDF Catalog</a>
+      </div>
+    </article>
+  </section>
+</Layout>

@@ -1,0 +1,38 @@
+---
+import { copy, nav, type Lang } from "../data/site";
+import { withBase } from "../utils/paths";
+const { lang } = Astro.props as { lang: Lang };
+const c = copy[lang];
+---
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <a class="brand-mark footer-brand" href={withBase(`/${lang}/`)}>
+        <span class="brand-emblem">TC</span>
+        <span>
+          <strong>{c.brand}</strong>
+          <small>{c.brandEn}</small>
+        </span>
+      </a>
+      <p class="footer-line-copy">
+        {lang === "zh"
+          ? "精密金屬射出成型與客製化金屬零件製造。"
+          : "Precision MIM manufacturing and customized metal components."}
+      </p>
+    </div>
+
+    <nav class="footer-links" aria-label="Footer navigation">
+      {nav[lang].map(([, label, href]) => <a href={withBase(href)}>{label}</a>)}
+    </nav>
+
+    <div class="footer-contact">
+      <strong>{lang === "zh" ? "聯絡資訊" : "Contact"}</strong>
+      <span>台中市南屯區工業區二十二路35號</span>
+      <span>+886-4-2359-1191</span>
+      <a href="mailto:tanchinadd@gmail.com">tanchinadd@gmail.com</a>
+      <a href="mailto:h0421218@ms23.hinet.net">h0421218@ms23.hinet.net</a>
+    </div>
+  </div>
+  <p class="copyright">© TANCHIN TECHNOLOGY CO., LTD.</p>
+</footer>

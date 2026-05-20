@@ -1,0 +1,29 @@
+---
+import { copy, materials, type Lang } from "../data/site";
+import { withBase } from "../utils/paths";
+const { lang } = Astro.props as { lang: Lang };
+---
+
+<section class="section material-section">
+  <div class="section-heading split">
+    <div>
+      <p class="eyebrow">Material Matrix</p>
+      <h2>{copy[lang].materialsTitle}</h2>
+    </div>
+    <a class="text-link" href={withBase(`/${lang}/materials/`)}>
+      {lang === "zh" ? "查看全部材料" : "View all materials"}
+    </a>
+  </div>
+  <div class="material-grid">
+    {materials.map((material) => (
+      <a class="material-card" href={withBase(`/${lang}/materials/${material.slug}/`)}>
+        <img src={withBase(material.image)} alt={material.name[lang]} />
+        <div>
+          <span>{material.eyebrow[lang]}</span>
+          <h3>{material.name[lang]}</h3>
+          <p>{material.summary[lang]}</p>
+        </div>
+      </a>
+    ))}
+  </div>
+</section>

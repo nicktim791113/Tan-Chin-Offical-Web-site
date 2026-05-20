@@ -1,0 +1,22 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { equipment } from "../../data/site";
+import { withBase } from "../../utils/paths";
+---
+
+<Layout lang="en" title="Equipment | TANCHIN" description="TANCHIN supports injection molding, vacuum sintering, finishing, and inspection." active="equipment">
+  <section class="page-hero">
+    <p class="eyebrow">Equipment</p>
+    <h1>Turning MIM technology into stable production</h1>
+    <p>Injection molding, sintering, secondary processing, and inspection capability support customized component manufacturing.</p>
+  </section>
+  <section class="section narrow equipment-grid">
+    {equipment.map((item) => (
+      <article class="feature-panel">
+        <img src={withBase(item.image)} alt={item.en[0]} />
+        <h2>{item.en[0]}</h2>
+        <p>{item.en[1]}</p>
+      </article>
+    ))}
+  </section>
+</Layout>

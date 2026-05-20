@@ -1,0 +1,24 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { timeline } from "../../data/site";
+---
+
+<Layout lang="zh" title="公司簡介 | 震欣科技" description="震欣科技從精密零件製造出發，持續深耕 MIM 金屬射出成型技術。" active="about">
+  <section class="page-hero">
+    <p class="eyebrow">About TANCHIN</p>
+    <h1>以精密製造實現客製金屬零件</h1>
+    <p>震欣科技自精密零件製造起家，正式引進 MIM 金屬射出成型技術後，持續擴充設備、材料與品質管理能力，協助客戶開發複雜且可量產的金屬零件。</p>
+  </section>
+  <section class="section narrow content-grid">
+    <article class="feature-panel">
+      <h2>品質承諾與製造能力並行</h2>
+      <p>我們重視生產、品質、設備的管理，積極研討 MIM 技術並精進加工能力。從客戶圖面、模具開發、樣品確認到量產導入，皆以穩定品質與準時交期為核心。</p>
+      <p>MIM 適合生產精密且形狀複雜的金屬零件，應用可涵蓋機械零件、工具零件、醫療器材、休閒活動器材與工業精密結構件。</p>
+    </article>
+    <aside class="feature-panel timeline">
+      {timeline.map(([year, zh]) => (
+        <div class="timeline-item"><strong>{year}</strong><span>{zh}</span></div>
+      ))}
+    </aside>
+  </section>
+</Layout>

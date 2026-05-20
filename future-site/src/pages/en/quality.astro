@@ -1,0 +1,27 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { withBase } from "../../utils/paths";
+---
+
+<Layout lang="en" title="Quality Control | TANCHIN" description="TANCHIN integrates ISO 9001:2015 and process inspection into manufacturing control." active="quality">
+  <section class="page-hero">
+    <p class="eyebrow">Quality Control</p>
+    <h1>Quality is controlled throughout the process</h1>
+    <p>Process standards, inspection records, gauges, sampling, and equipment history all contribute to stable manufacturing quality.</p>
+  </section>
+  <section class="section narrow content-grid">
+    <article class="feature-panel">
+      <h2>ISO 9001:2015</h2>
+      <p>ISO 9001:2015 is the foundation of TANCHIN's quality assurance discipline, supporting traceable process control and stable production management.</p>
+      <ul>
+        <li>Stage-based inspection standards</li>
+        <li>Dedicated gauge checks</li>
+        <li>Regular sampling and patrol inspection</li>
+        <li>Equipment production and maintenance records</li>
+      </ul>
+    </article>
+    <div class="quality-grid">
+      <img src={withBase("/assets/quality/iso-certificate.jpg")} alt="ISO 9001:2015 certificate" />
+    </div>
+  </section>
+</Layout>

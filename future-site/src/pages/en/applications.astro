@@ -1,0 +1,20 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ApplicationShowcase from "../../components/ApplicationShowcase.astro";
+import ContactPanel from "../../components/ContactPanel.astro";
+---
+
+<Layout
+  lang="en"
+  title="Applications and Custom Service | TANCHIN"
+  description="TANCHIN helps precision machinery, medical instruments, tooling, and special structures evaluate MIM feasibility, materials, and production routes."
+  active="applications"
+>
+  <section class="page-hero">
+    <p class="eyebrow">Application & Custom Service</p>
+    <h1>How TANCHIN solves component challenges</h1>
+    <p>From drawings and materials to process planning and quality control, TANCHIN turns MIM capability into a manufacturable production plan.</p>
+  </section>
+  <ApplicationShowcase lang="en" />
+  <ContactPanel lang="en" />
+</Layout>

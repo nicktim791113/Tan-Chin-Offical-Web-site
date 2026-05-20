@@ -1,0 +1,15 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import MaterialMatrix from "../../../components/MaterialMatrix.astro";
+import ProductGallery from "../../../components/ProductGallery.astro";
+---
+
+<Layout lang="en" title="Materials | TANCHIN" description="TANCHIN supports MIM material families including nickel alloy, chrome-moly steel, stainless steel, and high-speed steel." active="materials">
+  <section class="page-hero">
+    <p class="eyebrow">Material Matrix</p>
+    <h1>Select MIM materials by product requirements</h1>
+    <p>Different material families provide different mechanical, corrosion, hardness, toughness, and surface characteristics. We help evaluate material and process feasibility.</p>
+  </section>
+  <MaterialMatrix lang="en" />
+  <ProductGallery lang="en" />
+</Layout>
