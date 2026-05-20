@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "astro",
-  "installCommand": "npm install",
+  "installCommand": "npm install --include=optional && ROLLUP_VERSION=$(node -p \"require('rollup/package.json').version\") && npm install --no-save \"@rollup/rollup-linux-x64-gnu@${ROLLUP_VERSION}\"",
   "buildCommand": "npm run build",
   "outputDirectory": "dist"
 }

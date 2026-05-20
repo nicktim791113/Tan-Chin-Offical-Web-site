@@ -14,7 +14,7 @@
 - Production Branch：`main`
 - Root Directory：`future-site`
 - Framework Preset：`Astro`
-- Install Command：`npm install`
+- Install Command：`npm install --include=optional` 後補裝目前 Rollup 版本對應的 Linux x64 原生套件。
 - Build Command：`npm run build`
 - Output Directory：`dist`
 
@@ -26,7 +26,7 @@
 2. 執行檢查、備份、升版與更新紀錄。
 3. commit 並 push 到 GitHub `main`。
 4. Vercel 自動偵測 `main` 有新 commit。
-5. Vercel 重新安裝套件並執行 `npm run build`。
+5. Vercel 重新安裝套件、補齊 Rollup Linux 原生套件，並執行 `npm run build`。
 6. 建置成功後，正式 Vercel 網站自動更新。
 
 ## Preview 與 Production
