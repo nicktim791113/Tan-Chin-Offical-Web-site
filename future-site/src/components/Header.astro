@@ -28,7 +28,7 @@ const switchHref = withBase(lang === "zh" ? "/en/" : "/zh/");
     </span>
   </a>
 
-  <button class="nav-toggle" type="button" aria-label="Open navigation" data-nav-toggle>
+  <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" data-nav-toggle>
     <span></span>
     <span></span>
   </button>
@@ -42,10 +42,29 @@ const switchHref = withBase(lang === "zh" ? "/en/" : "/zh/");
 </header>
 
 <script>
-  const toggle = document.querySelector("[data-nav-toggle]");
-  const nav = document.querySelector("[data-site-nav]");
-  toggle?.addEventListener("click", () => {
-    nav?.classList.toggle("open");
-    toggle.classList.toggle("open");
-  });
+  function setupNavigation() {
+    const toggle = document.querySelector("[data-nav-toggle]");
+    const nav = document.querySelector("[data-site-nav]");
+
+    if (!(toggle instanceof HTMLButtonElement) || !(nav instanceof HTMLElement)) {
+      return;
+    }
+
+    if (toggle.dataset.ready === "true") {
+      return;
+    }
+
+    toggle.dataset.ready = "true";
+    toggle.addEventListener("click", () => {
+      const isOpen = nav.classList.toggle("open");
+      toggle.classList.toggle("open", isOpen);
+      toggle.setAttribute("aria-expanded", String(isOpen));
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupNavigation, { once: true });
+  } else {
+    setupNavigation();
+  }
 </script>
