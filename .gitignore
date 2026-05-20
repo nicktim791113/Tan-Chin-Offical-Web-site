@@ -23,6 +23,8 @@ pnpm-debug.log*
 .env
 .env.*
 !.env.example
+.vercel/
+**/.vercel/
 
 # Local databases
 *.sqlite
