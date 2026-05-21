@@ -24,12 +24,12 @@ const c = copy[lang];
 
   <div class="hero-visual">
     <div class="scene-frame" data-metal-scene>
-      <canvas aria-label="AI metal manufacturing visualization"></canvas>
+      <canvas aria-label="Precision curved metal part 3D visualization"></canvas>
     </div>
     <div class="telemetry">
-      <span>MIM CORE ONLINE</span>
-      <span>SCAN: 98.7%</span>
-      <span>ALLOY MATRIX READY</span>
+      <span>PRECISION SURFACE</span>
+      <span>GENERATED METAL 3D</span>
+      <span>ROTATION ONLINE</span>
     </div>
   </div>
 </section>
@@ -56,24 +56,40 @@ const c = copy[lang];
     const scene = new THREE.Scene();
     const renderer = new THREE.WebGLRenderer({ canvas: targetCanvas, antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.34;
 
-    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-    camera.position.set(0, 0.35, 6);
+    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+    camera.position.set(0, 0.2, 6.6);
 
     const group = new THREE.Group();
     scene.add(group);
 
-    const metal = new THREE.MeshStandardMaterial({
-      color: 0xbfc8d2,
+    const polishedMetal = new THREE.MeshPhysicalMaterial({
+      color: 0xd1cabc,
       metalness: 0.92,
-      roughness: 0.23
+      roughness: 0.24,
+      clearcoat: 0.86,
+      clearcoatRoughness: 0.16,
+      emissive: 0x2a261f,
+      emissiveIntensity: 0.28
     });
-    const red = new THREE.MeshStandardMaterial({
-      color: 0xe40012,
-      metalness: 0.8,
-      roughness: 0.18,
-      emissive: 0x4a0008,
-      emissiveIntensity: 0.35
+    const shadowMetal = new THREE.MeshPhysicalMaterial({
+      color: 0x8a8a80,
+      metalness: 0.9,
+      roughness: 0.38,
+      clearcoat: 0.55,
+      clearcoatRoughness: 0.2,
+      emissive: 0x151716,
+      emissiveIntensity: 0.18
+    });
+    const highlightMetal = new THREE.MeshStandardMaterial({
+      color: 0xf1ead6,
+      metalness: 1,
+      roughness: 0.14,
+      emissive: 0x2b261d,
+      emissiveIntensity: 0.18
     });
     const cyan = new THREE.MeshStandardMaterial({
       color: 0x16d9ff,
@@ -82,22 +98,22 @@ const c = copy[lang];
       emissive: 0x16d9ff,
       emissiveIntensity: 0.65
     });
-
-    const torus = new THREE.Mesh(new THREE.TorusKnotGeometry(1.06, 0.22, 180, 18), metal);
-    torus.rotation.x = 0.6;
-    group.add(torus);
-
-    for (let i = 0; i < 18; i++) {
-      const capsule = new THREE.Mesh(new THREE.CapsuleGeometry(0.055, 0.55, 6, 12), i % 5 === 0 ? red : metal);
-      const angle = (i / 18) * Math.PI * 2;
-      capsule.position.set(Math.cos(angle) * 2.1, Math.sin(angle * 1.7) * 0.55, Math.sin(angle) * 1.1);
-      capsule.rotation.set(angle, angle * 0.7, angle * 1.4);
-      group.add(capsule);
-    }
+    const redGlow = new THREE.MeshStandardMaterial({
+      color: 0xe40012,
+      metalness: 0.7,
+      roughness: 0.28,
+      emissive: 0x7a0008,
+      emissiveIntensity: 0.42
+    });
 
     const ring = new THREE.Mesh(new THREE.TorusGeometry(2.25, 0.01, 8, 160), cyan);
     ring.rotation.x = Math.PI / 2.15;
     group.add(ring);
+
+    const orbit = new THREE.Mesh(new THREE.TorusGeometry(1.65, 0.006, 8, 160), cyan);
+    orbit.rotation.set(Math.PI / 2.45, 0.18, -0.45);
+    orbit.scale.set(1.32, 0.62, 1);
+    group.add(orbit);
 
     const points = [];
     for (let i = 0; i < 130; i++) {
@@ -108,13 +124,163 @@ const c = copy[lang];
     const pointMaterial = new THREE.PointsMaterial({ color: 0x16d9ff, size: 0.018, transparent: true, opacity: 0.75 });
     scene.add(new THREE.Points(pointGeometry, pointMaterial));
 
-    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-    const key = new THREE.DirectionalLight(0xffffff, 2.2);
-    key.position.set(3, 4, 5);
+    scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+    const key = new THREE.DirectionalLight(0xffffff, 3.7);
+    key.position.set(2.8, 4.2, 5.4);
     scene.add(key);
+    const fill = new THREE.DirectionalLight(0xc9eeff, 1.8);
+    fill.position.set(-3.6, -0.6, 3);
+    scene.add(fill);
     const rim = new THREE.PointLight(0x16d9ff, 16, 9);
     rim.position.set(-2.4, 1.5, 2);
     scene.add(rim);
+    const redRim = new THREE.PointLight(0xe40012, 3.2, 8);
+    redRim.position.set(2.2, -1.7, 1.8);
+    scene.add(redRim);
+
+    const productGroup = new THREE.Group();
+    productGroup.position.set(0.05, -0.02, 0.12);
+    productGroup.rotation.set(-0.16, -0.36, 0.08);
+    productGroup.scale.setScalar(0.92);
+    group.add(productGroup);
+
+    function makeExtrudedMesh(shape: THREE.Shape, depth = 0.16, material = polishedMetal) {
+      const geometry = new THREE.ExtrudeGeometry(shape, {
+        depth,
+        bevelEnabled: true,
+        bevelThickness: 0.045,
+        bevelSize: 0.04,
+        bevelSegments: 12,
+        curveSegments: 28
+      });
+      geometry.center();
+      geometry.computeVertexNormals();
+      return new THREE.Mesh(geometry, material);
+    }
+
+    function makeTube(points: THREE.Vector3[], radius: number, material = highlightMetal) {
+      const curve = new THREE.CatmullRomCurve3(points);
+      const geometry = new THREE.TubeGeometry(curve, 96, radius, 14, false);
+      geometry.computeVertexNormals();
+      return new THREE.Mesh(geometry, material);
+    }
+
+    const frontBlade = new THREE.Shape();
+    frontBlade.moveTo(-0.36, -1.68);
+    frontBlade.bezierCurveTo(-0.68, -1.24, -0.6, -0.4, -0.45, 0.28);
+    frontBlade.bezierCurveTo(-0.31, 0.96, -0.08, 1.38, 0.28, 1.64);
+    frontBlade.bezierCurveTo(0.62, 1.38, 0.62, 0.76, 0.5, 0.18);
+    frontBlade.bezierCurveTo(0.36, -0.58, 0.12, -1.28, -0.13, -1.84);
+    frontBlade.bezierCurveTo(-0.22, -1.96, -0.3, -1.86, -0.36, -1.68);
+    const frontHole = new THREE.Path();
+    frontHole.absellipse(-0.2, -1.12, 0.14, 0.34, 0, Math.PI * 2, false, -0.08);
+    frontBlade.holes.push(frontHole);
+    const frontBladeMesh = makeExtrudedMesh(frontBlade, 0.22, polishedMetal);
+    frontBladeMesh.position.set(-0.7, -0.1, 0.12);
+    frontBladeMesh.rotation.set(-0.08, -0.34, 0.18);
+    productGroup.add(frontBladeMesh);
+
+    const centralScoop = new THREE.Shape();
+    centralScoop.moveTo(-0.46, -1.1);
+    centralScoop.bezierCurveTo(-0.38, -0.32, -0.26, 0.82, 0.02, 1.38);
+    centralScoop.bezierCurveTo(0.32, 1.5, 0.66, 1.2, 0.78, 0.65);
+    centralScoop.bezierCurveTo(0.48, 0.1, 0.2, -0.66, 0.04, -1.34);
+    centralScoop.bezierCurveTo(-0.18, -1.44, -0.36, -1.34, -0.46, -1.1);
+    const centralMesh = makeExtrudedMesh(centralScoop, 0.2, polishedMetal);
+    centralMesh.position.set(-0.02, 0.26, -0.02);
+    centralMesh.rotation.set(0.1, 0.15, -0.09);
+    centralMesh.scale.set(0.98, 1.02, 1);
+    productGroup.add(centralMesh);
+
+    const longBlade = new THREE.Shape();
+    longBlade.moveTo(-0.2, -1.92);
+    longBlade.bezierCurveTo(-0.1, -1.12, -0.06, -0.18, -0.12, 0.66);
+    longBlade.bezierCurveTo(0.05, 1.02, 0.24, 1.22, 0.38, 1.31);
+    longBlade.bezierCurveTo(0.52, 0.54, 0.45, -0.36, 0.22, -1.22);
+    longBlade.bezierCurveTo(0.06, -1.68, -0.08, -1.9, -0.2, -1.92);
+    const longBladeMesh = makeExtrudedMesh(longBlade, 0.18, polishedMetal);
+    longBladeMesh.position.set(0.72, -0.72, -0.04);
+    longBladeMesh.rotation.set(0.08, 0.28, -0.27);
+    longBladeMesh.scale.set(0.9, 1.16, 1);
+    productGroup.add(longBladeMesh);
+
+    const rearFin = new THREE.Shape();
+    rearFin.moveTo(-0.18, -0.78);
+    rearFin.bezierCurveTo(-0.06, -0.16, 0.03, 0.48, 0.08, 0.92);
+    rearFin.bezierCurveTo(0.36, 0.5, 0.48, -0.02, 0.36, -0.6);
+    rearFin.bezierCurveTo(0.12, -0.85, -0.06, -0.9, -0.18, -0.78);
+    const rearFinMesh = makeExtrudedMesh(rearFin, 0.11, shadowMetal);
+    rearFinMesh.position.set(0.86, 0.0, -0.34);
+    rearFinMesh.rotation.set(-0.08, -0.48, -0.18);
+    rearFinMesh.scale.set(0.86, 1.08, 1);
+    productGroup.add(rearFinMesh);
+
+    const topCrest = makeExtrudedMesh(
+      (() => {
+        const crest = new THREE.Shape();
+        crest.moveTo(-0.22, -0.34);
+        crest.bezierCurveTo(-0.04, 0.28, 0.2, 0.64, 0.44, 0.86);
+        crest.bezierCurveTo(0.54, 0.42, 0.42, -0.08, 0.14, -0.48);
+        crest.bezierCurveTo(-0.04, -0.54, -0.18, -0.48, -0.22, -0.34);
+        return crest;
+      })(),
+      0.14,
+      shadowMetal
+    );
+    topCrest.position.set(0.03, 1.42, 0.04);
+    topCrest.rotation.set(0.15, 0.1, 0.08);
+    productGroup.add(topCrest);
+
+    const frontBar = new THREE.Mesh(new THREE.CapsuleGeometry(0.18, 1.0, 12, 28), polishedMetal);
+    frontBar.position.set(-1.08, 0.02, 0.2);
+    frontBar.rotation.set(0.05, -0.15, 0.03);
+    frontBar.scale.set(0.7, 1.05, 0.58);
+    productGroup.add(frontBar);
+
+    const ridgeA = makeTube(
+      [
+        new THREE.Vector3(-0.84, -1.18, 0.28),
+        new THREE.Vector3(-0.62, -0.42, 0.36),
+        new THREE.Vector3(-0.2, 0.46, 0.34),
+        new THREE.Vector3(0.14, 1.08, 0.24)
+      ],
+      0.026
+    );
+    productGroup.add(ridgeA);
+
+    const ridgeB = makeTube(
+      [
+        new THREE.Vector3(0.16, -1.42, 0.22),
+        new THREE.Vector3(0.38, -0.46, 0.26),
+        new THREE.Vector3(0.44, 0.64, 0.18)
+      ],
+      0.024
+    );
+    productGroup.add(ridgeB);
+
+    const rib = makeTube(
+      [
+        new THREE.Vector3(-0.6, -0.54, 0.12),
+        new THREE.Vector3(-0.2, 0.0, 0.06),
+        new THREE.Vector3(0.46, 0.54, -0.06)
+      ],
+      0.05,
+      shadowMetal
+    );
+    productGroup.add(rib);
+
+    const redAccent = makeTube(
+      [
+        new THREE.Vector3(-0.88, -1.42, 0.3),
+        new THREE.Vector3(-0.77, -1.16, 0.36),
+        new THREE.Vector3(-0.58, -0.9, 0.36)
+      ],
+      0.022,
+      redGlow
+    );
+    productGroup.add(redAccent);
+
+    host.dataset.productModel = "generated-curved-metal-part";
 
     function resize() {
       const rect = host.getBoundingClientRect();
@@ -128,13 +294,19 @@ const c = copy[lang];
     let frame = 0;
     function animate() {
       frame += 0.01;
-      group.rotation.y += 0.006;
-      group.rotation.x = Math.sin(frame) * 0.06;
+      group.rotation.y = Math.sin(frame * 0.48) * 0.08;
+      group.rotation.x = Math.sin(frame) * 0.045;
+      productGroup.rotation.y += 0.0055;
+      productGroup.rotation.x = -0.16 + Math.sin(frame * 1.25) * 0.04;
       ring.rotation.z += 0.01;
+      orbit.rotation.z -= 0.006;
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
     }
     if (reduceMotion) {
+      group.rotation.y = 0.35;
+      productGroup.rotation.y = -0.38;
+      productGroup.rotation.x = -0.16;
       renderer.render(scene, camera);
     } else {
       animate();
