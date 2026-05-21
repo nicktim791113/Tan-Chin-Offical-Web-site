@@ -1,0 +1,27 @@
+﻿震欣科技官網開發轉移包
+產生時間：2026-05-21 22:06:37
+來源路徑：C:\Users\nickt\OneDrive\Developer 公司系統\Tan-Chin-Offical-Web-site
+Git HEAD：f2a23ff chore: preserve customized services text updates
+
+已包含：
+- future-site 新版 Astro 官網原始碼與 public assets
+- package.json / package-lock.json / future-site package files
+- docs 工作流程、更新紀錄、Vercel 部署文件
+- scripts 備份腳本
+- .github workflow 與 Git 設定檔
+- 公司簡介、品質管制、客製服務、製程能力、電子型錄、首頁等個人/公司素材文件與圖檔
+- _blueprint 與 _archive 內已納入版本控管的開發參考資料
+
+未包含：
+- .git 版本庫內部資料
+- node_modules / dist / .astro
+- _backups / _verification
+- .env / .vercel / log / 本機資料庫 / OS 或編輯器暫存檔
+- docs/DNS*.png 與首頁/精密曲面流線.JPG 這類本機參考檔
+
+新電腦開發建議：
+1. 解壓縮 ZIP。
+2. 進入 Tan-Chin-Offical-Web-site。
+3. 執行 npm install。
+4. 執行 npm run check 與 npm run build。
+5. 若要接 Git 歷史，建議先從 GitHub clone，再把此包內容覆蓋進 clone 後比較差異。
