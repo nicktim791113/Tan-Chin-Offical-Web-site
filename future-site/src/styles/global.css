@@ -212,16 +212,19 @@ textarea {
 
 .site-nav {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
-  gap: 2px;
+  gap: 6px 10px;
   min-width: 0;
+  max-width: min(980px, 68vw);
 }
 
 .site-nav a {
-  padding: 9px 7px;
+  padding: 8px 6px;
   color: #3d4b5a;
-  font-size: 12.5px;
+  font-size: 18.75px;
+  line-height: 1.08;
   white-space: nowrap;
   background: transparent;
 }
@@ -929,7 +932,7 @@ textarea {
   font-size: 12px;
 }
 
-@media (max-width: 1180px) {
+@media (max-width: 1400px) {
   .nav-toggle {
     display: block;
   }
