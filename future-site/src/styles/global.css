@@ -225,12 +225,12 @@ textarea {
   font-size: 12.5px;
   white-space: nowrap;
   border-bottom: 1px solid transparent;
+  background: transparent;
 }
 
 .site-nav a:hover,
 .site-nav a.active {
   color: #111b25;
-  background: rgba(228, 0, 18, 0.055);
   border-color: var(--red);
 }
 
