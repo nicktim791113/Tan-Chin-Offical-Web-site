@@ -49,11 +49,18 @@ body::after {
 body::before {
   z-index: 0;
   background-image:
-    radial-gradient(circle, rgba(255, 255, 255, 0.86) 0 1px, transparent 1.6px),
-    radial-gradient(circle, rgba(157, 224, 255, 0.7) 0 1px, transparent 1.8px),
-    radial-gradient(circle, rgba(255, 255, 255, 0.46) 0 1px, transparent 2px);
-  background-position: 18px 24px, 110px 88px, 46px 152px;
-  background-size: 190px 170px, 330px 270px, 540px 460px;
+    radial-gradient(circle at 9% 12%, rgba(255, 255, 255, 0.82) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 24% 28%, rgba(157, 224, 255, 0.68) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 41% 14%, rgba(255, 255, 255, 0.54) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 58% 31%, rgba(178, 230, 255, 0.72) 0 1.2px, transparent 2px),
+    radial-gradient(circle at 74% 18%, rgba(255, 255, 255, 0.66) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 91% 27%, rgba(255, 255, 255, 0.48) 0 1px, transparent 2px),
+    radial-gradient(circle at 16% 63%, rgba(178, 230, 255, 0.58) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 32% 78%, rgba(255, 255, 255, 0.62) 0 1.1px, transparent 1.9px),
+    radial-gradient(circle at 52% 67%, rgba(255, 255, 255, 0.46) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 70% 83%, rgba(157, 224, 255, 0.64) 0 1px, transparent 2px),
+    radial-gradient(circle at 86% 69%, rgba(255, 255, 255, 0.52) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 96% 88%, rgba(255, 255, 255, 0.7) 0 1px, transparent 1.8px);
   opacity: 0.55;
 }
 
@@ -234,11 +241,12 @@ textarea {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(120, 225, 245, 0.08) 1px, transparent 1px) 0 0 / 96px 96px,
-    linear-gradient(180deg, rgba(228, 0, 18, 0.045) 1px, transparent 1px) 0 0 / 96px 96px,
-    radial-gradient(circle at 16% 24%, rgba(255, 255, 255, 0.62) 0 1px, transparent 1.8px),
-    radial-gradient(circle at 72% 34%, rgba(138, 225, 255, 0.72) 0 1px, transparent 2px),
-    radial-gradient(circle at 44% 68%, rgba(255, 255, 255, 0.5) 0 1px, transparent 1.7px);
+    radial-gradient(circle at 13% 19%, rgba(255, 255, 255, 0.46) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 29% 72%, rgba(138, 225, 255, 0.44) 0 1px, transparent 2px),
+    radial-gradient(circle at 49% 37%, rgba(255, 255, 255, 0.34) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 78% 23%, rgba(138, 225, 255, 0.52) 0 1px, transparent 1.9px),
+    radial-gradient(circle at 92% 71%, rgba(255, 255, 255, 0.42) 0 1px, transparent 1.8px),
+    linear-gradient(112deg, transparent 0 30%, rgba(87, 149, 190, 0.08) 44%, transparent 61%);
   mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
 }
 

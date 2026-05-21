@@ -37,11 +37,20 @@ const c = copy[lang];
 <script>
   import * as THREE from "three";
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const mount = document.querySelector("[data-metal-scene]");
-  const canvas = mount?.querySelector("canvas");
+  function setupMetalScene() {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mount = document.querySelector("[data-metal-scene]");
+    const canvas = mount?.querySelector("canvas");
 
-  if (mount && canvas && !reduceMotion) {
+    if (!(mount instanceof HTMLElement) || !(canvas instanceof HTMLCanvasElement)) {
+      return;
+    }
+
+    if (mount.dataset.sceneReady === "true") {
+      return;
+    }
+
+    mount.dataset.sceneReady = "true";
     const host = mount as HTMLElement;
     const targetCanvas = canvas as HTMLCanvasElement;
     const scene = new THREE.Scene();
@@ -125,6 +134,16 @@ const c = copy[lang];
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
     }
-    animate();
+    if (reduceMotion) {
+      renderer.render(scene, camera);
+    } else {
+      animate();
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupMetalScene, { once: true });
+  } else {
+    setupMetalScene();
   }
 </script>
