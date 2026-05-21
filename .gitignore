@@ -12,6 +12,10 @@ dist/
 _backups/
 **/_verification/
 
+# Local reference files
+docs/DNS*.png
+首頁/精密曲面流線.JPG
+
 # Logs
 *.log
 npm-debug.log*
