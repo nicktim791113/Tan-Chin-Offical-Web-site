@@ -128,7 +128,7 @@ textarea {
 
 .header-logo {
   flex: 0 0 auto;
-  max-width: min(540px, calc(100vw - 116px));
+  max-width: min(560px, calc(100vw - 116px));
 }
 
 .brand-logo-strip {
@@ -140,16 +140,46 @@ textarea {
 
 .brand-logo-strip img {
   flex: 0 1 auto;
-  height: auto;
   object-fit: contain;
 }
 
-.brand-logo-emblem {
-  width: clamp(82px, 8.8vw, 116px);
+.brand-logo-strip .brand-logo-emblem {
+  flex: 0 0 auto;
+  max-width: none;
+  width: auto;
+  height: clamp(60px, 5.8vw, 76px);
 }
 
 .brand-logo-name {
-  width: clamp(230px, 30vw, 400px);
+  display: grid;
+  gap: 3px;
+  color: var(--red);
+  line-height: 0.92;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.brand-mark .brand-logo-name strong,
+.brand-mark .brand-logo-name small {
+  display: block;
+  color: inherit;
+  letter-spacing: 0;
+}
+
+.brand-mark .brand-logo-name strong {
+  font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif;
+  font-size: clamp(25px, 2.3vw, 34px);
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.brand-mark .brand-logo-name small {
+  margin-top: 0;
+  color: inherit;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(14px, 1.4vw, 20px);
+  font-weight: 900;
+  text-transform: none;
+  white-space: nowrap;
 }
 
 .brand-emblem {
@@ -1055,12 +1085,20 @@ textarea {
     gap: 9px;
   }
 
-  .brand-logo-emblem {
-    width: clamp(54px, 14vw, 66px);
+  .brand-logo-strip .brand-logo-emblem {
+    height: clamp(45px, 11vw, 56px);
   }
 
   .brand-logo-name {
-    width: clamp(150px, 42vw, 205px);
+    gap: 2px;
+  }
+
+  .brand-mark .brand-logo-name strong {
+    font-size: clamp(18px, 5vw, 22px);
+  }
+
+  .brand-mark .brand-logo-name small {
+    font-size: clamp(10px, 2.8vw, 12px);
   }
 
   .brand-mark small {

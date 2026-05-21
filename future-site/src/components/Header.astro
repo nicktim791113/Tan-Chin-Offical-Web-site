@@ -6,25 +6,23 @@ const { lang, active } = Astro.props as { lang: Lang; active: string };
 const c = copy[lang];
 const homeHref = withBase(`/${lang}/`);
 const switchHref = withBase(lang === "zh" ? "/en/" : "/zh/");
+const brandLabel = "震欣科技股份有限公司 TANCHIN TECHNOLOGY CO., LTD";
 ---
 
 <header class="site-header">
-  <a class="brand-mark header-logo" href={homeHref} aria-label={c.brandEn}>
-    <span class="brand-logo-strip" aria-hidden="true">
+  <a class="brand-mark header-logo" href={homeHref} aria-label={brandLabel}>
+    <span class="brand-logo-strip">
       <img
         class="brand-logo-emblem"
-        src={withBase("/assets/brand/tanchin-logo-emblem.svg")}
+        src={withBase("/assets/brand/tanchin-logo-emblem-hires.png")}
         alt=""
-        width="116"
-        height="66"
+        width="1383"
+        height="1036"
       />
-      <img
-        class="brand-logo-name"
-        src={withBase("/assets/brand/tanchin-logo-name.svg")}
-        alt=""
-        width="225"
-        height="40"
-      />
+      <span class="brand-logo-name" aria-hidden="true">
+        <strong>震欣科技股份有限公司</strong>
+        <small>TANCHIN TECHNOLOGY CO., LTD</small>
+      </span>
     </span>
   </a>
 
