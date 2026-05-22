@@ -13,11 +13,54 @@ const jaHref = withBase("/ja/");
     <script is:inline define:vars={{ zhHref, enHref, jaHref }}>
       const languages = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""];
       const primaryLanguage = String(languages[0] || "").toLowerCase();
+      const primaryPrefix = primaryLanguage.split("-")[0];
+      const englishFallbackPrefixes = new Set([
+        "en",
+        "fr",
+        "de",
+        "es",
+        "pt",
+        "it",
+        "nl",
+        "sv",
+        "da",
+        "no",
+        "nb",
+        "nn",
+        "fi",
+        "is",
+        "pl",
+        "cs",
+        "sk",
+        "sl",
+        "hr",
+        "hu",
+        "ro",
+        "bg",
+        "el",
+        "et",
+        "lv",
+        "lt",
+        "ga",
+        "cy",
+        "mt",
+        "ca",
+        "eu",
+        "gl",
+        "sq",
+        "bs",
+        "sr",
+        "mk",
+        "uk",
+        "ru",
+        "be",
+        "af"
+      ]);
       const target = primaryLanguage.startsWith("ja")
         ? jaHref
         : primaryLanguage.startsWith("zh")
           ? zhHref
-          : primaryLanguage.startsWith("en")
+          : englishFallbackPrefixes.has(primaryPrefix)
             ? enHref
             : zhHref;
 
