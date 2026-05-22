@@ -3,5 +3,30 @@
   "framework": "astro",
   "installCommand": "npm install --include=optional && ROLLUP_VERSION=$(node -p \"require('rollup/package.json').version\") && npm install --no-save \"@rollup/rollup-linux-x64-gnu@${ROLLUP_VERSION}\"",
   "buildCommand": "npm run build",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "header", "key": "accept-language", "value": "^(ja|JA)(-|,|;|$).*" }],
+      "destination": "/ja/",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "header", "key": "accept-language", "value": "^(zh|ZH)(-|,|;|$).*" }],
+      "destination": "/zh/",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "header", "key": "accept-language", "value": "^(en|EN)(-|,|;|$).*" }],
+      "destination": "/en/",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "destination": "/zh/",
+      "permanent": false
+    }
+  ]
 }

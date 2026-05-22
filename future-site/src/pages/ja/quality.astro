@@ -1,0 +1,27 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { withBase } from "../../utils/paths";
+---
+
+<Layout lang="ja" title="品質管理 | TANCHIN" description="TANCHINはISO 9001:2015と工程内検査を製造管理に組み込んでいます。" active="quality">
+  <section class="page-hero">
+    <p class="eyebrow">Quality Control</p>
+    <h1>品質は工程全体で管理します</h1>
+    <p>工程標準、検査記録、治具確認、抜き取り検査、設備履歴を通じて、安定した製造品質を支えます。</p>
+  </section>
+  <section class="section narrow content-grid">
+    <article class="feature-panel">
+      <h2>ISO 9001:2015</h2>
+      <p>ISO 9001:2015はTANCHINの品質保証の基盤です。追跡可能な工程管理と安定した生産管理を支えます。</p>
+      <ul>
+        <li>工程段階ごとの検査基準</li>
+        <li>専用治具による確認</li>
+        <li>定期的な抜き取り検査と巡回検査</li>
+        <li>設備の生産・保守記録</li>
+      </ul>
+    </article>
+    <div class="quality-grid">
+      <img src={withBase("/assets/quality/iso-certificate.jpg")} alt="ISO 9001:2015認証書" />
+    </div>
+  </section>
+</Layout>

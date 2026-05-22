@@ -1,0 +1,26 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ContactPanel from "../../components/ContactPanel.astro";
+---
+
+<Layout lang="ja" title="お問い合わせ | TANCHIN" description="図面、材料、数量、用途情報をお送りいただければ、MIM可否を評価します。" active="contact">
+  <section class="page-hero">
+    <p class="eyebrow">Contact</p>
+    <h1>カスタムMIM部品の相談を始める</h1>
+    <p>図面、材料要件、数量、使用環境をお知らせください。製造可否の評価をサポートします。</p>
+  </section>
+  <ContactPanel lang="ja" />
+  <section class="section narrow content-grid">
+    <div class="feature-panel">
+      <h2>連絡先</h2>
+      <p>Tel: +886-4-2359-1191</p>
+      <p>Fax: +886-4-2359-3343</p>
+      <p>Email: tanchinadd@gmail.com<br />h0421218@ms23.hinet.net</p>
+    </div>
+    <div class="feature-panel">
+      <h2>所在地</h2>
+      <p>台湾 台中市南屯区工業区二十二路35号</p>
+      <p>お見積りの際は、2D/3D図面、材料要件、想定数量、使用条件をご用意いただくと確認がスムーズです。</p>
+    </div>
+  </section>
+</Layout>

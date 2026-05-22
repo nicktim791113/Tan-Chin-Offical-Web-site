@@ -1,0 +1,25 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { withBase } from "../../utils/paths";
+---
+
+<Layout lang="ja" title="電子カタログ | TANCHIN" description="TANCHINのMIM会社カタログをご覧いただけます。" active="catalog">
+  <section class="page-hero">
+    <p class="eyebrow">E-Catalog</p>
+    <h1>TANCHIN会社カタログ</h1>
+    <p>会社概要、MIM工程、材料対応、サンプル、品質情報をカタログで確認できます。</p>
+  </section>
+  <section class="section narrow">
+    <article class="catalog-panel">
+      <img src={withBase("/assets/catalog/catalog-cover.jpg")} alt="TANCHINカタログ表紙" />
+      <div>
+        <h2>会社カタログ</h2>
+        <p>現在のPDF資料は既存の中国語版と英語版を掲載しています。日文ページ上では主要情報を日本語で整理しています。</p>
+        <div class="hero-actions">
+          <a class="button primary" href={withBase("/assets/catalog/tanchin-company-catalog-en.pdf")}>英語版PDFを開く</a>
+          <a class="button ghost" href={withBase("/assets/catalog/tanchin-company-catalog-zh.pdf")}>中国語版PDFを開く</a>
+        </div>
+      </div>
+    </article>
+  </section>
+</Layout>

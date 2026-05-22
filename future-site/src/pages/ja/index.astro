@@ -1,0 +1,20 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import MetalHero from "../../components/MetalHero.astro";
+import StatsBand from "../../components/StatsBand.astro";
+import ProcessRail from "../../components/ProcessRail.astro";
+import MaterialMatrix from "../../components/MaterialMatrix.astro";
+import ApplicationShowcase from "../../components/ApplicationShowcase.astro";
+import ProductGallery from "../../components/ProductGallery.astro";
+import ContactPanel from "../../components/ContactPanel.astro";
+---
+
+<Layout lang="ja" title="TANCHIN | MIM金属射出成形" description="TANCHINは複雑形状の精密MIM金属部品を製造します。" active="home">
+  <MetalHero lang="ja" />
+  <StatsBand lang="ja" />
+  <ProcessRail lang="ja" />
+  <MaterialMatrix lang="ja" />
+  <ApplicationShowcase lang="ja" compact={true} />
+  <ProductGallery lang="ja" limit={10} />
+  <ContactPanel lang="ja" />
+</Layout>

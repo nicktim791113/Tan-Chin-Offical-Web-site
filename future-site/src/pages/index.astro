@@ -1,15 +1,38 @@
 ---
 import { withBase } from "../utils/paths";
 
-const target = withBase("/zh/");
+const zhHref = withBase("/zh/");
+const enHref = withBase("/en/");
+const jaHref = withBase("/ja/");
 ---
 <html lang="zh-Hant">
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>TANCHIN</title>
+    <script is:inline define:vars={{ zhHref, enHref, jaHref }}>
+      const languages = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""];
+      const primaryLanguage = String(languages[0] || "").toLowerCase();
+      const target = primaryLanguage.startsWith("ja")
+        ? jaHref
+        : primaryLanguage.startsWith("zh")
+          ? zhHref
+          : primaryLanguage.startsWith("en")
+            ? enHref
+            : zhHref;
+
+      window.location.replace(target);
+    </script>
   </head>
   <body>
-    <a href={target}>前往中文版</a>
+    <main>
+      <img src={withBase("/assets/brand/tanchin-logo-emblem-hires.png")} alt="" width="92" height="68" />
+      <h1>TANCHIN TECHNOLOGY</h1>
+      <nav aria-label="Language selection">
+        <a href={zhHref}>中文</a>
+        <a href={enHref}>English</a>
+        <a href={jaHref}>日本語</a>
+      </nav>
+    </main>
   </body>
 </html>

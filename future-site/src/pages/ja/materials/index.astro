@@ -1,0 +1,15 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import MaterialMatrix from "../../../components/MaterialMatrix.astro";
+import ProductGallery from "../../../components/ProductGallery.astro";
+---
+
+<Layout lang="ja" title="材料対応 | TANCHIN" description="TANCHINはニッケル合金鋼、クロムモリブデン鋼、ステンレス鋼、高速度鋼などのMIM材料に対応します。" active="materials">
+  <section class="page-hero">
+    <p class="eyebrow">Material Matrix</p>
+    <h1>製品要件に合わせてMIM材料を選定</h1>
+    <p>材料ごとに機械特性、耐食性、硬度、靭性、表面品質が異なります。TANCHINは材料と工程の実現性評価を支援します。</p>
+  </section>
+  <MaterialMatrix lang="ja" />
+  <ProductGallery lang="ja" />
+</Layout>

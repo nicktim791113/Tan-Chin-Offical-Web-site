@@ -1,0 +1,24 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { timeline } from "../../data/site";
+---
+
+<Layout lang="ja" title="会社概要 | TANCHIN" description="TANCHINは精密部品製造を基盤にMIM金属射出成形技術を深めてきました。" active="about">
+  <section class="page-hero">
+    <p class="eyebrow">About TANCHIN</p>
+    <h1>カスタム金属部品を支える精密製造</h1>
+    <p>TANCHINは精密部品製造から始まり、MIM金属射出成形技術の導入後、設備、材料、品質管理を継続的に強化してきました。</p>
+  </section>
+  <section class="section narrow content-grid">
+    <article class="feature-panel">
+      <h2>品質規律と製造能力を両立</h2>
+      <p>図面確認、金型開発、試作、量産導入まで、安定した品質と確実な納期を重視してカスタム金属部品の開発を支援します。</p>
+      <p>MIMは機械部品、工具部品、医療機器、レジャー機器、工業用精密構造部品など、精密で複雑な金属部品に適しています。</p>
+    </article>
+    <aside class="feature-panel timeline">
+      {timeline.map(([year,,, ja]) => (
+        <div class="timeline-item"><strong>{year}</strong><span>{ja}</span></div>
+      ))}
+    </aside>
+  </section>
+</Layout>

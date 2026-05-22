@@ -1,0 +1,22 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { equipment } from "../../data/site";
+import { withBase } from "../../utils/paths";
+---
+
+<Layout lang="ja" title="製造能力 | TANCHIN" description="TANCHINは射出成形、真空焼結、後加工、検査に対応します。" active="equipment">
+  <section class="page-hero">
+    <p class="eyebrow">Equipment</p>
+    <h1>MIM技術を安定量産へつなげる設備力</h1>
+    <p>射出成形、焼結、二次加工、検査の能力により、カスタム部品の安定製造を支えます。</p>
+  </section>
+  <section class="section narrow equipment-grid">
+    {equipment.map((item) => (
+      <article class="feature-panel">
+        <img src={withBase(item.image)} alt={item.ja[0]} />
+        <h2>{item.ja[0]}</h2>
+        <p>{item.ja[1]}</p>
+      </article>
+    ))}
+  </section>
+</Layout>

@@ -1,0 +1,28 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ProcessRail from "../../components/ProcessRail.astro";
+---
+
+<Layout lang="ja" title="MIM工程 | TANCHIN" description="MIM金属射出成形は粉末冶金と射出成形を組み合わせ、複雑な精密金属部品を製造します。" active="process">
+  <section class="page-hero">
+    <p class="eyebrow">MIM Process</p>
+    <h1>粉末から量産可能な精密金属部品へ</h1>
+    <p>MIMは金属粉末とバインダーを射出可能な原料にし、射出成形、脱脂、焼結、後加工を通じて緻密な金属部品を製造します。</p>
+  </section>
+  <ProcessRail lang="ja" />
+  <section class="section narrow content-grid">
+    <div class="feature-panel">
+      <h2>MIMに適した部品</h2>
+      <ul>
+        <li>切削コストが高い複雑形状部品</li>
+        <li>小型から中型の精密金属部品</li>
+        <li>材料選択と寸法安定性が重要な部品</li>
+        <li>後加工、熱処理、表面処理が必要な部品</li>
+      </ul>
+    </div>
+    <div class="feature-panel">
+      <h2>開発の進め方</h2>
+      <p>図面、材料要求、公差、数量、使用条件を確認し、MIM可否と試作から量産までの工程を計画します。</p>
+    </div>
+  </section>
+</Layout>
