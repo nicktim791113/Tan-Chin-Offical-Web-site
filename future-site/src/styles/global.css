@@ -235,21 +235,154 @@ textarea {
 }
 
 .language-pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.54);
-  color: #111b25 !important;
-  background: rgba(255, 255, 255, 0.58);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  --duration: 7s;
+  --ease: linear;
+  --lang-red: rgba(228, 0, 18, 0.78);
+  --lang-red-deep: #a50012;
+  --lang-cyan: rgba(22, 217, 255, 0.82);
+  --lang-white: rgba(255, 255, 255, 0.92);
+  --lang-shadow: rgba(228, 0, 18, 0.34);
+  position: relative;
+  display: block;
+  min-width: 72px;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 999px;
+  color: #ffffff !important;
+  background: radial-gradient(circle at 45% 38%, #ff4552 0%, var(--lang-red) 36%, var(--lang-red-deep) 100%);
+  box-shadow:
+    0 0 14px var(--lang-shadow),
+    0 8px 18px rgba(111, 0, 13, 0.16);
   font-size: 13px !important;
   line-height: 1.08;
   cursor: pointer;
   list-style: none;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.language-pill::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 2px 8px rgba(255, 255, 255, 0.42),
+    inset 0 -3px 6px rgba(74, 0, 8, 0.34);
 }
 
 .language-pill::-webkit-details-marker {
   display: none;
+}
+
+.language-pill:hover {
+  --duration: 1400ms;
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 16px rgba(228, 0, 18, 0.42),
+    0 0 22px rgba(22, 217, 255, 0.2),
+    0 10px 22px rgba(111, 0, 13, 0.18);
+}
+
+.language-pill:active {
+  transform: translateY(1px);
+}
+
+.language-pill-wrap {
+  position: relative;
+  display: grid;
+  min-width: 72px;
+  padding: 8px 13px;
+  overflow: hidden;
+  place-items: center;
+  border-radius: inherit;
+}
+
+.language-pill-label {
+  position: relative;
+  z-index: 2;
+  color: #ffffff;
+  font-weight: 800;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(29, 0, 5, 0.42);
+}
+
+.language-pill-glow {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  filter: blur(var(--blur, 8px));
+  opacity: 0.82;
+  background: var(--glow-color, var(--lang-red));
+  transform: translate(var(--x, 0), var(--y, 0));
+  animation: language-glow var(--duration) var(--ease) infinite;
+}
+
+.glow-1 {
+  --x: -34px;
+  --y: -18px;
+  --x-mid: 22px;
+  --y-mid: 5px;
+  --x-end: -6px;
+  --y-end: 16px;
+  --glow-color: var(--lang-white);
+  animation-delay: -1.4s;
+}
+
+.glow-2 {
+  --x: 42px;
+  --y: -4px;
+  --x-mid: -18px;
+  --y-mid: 12px;
+  --x-end: 6px;
+  --y-end: -18px;
+  --blur: 12px;
+  --glow-color: var(--lang-cyan);
+  animation-delay: -3.2s;
+}
+
+.glow-3 {
+  --x: 18px;
+  --y: 22px;
+  --x-mid: -26px;
+  --y-mid: -2px;
+  --x-end: 34px;
+  --y-end: -14px;
+  --blur: 10px;
+  --glow-color: var(--lang-red);
+  animation-delay: -4.8s;
+}
+
+.glow-4 {
+  --x: -10px;
+  --y: 10px;
+  --x-mid: 28px;
+  --y-mid: -15px;
+  --x-end: -32px;
+  --y-end: -4px;
+  --blur: 14px;
+  --glow-color: rgba(255, 255, 255, 0.52);
+  animation-delay: -6s;
+}
+
+@keyframes language-glow {
+  0%,
+  100% {
+    transform: translate(var(--x), var(--y)) scale(1);
+  }
+
+  35% {
+    transform: translate(var(--x-mid), var(--y-mid)) scale(1.14);
+  }
+
+  70% {
+    transform: translate(var(--x-end), var(--y-end)) scale(0.92);
+  }
 }
 
 .language-menu {
@@ -985,14 +1118,23 @@ textarea {
     left: 0;
     right: 0;
     display: none;
+    box-sizing: border-box;
+    width: auto;
+    max-width: none;
     padding: 14px 18px 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.36);
     background: rgba(239, 247, 252, 0.96);
     box-shadow: 0 16px 30px rgba(16, 27, 36, 0.14);
+    grid-auto-rows: min-content;
+    justify-items: end;
   }
 
   .site-nav.open {
     display: grid;
+  }
+
+  .language-menu {
+    margin-left: 0;
   }
 }
 
@@ -1047,10 +1189,15 @@ textarea {
     left: 0;
     right: 0;
     display: none;
+    box-sizing: border-box;
+    width: auto;
+    max-width: none;
     padding: 14px 18px 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.36);
     background: rgba(239, 247, 252, 0.96);
     box-shadow: 0 16px 30px rgba(16, 27, 36, 0.14);
+    grid-auto-rows: min-content;
+    justify-items: end;
   }
 
   .site-nav.open {
