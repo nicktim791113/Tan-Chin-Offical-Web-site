@@ -23,22 +23,30 @@ jobs:
         working-directory: future-site
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: future-site/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        run: npm install --include=optional
+        run: npm ci --include=optional
 
-      - name: Install Rollup native package for Linux
+      - name: Install Linux native packages
         run: |
           ROLLUP_VERSION=$(node -p "require('rollup/package.json').version")
-          npm install --no-save "@rollup/rollup-linux-x64-gnu@${ROLLUP_VERSION}"
+          SHARP_VERSION=$(node -p "require('./package.json').dependencies.sharp")
+          SHARP_BINARY_VERSION=$(node -p "require('sharp/package.json').optionalDependencies['@img/sharp-linux-x64']")
+          SHARP_LIBVIPS_VERSION=$(node -p "require('sharp/package.json').optionalDependencies['@img/sharp-libvips-linux-x64']")
+          npm install --no-save --package-lock=false --include=optional --cpu=x64 --os=linux --libc=glibc \
+            "@rollup/rollup-linux-x64-gnu@${ROLLUP_VERSION}" \
+            "sharp@${SHARP_VERSION}" \
+            "@img/sharp-linux-x64@${SHARP_BINARY_VERSION}" \
+            "@img/sharp-libvips-linux-x64@${SHARP_LIBVIPS_VERSION}"
+          node --input-type=module -e "import sharp from 'sharp'; console.log('Sharp Linux ready:', sharp.versions.sharp, 'libvips', sharp.versions.vips)"
 
       - name: Check
         run: npm run check

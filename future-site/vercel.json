@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "astro",
-  "installCommand": "npm install --include=optional && ROLLUP_VERSION=$(node -p \"require('rollup/package.json').version\") && npm install --no-save \"@rollup/rollup-linux-x64-gnu@${ROLLUP_VERSION}\"",
+  "installCommand": "npm ci --include=optional && ROLLUP_VERSION=$(node -p \"require('rollup/package.json').version\") && SHARP_VERSION=$(node -p \"require('./package.json').dependencies.sharp\") && SHARP_BINARY_VERSION=$(node -p \"require('sharp/package.json').optionalDependencies['@img/sharp-linux-x64']\") && SHARP_LIBVIPS_VERSION=$(node -p \"require('sharp/package.json').optionalDependencies['@img/sharp-libvips-linux-x64']\") && npm install --no-save --package-lock=false --include=optional --cpu=x64 --os=linux --libc=glibc \"@rollup/rollup-linux-x64-gnu@${ROLLUP_VERSION}\" \"sharp@${SHARP_VERSION}\" \"@img/sharp-linux-x64@${SHARP_BINARY_VERSION}\" \"@img/sharp-libvips-linux-x64@${SHARP_LIBVIPS_VERSION}\" && node --input-type=module -e \"import sharp from 'sharp'; console.log('Sharp Linux ready:', sharp.versions.sharp, 'libvips', sharp.versions.vips)\"",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "redirects": [
