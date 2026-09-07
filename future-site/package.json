@@ -1,13 +1,14 @@
 {
   "name": "tanchin-future-site",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "install:linux-native": "node scripts/install-linux-native.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

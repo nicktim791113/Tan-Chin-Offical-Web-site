@@ -14,7 +14,7 @@
 - Production Branch：`main`
 - Root Directory：`future-site`
 - Framework Preset：`Astro`
-- Install Command：使用 lockfile 安裝相依後，明確補齊目前 Rollup 與 Sharp 版本對應的 Linux x64 glibc 原生套件，並在建置前驗證 Sharp 可載入。
+- Install Command：使用 lockfile 安裝相依後，執行專案共用的 `install:linux-native` 腳本，明確補齊 Rollup 與 Sharp 對應的 Linux x64 glibc 原生套件，並在建置前驗證 Sharp 可載入。
 - Build Command：`npm run build`
 - Output Directory：`dist`
 
