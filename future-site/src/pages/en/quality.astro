@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { withBase } from "../../utils/paths";
+import ResponsiveImage from "../../components/ResponsiveImage.astro";
 ---
 
 <Layout lang="en" title="Quality Control | TANCHIN" description="TANCHIN integrates ISO 9001:2015 and process inspection into manufacturing control." active="quality">
@@ -21,7 +21,7 @@ import { withBase } from "../../utils/paths";
       </ul>
     </article>
     <div class="quality-grid">
-      <img src={withBase("/assets/quality/iso-certificate.jpg")} alt="ISO 9001:2015 certificate" />
+      <ResponsiveImage src="/assets/quality/iso-certificate.jpg" alt="ISO 9001:2015 certificate" widths={[320, 480, 640]} sizes="(max-width: 720px) 100vw, 45vw" />
     </div>
   </section>
 </Layout>

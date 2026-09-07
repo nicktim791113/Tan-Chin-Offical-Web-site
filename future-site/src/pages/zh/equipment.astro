@@ -1,7 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { equipment } from "../../data/site";
-import { withBase } from "../../utils/paths";
+import ResponsiveImage from "../../components/ResponsiveImage.astro";
 ---
 
 <Layout lang="zh" title="製程能力 | 震欣科技" description="震欣科技具備射出成型、真空燒結、後加工與檢測能力。" active="equipment">
@@ -13,7 +13,7 @@ import { withBase } from "../../utils/paths";
   <section class="section narrow equipment-grid">
     {equipment.map((item) => (
       <article class="feature-panel">
-        <img src={withBase(item.image)} alt={item.zh[0]} />
+        <ResponsiveImage src={item.image} alt={item.zh[0]} widths={[200, 300, 350, 500]} sizes="(max-width: 720px) 100vw, 50vw" />
         <h2>{item.zh[0]}</h2>
         <p>{item.zh[1]}</p>
       </article>

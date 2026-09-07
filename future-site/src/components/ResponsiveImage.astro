@@ -1,0 +1,72 @@
+---
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import catalogCover from "../assets/images/catalog-cover.jpg";
+import chromeMo01 from "../assets/images/chrome-mo-01.png";
+import chromeMo02 from "../assets/images/chrome-mo-02.png";
+import highSpeed01 from "../assets/images/high-speed-01.png";
+import injectionMachine from "../assets/images/injection-machine.jpg";
+import isoCertificate from "../assets/images/iso-certificate.jpg";
+import nickel01 from "../assets/images/nickel-01.png";
+import nickel02 from "../assets/images/nickel-02.png";
+import nickelCrMo01 from "../assets/images/nickel-cr-mo-01.png";
+import nickelCrMo02 from "../assets/images/nickel-cr-mo-02.png";
+import otherMaterial01 from "../assets/images/other-material-01.png";
+import sinteringFurnace from "../assets/images/sintering-furnace.jpg";
+import stainless174ph01 from "../assets/images/stainless-174ph-01.png";
+import stainless316l01 from "../assets/images/stainless-316l-01.png";
+
+const imageSources = {
+  "/assets/catalog/catalog-cover.jpg": catalogCover,
+  "/assets/equipment/injection-machine.jpg": injectionMachine,
+  "/assets/equipment/sintering-furnace.jpg": sinteringFurnace,
+  "/assets/products/chrome-mo-01.png": chromeMo01,
+  "/assets/products/chrome-mo-02.png": chromeMo02,
+  "/assets/products/high-speed-01.png": highSpeed01,
+  "/assets/products/nickel-01.png": nickel01,
+  "/assets/products/nickel-02.png": nickel02,
+  "/assets/products/nickel-cr-mo-01.png": nickelCrMo01,
+  "/assets/products/nickel-cr-mo-02.png": nickelCrMo02,
+  "/assets/products/other-material-01.png": otherMaterial01,
+  "/assets/products/stainless-174ph-01.png": stainless174ph01,
+  "/assets/products/stainless-316l-01.png": stainless316l01,
+  "/assets/quality/iso-certificate.jpg": isoCertificate
+} satisfies Record<string, ImageMetadata>;
+
+type Props = {
+  src: string;
+  alt: string;
+  widths: number[];
+  sizes: string;
+  class?: string;
+  loading?: "eager" | "lazy";
+};
+
+const { src, alt, widths, sizes, class: className, loading = "lazy" } = Astro.props as Props;
+const image = imageSources[src as keyof typeof imageSources];
+
+if (!image) {
+  throw new Error(`ResponsiveImage does not support: ${src}`);
+}
+
+const requestedWidths = [...new Set(widths)]
+  .filter((width) => Number.isInteger(width) && width > 0 && width <= image.width)
+  .sort((a, b) => a - b);
+const largestRequestedWidth = Math.max(...widths);
+
+if (image.width < largestRequestedWidth && !requestedWidths.includes(image.width)) {
+  requestedWidths.push(image.width);
+}
+---
+
+<Picture
+  src={image}
+  alt={alt}
+  widths={requestedWidths}
+  sizes={sizes}
+  formats={["avif"]}
+  fallbackFormat="webp"
+  class={className}
+  loading={loading}
+  decoding="async"
+/>

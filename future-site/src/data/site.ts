@@ -58,10 +58,10 @@ export const nav = {
   ],
   ja: [
     ["about", "会社概要", "/ja/about/"],
-    ["process", "MIM工程", "/ja/mim-process/"],
-    ["materials", "材料対応", "/ja/materials/"],
-    ["applications", "適用事例", "/ja/applications/"],
-    ["equipment", "製造能力", "/ja/equipment/"],
+    ["process", "MIMプロセス", "/ja/mim-process/"],
+    ["materials", "対応材料", "/ja/materials/"],
+    ["applications", "用途・開発事例", "/ja/applications/"],
+    ["equipment", "設備・製造体制", "/ja/equipment/"],
     ["quality", "品質管理", "/ja/quality/"],
     ["catalog", "電子カタログ", "/ja/catalog/"],
     ["contact", "お問い合わせ", "/ja/contact/"]
@@ -119,18 +119,18 @@ export const copy = {
     switchHref: "/zh/",
     brand: "震欣科技",
     brandEn: "TANCHIN TECHNOLOGY",
-    heroTitle: "次世代機械のための金属射出成形",
+    heroTitle: "次世代のものづくりを支える金属粉末射出成形",
     heroKicker: "AI-Ready Metal Injection Molding",
     heroText:
-      "TANCHINはMIM金属射出成形により、複雑形状、特殊材料、高精度要求を量産可能な精密金属部品へつなげます。",
+      "TANCHINは金属粉末射出成形（MIM）により、複雑形状、特殊材料、高精度が求められる要件を、量産可能な精密金属部品として実現します。",
     primaryCta: "製造可否を相談する",
-    secondaryCta: "材料対応を見る",
+    secondaryCta: "対応材料を見る",
     statsTitle: "成形だけで終わらない精密製造",
-    processTitle: "MIM工程の知見",
-    materialsTitle: "材料マトリクス",
-    galleryTitle: "カスタムサンプルギャラリー",
+    processTitle: "MIMプロセス",
+    materialsTitle: "対応材料",
+    galleryTitle: "製品サンプル",
     qualityTitle: "品質は最終検査ではなく、各工程の管理です",
-    contactTitle: "図面や要件をお送りください"
+    contactTitle: "図面・仕様をお送りください"
   }
 };
 
@@ -151,6 +151,7 @@ export const ui = {
     contactPanelEyebrow: "Project Start",
     contactPanelText: "提供零件圖面、材質、數量或使用環境，我們可以協助判斷 MIM 製程可行性。",
     nameCompanyLabel: "姓名 / 公司",
+    emailLabel: "電子郵件",
     materialLabel: "材料",
     notSureYet: "尚未確定",
     requirementLabel: "需求說明",
@@ -178,6 +179,7 @@ export const ui = {
     contactPanelEyebrow: "Project Start",
     contactPanelText: "Send your drawing, material, quantity, or application context. We can help evaluate MIM feasibility.",
     nameCompanyLabel: "Name / Company",
+    emailLabel: "Email",
     materialLabel: "Material",
     notSureYet: "Not sure yet",
     requirementLabel: "Requirement",
@@ -190,26 +192,27 @@ export const ui = {
     askMaterial: "Ask about this material"
   },
   ja: {
-    allMaterialsLink: "すべての材料を見る",
-    askSimilarParts: "類似部品を相談する",
+    allMaterialsLink: "対応材料をすべて見る",
+    askSimilarParts: "類似部品について相談する",
     applicationEyebrow: "Application Intelligence",
-    applicationTitle: "製品課題から考えるカスタムMIM提案",
+    applicationTitle: "部品開発課題に応えるMIMソリューション",
     applicationText:
-      "調達・設計部門が重視するのは工程名ではなく、安定性、量産性、検査性です。TANCHINの材料、金型、焼結、品質能力を具体的な用途へ落とし込みます。",
-    applicationCompactLink: "適用事例とサービスを見る",
+      "重視されるのは、MIMという工法名そのものではなく、安定した量産と検査・品質保証が可能かどうかです。TANCHINの材料、金型、焼結、品質保証体制を、用途・要件に応じた提案へ具体化します。",
+    applicationCompactLink: "用途・開発事例を見る",
     challengeLabel: "課題",
     approachLabel: "TANCHINの提案",
     serviceEyebrow: "Custom Service Flow",
     serviceTitle: "図面確認から量産移行まで",
-    serviceText: "カスタム部品は見積だけではなく、材料、金型、収縮、後加工、検査を一つの確実なルートとして組み立てる必要があります。",
+    serviceText: "カスタム部品の開発では、見積もりにとどまらず、材料、金型、収縮、後加工、検査を一貫した製造プロセスとして構築する必要があります。",
     contactPanelEyebrow: "Project Start",
-    contactPanelText: "図面、材料、数量、使用環境をお送りください。MIM工程の可否評価をサポートします。",
+    contactPanelText: "図面、材料、数量、使用環境をお送りください。MIM化の可否を検討します。",
     nameCompanyLabel: "氏名 / 会社名",
+    emailLabel: "メールアドレス",
     materialLabel: "材料",
     notSureYet: "未定",
     requirementLabel: "ご要望",
     prepareInquiry: "相談内容を準備する",
-    footerLine: "精密MIM製造とカスタム金属部品。",
+    footerLine: "精密MIM部品・カスタム金属部品の製造。",
     footerContact: "お問い合わせ",
     materialTraits: "材料特性",
     applications: "用途",
@@ -219,10 +222,10 @@ export const ui = {
 } as const;
 
 export const stats = [
-  { value: "100g", zh: "MIM零件重量能力", en: "MIM part weight capability", ja: "MIM部品重量対応" },
+  { value: "100g", zh: "MIM零件重量能力", en: "MIM part weight capability", ja: "対応可能なMIM部品重量" },
   { value: "1000+", zh: "客製零件開發經驗", en: "custom parts developed", ja: "カスタム部品開発実績" },
-  { value: "ISO", zh: "9001:2015品質系統", en: "9001:2015 quality system", ja: "9001:2015品質システム" },
-  { value: "X-RAY", zh: "3D電腦斷層檢測", en: "3D CT inspection capability", ja: "3D CT検査対応" }
+  { value: "ISO", zh: "9001:2015品質系統", en: "9001:2015 quality system", ja: "9001:2015 品質マネジメントシステム" },
+  { value: "X-RAY", zh: "3D電腦斷層檢測", en: "3D CT inspection capability", ja: "金属用X線3D CT検査対応" }
 ];
 
 export const processSteps = [
@@ -234,7 +237,7 @@ export const processSteps = [
   {
     zh: ["射出成型", "使用客製模具成型複雜毛胚，保留幾何自由度。"],
     en: ["Injection Molding", "Custom tooling forms complex green parts with geometric freedom."],
-    ja: ["射出成形", "専用金型で複雑なグリーンパーツを成形し、形状自由度を確保します。"]
+    ja: ["射出成形", "専用金型で複雑形状の成形体（グリーン体）をつくり、形状自由度を確保します。"]
   },
   {
     zh: ["脫脂與燒結", "去除結合劑後高溫燒結，使零件緻密化並取得金屬強度。"],
@@ -257,49 +260,49 @@ export const products: Product[] = [
   { id: "nickel-cr-mo-02", material: "nickel-cr-mo-steel", name: { zh: "鎳鉻鉬合金鋼 8640", en: "Nickel-Cr.-Mo. Steel 8640", ja: "ニッケルクロムモリブデン鋼 8640" }, image: "/assets/products/nickel-cr-mo-02.png" },
   { id: "stainless-174ph-01", material: "stainless-steel", name: { zh: "不鏽鋼 17-4PH", en: "Stainless Steel 17-4PH", ja: "ステンレス鋼 17-4PH" }, image: "/assets/products/stainless-174ph-01.png" },
   { id: "stainless-316l-01", material: "stainless-steel", name: { zh: "不鏽鋼 316L", en: "Stainless Steel 316L", ja: "ステンレス鋼 316L" }, image: "/assets/products/stainless-316l-01.png" },
-  { id: "high-speed-01", material: "high-speed-steel", name: { zh: "高速鋼", en: "High-Speed Steel", ja: "高速度鋼" }, image: "/assets/products/high-speed-01.png" },
-  { id: "other-01", material: "other-materials", name: { zh: "其他材質", en: "Other Materials", ja: "その他材料" }, image: "/assets/products/other-material-01.png" }
+  { id: "high-speed-01", material: "high-speed-steel", name: { zh: "高速鋼", en: "High-Speed Steel", ja: "ハイス鋼（HSS）" }, image: "/assets/products/high-speed-01.png" },
+  { id: "other-01", material: "other-materials", name: { zh: "其他材質", en: "Other Materials", ja: "その他の材料" }, image: "/assets/products/other-material-01.png" }
 ];
 
 export const materials: Material[] = [
   {
     slug: "nickel-alloy-steel",
     name: { zh: "鎳合金鋼", en: "Nickel-Alloy Steel", ja: "ニッケル合金鋼" },
-    eyebrow: { zh: "韌性 / 耐磨 / 耐蝕", en: "Toughness / Wear / Corrosion", ja: "靭性 / 耐摩耗 / 耐食" },
+    eyebrow: { zh: "韌性 / 耐磨 / 耐蝕", en: "Toughness / Wear / Corrosion", ja: "靭性・耐摩耗・耐食" },
     summary: {
       zh: "適合需要韌性、耐磨耗及穩定機械性質的精密結構零件。",
       en: "For precision structural components requiring toughness, wear resistance, and stable mechanical performance.",
       ja: "靭性、耐摩耗性、安定した機械特性が求められる精密構造部品に適しています。"
     },
     traits: { zh: ["韌性佳", "耐磨耗", "適合複雜結構"], en: ["Good toughness", "Wear resistant", "Complex geometry ready"], ja: ["靭性に優れる", "耐摩耗性", "複雑構造に対応"] },
-    applications: { zh: ["機械零件", "工具零件", "客製結構件"], en: ["Machinery parts", "Tool components", "Custom structures"], ja: ["機械部品", "工具部品", "カスタム構造部品"] },
+    applications: { zh: ["機械零件", "工具零件", "客製結構件"], en: ["Machinery parts", "Tool components", "Custom structures"], ja: ["機械部品", "工具部品", "特注構造部品"] },
     image: "/assets/products/nickel-01.png",
     products: ["nickel-01", "nickel-02"]
   },
   {
     slug: "chrome-mo-steel",
     name: { zh: "鉻鉬合金鋼", en: "Chrome-Mo. Steel", ja: "クロムモリブデン鋼" },
-    eyebrow: { zh: "強度 / 熱處理 / 工業用途", en: "Strength / Heat Treatment / Industrial", ja: "強度 / 熱処理 / 工業用途" },
+    eyebrow: { zh: "強度 / 熱處理 / 工業用途", en: "Strength / Heat Treatment / Industrial", ja: "強度・熱処理・工業用途" },
     summary: {
       zh: "常用於需要強度、硬度與加工穩定度的客製金屬零件。",
       en: "A practical family for custom parts requiring strength, hardness, and stable processing.",
       ja: "強度、硬度、安定した加工性が必要なカスタム金属部品に適した材料群です。"
     },
     traits: { zh: ["強度穩定", "可熱處理", "工業應用廣"], en: ["Stable strength", "Heat-treatable", "Broad industrial use"], ja: ["安定した強度", "熱処理対応", "幅広い工業用途"] },
-    applications: { zh: ["傳動件", "機械五金", "結構零件"], en: ["Transmission parts", "Hardware", "Structural parts"], ja: ["伝動部品", "機械金物", "構造部品"] },
+    applications: { zh: ["傳動件", "機械五金", "結構零件"], en: ["Transmission parts", "Hardware", "Structural parts"], ja: ["伝動部品", "機械部品", "構造部品"] },
     image: "/assets/products/chrome-mo-01.png",
     products: ["chrome-mo-01", "chrome-mo-02"]
   },
   {
     slug: "nickel-cr-mo-steel",
     name: { zh: "鎳鉻鉬合金鋼", en: "Nickel-Cr.-Mo. Steel", ja: "ニッケルクロムモリブデン鋼" },
-    eyebrow: { zh: "強韌 / 精密 / 耐用", en: "Tough / Precise / Durable", ja: "強靭 / 精密 / 高耐久" },
+    eyebrow: { zh: "強韌 / 精密 / 耐用", en: "Tough / Precise / Durable", ja: "強靭・精密・高耐久" },
     summary: {
       zh: "兼具鎳、鉻、鉬元素優勢，適合對強韌性與耐用度有要求的零件。",
       en: "Combines Ni, Cr, and Mo advantages for durable components with demanding mechanical requirements.",
       ja: "Ni、Cr、Moの特性を活かし、強靭性と耐久性が求められる部品に適しています。"
     },
-    traits: { zh: ["綜合強韌性", "耐用性佳", "適合高要求件"], en: ["Balanced toughness", "Durable", "Demanding parts"], ja: ["バランスの良い靭性", "耐久性に優れる", "高要求部品に対応"] },
+    traits: { zh: ["綜合強韌性", "耐用性佳", "適合高要求件"], en: ["Balanced toughness", "Durable", "Demanding parts"], ja: ["バランスの良い靭性", "耐久性に優れる", "厳しい要求に対応"] },
     applications: { zh: ["機械結構", "精密金屬件", "耐用零件"], en: ["Mechanical structures", "Precision metal parts", "Durable components"], ja: ["機械構造", "精密金属部品", "耐久部品"] },
     image: "/assets/products/nickel-cr-mo-01.png",
     products: ["nickel-cr-mo-01", "nickel-cr-mo-02"]
@@ -307,7 +310,7 @@ export const materials: Material[] = [
   {
     slug: "stainless-steel",
     name: { zh: "不鏽鋼", en: "Stainless Steel", ja: "ステンレス鋼" },
-    eyebrow: { zh: "17-4PH / 316L / 耐蝕", en: "17-4PH / 316L / Corrosion Resistance", ja: "17-4PH / 316L / 耐食性" },
+    eyebrow: { zh: "17-4PH / 316L / 耐蝕", en: "17-4PH / 316L / Corrosion Resistance", ja: "17-4PH・316L・耐食性" },
     summary: {
       zh: "包含析出硬化型與耐酸耐鹼不鏽鋼，適合高質感、耐蝕與精密需求。",
       en: "Includes precipitation-hardening and corrosion-resistant stainless grades for refined precision parts.",
@@ -320,29 +323,29 @@ export const materials: Material[] = [
   },
   {
     slug: "high-speed-steel",
-    name: { zh: "高速鋼", en: "High-Speed Steel", ja: "高速度鋼" },
-    eyebrow: { zh: "硬度 / 耐磨 / 工具用途", en: "Hardness / Wear / Tooling", ja: "硬度 / 耐摩耗 / 工具用途" },
+    name: { zh: "高速鋼", en: "High-Speed Steel", ja: "ハイス鋼（HSS）" },
+    eyebrow: { zh: "硬度 / 耐磨 / 工具用途", en: "Hardness / Wear / Tooling", ja: "高硬度・耐摩耗・工具用途" },
     summary: {
       zh: "適合需要硬度與耐磨耗特性的特殊零件與工具類應用。",
       en: "For specialty components and tool applications that demand hardness and wear resistance.",
-      ja: "硬度と耐摩耗性が求められる特殊部品や工具用途に適しています。"
+      ja: "ハイス鋼（高速度工具鋼）は、高硬度と耐摩耗性が求められる特殊部品や工具用途に適しています。"
     },
     traits: { zh: ["硬度高", "耐磨耗", "特殊用途"], en: ["High hardness", "Wear resistant", "Specialty use"], ja: ["高硬度", "耐摩耗性", "特殊用途"] },
-    applications: { zh: ["工具件", "耐磨零件", "特殊客製件"], en: ["Tool parts", "Wear parts", "Special custom parts"], ja: ["工具部品", "耐摩耗部品", "特殊カスタム部品"] },
+    applications: { zh: ["工具件", "耐磨零件", "特殊客製件"], en: ["Tool parts", "Wear parts", "Special custom parts"], ja: ["工具部品", "耐摩耗部品", "特殊仕様部品"] },
     image: "/assets/products/high-speed-01.png",
     products: ["high-speed-01"]
   },
   {
     slug: "other-materials",
-    name: { zh: "其他材質", en: "Other Materials", ja: "その他材料" },
+    name: { zh: "其他材質", en: "Other Materials", ja: "その他の材料" },
     eyebrow: { zh: "依需求評估", en: "Requirement-Based Evaluation", ja: "要件に応じた評価" },
     summary: {
       zh: "依照客戶產品條件、材料需求與量產目標，評估可行的 MIM 材料選項。",
       en: "MIM material options can be evaluated based on product requirements and production goals.",
       ja: "製品条件、材料要件、量産目標に合わせてMIM材料の選択肢を評価します。"
     },
-    traits: { zh: ["客製評估", "材料彈性", "共同開發"], en: ["Custom evaluation", "Material flexibility", "Co-development"], ja: ["カスタム評価", "材料の柔軟性", "共同開発"] },
-    applications: { zh: ["新產品開發", "特殊需求", "替代製程"], en: ["New product development", "Special requirements", "Process alternatives"], ja: ["新製品開発", "特殊要件", "代替工程"] },
+    traits: { zh: ["客製評估", "材料彈性", "共同開發"], en: ["Custom evaluation", "Material flexibility", "Co-development"], ja: ["個別評価", "材料選定の幅", "共同開発"] },
+    applications: { zh: ["新產品開發", "特殊需求", "替代製程"], en: ["New product development", "Special requirements", "Process alternatives"], ja: ["新製品開発", "特殊要件", "代替工法"] },
     image: "/assets/products/other-material-01.png",
     products: ["other-01"]
   }
@@ -351,12 +354,12 @@ export const materials: Material[] = [
 export const applicationCases: ApplicationCase[] = [
   {
     id: "compact-mechanism",
-    industry: { zh: "精密機械 / 傳動結構", en: "Precision machinery / transmission", ja: "精密機械 / 伝動構造" },
-    title: { zh: "把多段加工零件整合為可量產 MIM 結構件", en: "Consolidating machined parts into manufacturable MIM structures", ja: "複数工程の切削部品を量産可能なMIM構造部品へ統合" },
+    industry: { zh: "精密機械 / 傳動結構", en: "Precision machinery / transmission", ja: "精密機械・伝動構造" },
+    title: { zh: "把多段加工零件整合為可量產 MIM 結構件", en: "Consolidating machined parts into manufacturable MIM structures", ja: "複数の切削加工部品を一体化し、MIMによる量産に適した構造部品へ" },
     challenge: {
       zh: "零件幾何複雜、孔位與薄壁集中，傳統加工成本高且尺寸一致性不易控制。",
       en: "Complex geometry, concentrated holes, and thin walls made traditional machining costly and difficult to stabilize.",
-      ja: "複雑形状、集中した穴位置、薄肉部により、従来加工ではコストと寸法安定性が課題でした。"
+      ja: "複雑形状、多数の穴部、薄肉部により、従来加工ではコストと寸法安定性が課題でした。"
     },
     solution: {
       zh: "前期以圖面評估成型方向、收縮補償與後加工基準，導入鉻鉬合金鋼或鎳鉻鉬合金鋼進行強度與耐用度平衡。",
@@ -366,37 +369,37 @@ export const applicationCases: ApplicationCase[] = [
     evidence: {
       zh: ["幾何整合", "熱處理條件評估", "尺寸檢測與批量穩定性確認"],
       en: ["Geometry consolidation", "Heat-treatment evaluation", "Dimensional and batch stability checks"],
-      ja: ["形状統合", "熱処理条件の評価", "寸法検査とロット安定性の確認"]
+      ja: ["部品一体化", "熱処理条件の評価", "寸法検査とロット間の安定性確認"]
     },
     image: "/assets/products/chrome-mo-01.png",
     materials: ["chrome-mo-steel", "nickel-cr-mo-steel"]
   },
   {
     id: "corrosion-resistant-part",
-    industry: { zh: "醫療 / 儀器 / 外觀結構", en: "Medical / instruments / visible structures", ja: "医療 / 計測器 / 外観構造" },
+    industry: { zh: "醫療 / 儀器 / 外觀結構", en: "Medical / instruments / visible structures", ja: "医療・計測器・外観部品" },
     title: { zh: "耐蝕與外觀需求兼具的不鏽鋼精密零件", en: "Stainless precision parts balancing corrosion resistance and appearance", ja: "耐食性と外観品質を両立するステンレス精密部品" },
     challenge: {
       zh: "客戶需要小型精密零件，同時兼顧耐蝕、表面質感與穩定量產。",
       en: "The part required corrosion resistance, refined appearance, and repeatable production in a compact geometry.",
-      ja: "小型精密部品に耐食性、表面品質、安定量産を同時に求められました。"
+      ja: "小型精密部品では、耐食性、表面品質、安定量産が同時に求められました。"
     },
     solution: {
       zh: "依使用環境評估 316L 或 17-4PH，並把成型、燒結、後加工與表面處理條件納入同一套製程規劃。",
       en: "316L or 17-4PH is evaluated by environment, with molding, sintering, finishing, and surface treatment planned as one process path.",
-      ja: "使用環境に合わせて316Lまたは17-4PHを評価し、成形、焼結、後加工、表面処理を一つの工程計画として組み立てます。"
+      ja: "使用環境に合わせて316Lまたは17-4PHを評価し、成形、焼結、後加工、表面処理を一貫した工程計画に落とし込みます。"
     },
     evidence: {
       zh: ["材料等級建議", "表面需求協調", "ISO 品質流程控管"],
       en: ["Material grade recommendation", "Surface requirement alignment", "ISO quality process control"],
-      ja: ["材料グレード提案", "表面要件の調整", "ISO品質プロセス管理"]
+      ja: ["材料グレードの提案", "表面要件の調整", "ISO 9001に基づく品質管理"]
     },
     image: "/assets/products/stainless-316l-01.png",
     materials: ["stainless-steel"]
   },
   {
     id: "wear-resistant-tooling",
-    industry: { zh: "工具 / 耐磨零件 / 特殊機構", en: "Tooling / wear parts / special mechanisms", ja: "工具 / 耐摩耗部品 / 特殊機構" },
-    title: { zh: "高硬度與耐磨需求的特殊材質開發", en: "Special material development for hardness and wear resistance", ja: "高硬度・耐摩耗要求に向けた特殊材料開発" },
+    industry: { zh: "工具 / 耐磨零件 / 特殊機構", en: "Tooling / wear parts / special mechanisms", ja: "工具・耐摩耗部品・特殊機構" },
+    title: { zh: "高硬度與耐磨需求的特殊材質開發", en: "Special material development for hardness and wear resistance", ja: "高硬度・耐摩耗性が求められる用途向けの特殊材料開発" },
     challenge: {
       zh: "使用環境需要高硬度、耐磨耗，且形狀不適合以單純切削方式大量製造。",
       en: "The application needed high hardness and wear resistance while the geometry was not ideal for mass machining.",
@@ -405,7 +408,7 @@ export const applicationCases: ApplicationCase[] = [
     solution: {
       zh: "透過高速鋼或其他特殊材質評估，先確認材料可行性，再規劃模具、燒結與必要後加工。",
       en: "High-speed steel or other special materials are evaluated first, then tooling, sintering, and required finishing are planned.",
-      ja: "高速度鋼またはその他特殊材料を先に評価し、材料可否を確認してから金型、焼結、必要な後加工を計画します。"
+      ja: "ハイス鋼（高速度工具鋼）を含む特殊材料について、要求特性と製造可能性を確認したうえで、金型、焼結、必要な後加工を計画します。"
     },
     evidence: {
       zh: ["特殊材質評估", "耐磨用途開發", "共同開發與試作"],
@@ -424,16 +427,16 @@ export const serviceSteps: ServiceStep[] = [
     text: {
       zh: "先確認零件尺寸、功能面、受力位置、外觀面與預估數量，判斷是否適合 MIM。",
       en: "We review dimensions, functional surfaces, load points, appearance requirements, and estimated volume to judge MIM suitability.",
-      ja: "寸法、機能面、荷重点、外観面、想定数量を確認し、MIM適性を判断します。"
+      ja: "寸法、機能面、荷重点、外観面、想定数量を確認し、MIM化の適性を判断します。"
     }
   },
   {
     id: "material-process",
-    title: { zh: "材料與製程路線", en: "Material and process route", ja: "材料と工程ルート" },
+    title: { zh: "材料與製程路線", en: "Material and process route", ja: "材料と製造プロセス" },
     text: {
       zh: "依強度、耐蝕、硬度、表面與成本目標，建議材料、模具策略、燒結與後加工方式。",
       en: "Material, tooling, sintering, and finishing routes are suggested based on strength, corrosion, hardness, surface, and cost goals.",
-      ja: "強度、耐食性、硬度、表面、コスト目標に合わせて材料、金型、焼結、後加工の方向を提案します。"
+      ja: "強度、耐食性、硬度、表面、コスト目標に応じて、材料選定、金型構想、焼結、後加工の方針をご提案します。"
     }
   },
   {
@@ -451,7 +454,7 @@ export const serviceSteps: ServiceStep[] = [
     text: {
       zh: "建立可追蹤的製程條件與檢驗重點，讓客製零件從開發進入穩定量產。",
       en: "Traceable process conditions and inspection points are set so custom parts can move from development into stable production.",
-      ja: "追跡可能な工程条件と検査ポイントを設定し、カスタム部品を開発段階から安定量産へ移行します。"
+      ja: "追跡可能な工程条件と検査ポイントを設定し、開発段階のカスタム部品を安定量産へ移行します。"
     }
   }
 ];
@@ -460,17 +463,17 @@ export const buyerSignals = [
   {
     zh: ["適合詢問震欣的情況", "零件小而複雜、傳統加工成本高、需要耐磨/耐蝕/高強度、預計量產或長期供應。"],
     en: ["When to ask TANCHIN", "Small complex parts, high machining cost, wear/corrosion/strength needs, and expected production demand."],
-    ja: ["TANCHINに相談しやすいケース", "小型で複雑な部品、切削コストが高い部品、耐摩耗・耐食・高強度が必要な部品、量産や長期供給を見込む案件。"]
+    ja: ["TANCHINにご相談いただきたいケース", "小型で複雑な部品、切削コストが高い部品、耐摩耗・耐食・高強度が必要な部品、量産や長期供給を見込む案件。"]
   },
   {
     zh: ["初次詢問請提供", "2D/3D 圖面、材料或使用環境、關鍵尺寸、表面要求、預估數量與目前製程痛點。"],
     en: ["Useful inquiry inputs", "2D/3D drawings, material or environment, critical dimensions, surface requirements, estimated volume, and current process pain points."],
-    ja: ["初回相談であると良い情報", "2D/3D図面、材料または使用環境、重要寸法、表面要求、想定数量、現在の工程課題。"]
+    ja: ["初回のご相談時にご提示いただきたい情報", "2D/3D図面、材料または使用環境、重要寸法、表面要件、想定数量、現行工法の課題。"]
   },
   {
     zh: ["我們會協助判斷", "MIM 可行性、材料選項、模具方向、後加工需求、品質檢查重點與量產風險。"],
     en: ["What we help evaluate", "MIM feasibility, material options, tooling direction, finishing needs, inspection points, and production risks."],
-    ja: ["評価を支援する内容", "MIM可否、材料選択、金型方向、後加工要否、品質検査ポイント、量産リスク。"]
+    ja: ["当社が評価する項目", "MIM化の可否、材料選定、金型構想、後加工の要否、品質検査項目、量産リスク。"]
   }
 ];
 
@@ -479,22 +482,22 @@ export const equipment = [
     image: "/assets/equipment/injection-machine.jpg",
     zh: ["射出成型設備", "使用穩定射出設備與客製模具，形成複雜幾何毛胚。"],
     en: ["Injection Molding Equipment", "Stable injection equipment and custom tooling form complex green parts."],
-    ja: ["射出成形設備", "安定した射出設備と専用金型で複雑形状のグリーンパーツを成形します。"]
+    ja: ["射出成形設備", "射出成形設備と専用金型で複雑形状の成形体（グリーン体）をつくります。"]
   },
   {
     image: "/assets/equipment/sintering-furnace.jpg",
     zh: ["真空燒結爐", "透過燒結條件控制，使零件緻密化並取得金屬強度。"],
     en: ["Vacuum Sintering Furnace", "Sintering control densifies parts and delivers metal strength."],
-    ja: ["真空焼結炉", "焼結条件の管理により部品を緻密化し、金属強度を引き出します。"]
+    ja: ["真空焼結炉", "焼結条件の管理により部品を緻密化し、所定の機械的特性を得ます。"]
   }
 ];
 
 export const timeline = [
   ["1980", "成立並投入精密零件製造", "Founded for precision component manufacturing", "精密部品製造を目的に設立"],
-  ["1996", "引進並專研 MIM 金屬射出成型技術", "Introduced and researched MIM technology", "MIM金属射出成形技術を導入し研究を開始"],
+  ["1996", "引進並專研 MIM 金屬射出成型技術", "Introduced and researched MIM technology", "金属粉末射出成形（MIM）技術を導入し、研究を開始"],
   ["2015", "已開發超過 1000 項客製化零件", "Developed over 1000 custom components", "1000件以上のカスタム部品を開発"],
-  ["2017", "通過 ISO 9001:2015 品質管理系統", "Certified to ISO 9001:2015", "ISO 9001:2015品質マネジメントシステム認証取得"],
-  ["2023", "增設金屬 X-RAY 3D 電腦斷層設備", "Added metal X-ray 3D CT capability", "金属X-RAY 3D CT検査設備を増設"]
+  ["2017", "通過 ISO 9001:2015 品質管理系統", "Certified to ISO 9001:2015", "ISO 9001:2015 品質マネジメントシステム認証を取得"],
+  ["2023", "增設金屬 X-RAY 3D 電腦斷層設備", "Added metal X-ray 3D CT capability", "金属用X線3D CT検査設備を増設"]
 ];
 
 export function t(lang: Lang, zh: string, en: string, ja = en) {

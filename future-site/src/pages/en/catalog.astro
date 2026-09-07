@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { withBase } from "../../utils/paths";
+import ResponsiveImage from "../../components/ResponsiveImage.astro";
 ---
 
 <Layout lang="en" title="Catalog | TANCHIN" description="View or download the TANCHIN MIM company catalog." active="catalog">
@@ -11,7 +12,7 @@ import { withBase } from "../../utils/paths";
   </section>
   <section class="section narrow">
     <article class="catalog-panel">
-      <img src={withBase("/assets/catalog/catalog-cover.jpg")} alt="TANCHIN catalog cover" />
+      <ResponsiveImage src="/assets/catalog/catalog-cover.jpg" alt="TANCHIN catalog cover" widths={[240, 360, 480, 640, 768, 960]} sizes="(max-width: 720px) 100vw, 240px" />
       <div>
         <h2>Company Catalog</h2>
         <p>Company profile, MIM process, material capability, samples, and quality information.</p>

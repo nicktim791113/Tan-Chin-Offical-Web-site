@@ -1,6 +1,7 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import ContactPanel from "../../../components/ContactPanel.astro";
+import ResponsiveImage from "../../../components/ResponsiveImage.astro";
 import { materialProducts, materials } from "../../../data/site";
 import { withBase } from "../../../utils/paths";
 
@@ -19,7 +20,9 @@ const items = materialProducts(material.slug);
     <p>{material.summary.zh}</p>
   </section>
   <section class="section narrow material-detail">
-    <div class="material-hero-image"><img src={withBase(material.image)} alt={material.name.zh} /></div>
+    <div class="material-hero-image">
+      <ResponsiveImage src={material.image} alt={material.name.zh} widths={[320, 480, 640, 768, 960]} sizes="(max-width: 720px) 100vw, 40vw" />
+    </div>
     <div class="feature-panel">
       <h2>材料特性</h2>
       <ul class="pill-list">{material.traits.zh.map((trait) => <li>{trait}</li>)}</ul>
@@ -34,7 +37,10 @@ const items = materialProducts(material.slug);
     </div>
     <div class="product-gallery">
       {items.map((product) => (
-        <figure class="product-tile"><img src={withBase(product.image)} alt={product.name.zh} /><figcaption>{product.name.zh}</figcaption></figure>
+        <figure class="product-tile">
+          <ResponsiveImage src={product.image} alt={product.name.zh} widths={[160, 240, 320, 480, 640, 768]} sizes="(max-width: 720px) 50vw, (max-width: 1100px) 25vw, 20vw" />
+          <figcaption>{product.name.zh}</figcaption>
+        </figure>
       ))}
     </div>
   </section>

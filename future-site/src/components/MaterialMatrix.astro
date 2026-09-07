@@ -1,6 +1,7 @@
 ---
 import { copy, materials, ui, type Lang } from "../data/site";
 import { withBase } from "../utils/paths";
+import ResponsiveImage from "./ResponsiveImage.astro";
 const { lang } = Astro.props as { lang: Lang };
 const text = ui[lang];
 ---
@@ -18,7 +19,12 @@ const text = ui[lang];
   <div class="material-grid">
     {materials.map((material) => (
       <a class="material-card" href={withBase(`/${lang}/materials/${material.slug}/`)}>
-        <img src={withBase(material.image)} alt={material.name[lang]} />
+        <ResponsiveImage
+          src={material.image}
+          alt={material.name[lang]}
+          widths={[128, 192, 256, 384]}
+          sizes="(max-width: 720px) 35vw, (max-width: 1100px) 18vw, 128px"
+        />
         <div>
           <span>{material.eyebrow[lang]}</span>
           <h3>{material.name[lang]}</h3>

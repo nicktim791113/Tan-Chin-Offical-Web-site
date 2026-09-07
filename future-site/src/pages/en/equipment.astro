@@ -1,7 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { equipment } from "../../data/site";
-import { withBase } from "../../utils/paths";
+import ResponsiveImage from "../../components/ResponsiveImage.astro";
 ---
 
 <Layout lang="en" title="Equipment | TANCHIN" description="TANCHIN supports injection molding, vacuum sintering, finishing, and inspection." active="equipment">
@@ -13,7 +13,7 @@ import { withBase } from "../../utils/paths";
   <section class="section narrow equipment-grid">
     {equipment.map((item) => (
       <article class="feature-panel">
-        <img src={withBase(item.image)} alt={item.en[0]} />
+        <ResponsiveImage src={item.image} alt={item.en[0]} widths={[200, 300, 350, 500]} sizes="(max-width: 720px) 100vw, 50vw" />
         <h2>{item.en[0]}</h2>
         <p>{item.en[1]}</p>
       </article>

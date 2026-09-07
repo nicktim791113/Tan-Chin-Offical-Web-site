@@ -1,6 +1,7 @@
 ---
 import { copy, products, ui, type Lang } from "../data/site";
 import { withBase } from "../utils/paths";
+import ResponsiveImage from "./ResponsiveImage.astro";
 const { lang, limit } = Astro.props as { lang: Lang; limit?: number };
 const shown = limit ? products.slice(0, limit) : products;
 const text = ui[lang];
@@ -19,7 +20,12 @@ const text = ui[lang];
   <div class="product-gallery">
     {shown.map((product) => (
       <figure class="product-tile">
-        <img src={withBase(product.image)} alt={product.name[lang]} />
+        <ResponsiveImage
+          src={product.image}
+          alt={product.name[lang]}
+          widths={[160, 240, 320, 480, 640, 768]}
+          sizes="(max-width: 720px) 50vw, (max-width: 1100px) 25vw, 20vw"
+        />
         <figcaption>{product.name[lang]}</figcaption>
       </figure>
     ))}

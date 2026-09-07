@@ -1,20 +1,21 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { withBase } from "../../utils/paths";
+import ResponsiveImage from "../../components/ResponsiveImage.astro";
 ---
 
-<Layout lang="ja" title="電子カタログ | TANCHIN" description="TANCHINのMIM会社カタログをご覧いただけます。" active="catalog">
+<Layout lang="ja" title="電子カタログ | TANCHIN" description="TANCHINの会社案内とMIM製品情報をご覧いただけます。" active="catalog">
   <section class="page-hero">
     <p class="eyebrow">E-Catalog</p>
-    <h1>TANCHIN会社カタログ</h1>
-    <p>会社概要、MIM工程、材料対応、サンプル、品質情報をカタログで確認できます。</p>
+    <h1>TANCHIN会社案内</h1>
+    <p>会社概要、MIMプロセス、対応材料、製品サンプル、品質情報をカタログでご確認いただけます。</p>
   </section>
   <section class="section narrow">
     <article class="catalog-panel">
-      <img src={withBase("/assets/catalog/catalog-cover.jpg")} alt="TANCHINカタログ表紙" />
+      <ResponsiveImage src="/assets/catalog/catalog-cover.jpg" alt="TANCHIN会社案内の表紙" widths={[240, 360, 480, 640, 768, 960]} sizes="(max-width: 720px) 100vw, 240px" />
       <div>
-        <h2>会社カタログ</h2>
-        <p>現在のPDF資料は既存の中国語版と英語版を掲載しています。日文ページ上では主要情報を日本語で整理しています。</p>
+        <h2>会社案内</h2>
+        <p>現在のPDF資料は中国語版と英語版を掲載しています。日本語ページでは主要情報を日本語で整理しています。</p>
         <div class="hero-actions">
           <a class="button primary" href={withBase("/assets/catalog/tanchin-company-catalog-en.pdf")}>英語版PDFを開く</a>
           <a class="button ghost" href={withBase("/assets/catalog/tanchin-company-catalog-zh.pdf")}>中国語版PDFを開く</a>

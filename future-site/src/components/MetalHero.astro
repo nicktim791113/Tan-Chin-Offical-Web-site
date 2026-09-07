@@ -3,6 +3,25 @@ import { copy, type Lang } from "../data/site";
 import { withBase } from "../utils/paths";
 const { lang } = Astro.props as { lang: Lang };
 const c = copy[lang];
+const sceneLabel = {
+  zh: "金屬製造概念的 3D 視覺輪播",
+  en: "3D visualization carousel inspired by metal manufacturing",
+  ja: "金属製造を表現した3Dビジュアル"
+}[lang];
+const telemetrySlides = {
+  zh: [
+    ["MIM 核心運行中", "掃描：98.7%", "合金資料就緒"],
+    ["合金流動分析中", "表面品質分析就緒", "精密 MIM 資料"]
+  ],
+  en: [
+    ["MIM CORE ONLINE", "SCAN: 98.7%", "ALLOY MATRIX READY"],
+    ["ALLOY FLOW ONLINE", "SURFACE PATH READY", "PRECISION MIM CORE"]
+  ],
+  ja: [
+    ["MIMコア稼働中", "スキャン：98.7％", "合金データ準備完了"],
+    ["合金流動解析中", "表面品質解析準備完了", "精密MIMデータ"]
+  ]
+}[lang];
 ---
 
 <section class="hero-section">
@@ -23,23 +42,23 @@ const c = copy[lang];
   </div>
 
   <div class="hero-visual">
-    <div class="scene-frame" data-metal-scene>
-      <canvas aria-label="AI metal manufacturing visualization carousel"></canvas>
+    <div class="scene-frame" data-metal-scene data-scene-labels={JSON.stringify(telemetrySlides)}>
+      <canvas aria-label={sceneLabel}></canvas>
       <div class="scene-carousel-dots" aria-hidden="true">
         <span class="active" data-scene-dot></span>
         <span data-scene-dot></span>
       </div>
     </div>
     <div class="telemetry">
-      <span>MIM CORE ONLINE</span>
-      <span>SCAN: 98.7%</span>
-      <span>ALLOY MATRIX READY</span>
+      {telemetrySlides[0].map((label) => <span>{label}</span>)}
     </div>
   </div>
 </section>
 
 <script>
   import * as THREE from "three";
+
+  let disposeMetalScene: (() => void) | undefined;
 
   function setupMetalScene() {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -56,12 +75,36 @@ const c = copy[lang];
     }
 
     mount.dataset.sceneReady = "true";
+    const fallbackSlideLabels = [
+      ["MIM CORE ONLINE", "SCAN: 98.7%", "ALLOY MATRIX READY"],
+      ["ALLOY FLOW ONLINE", "SURFACE PATH READY", "PRECISION MIM CORE"]
+    ];
+    let slideLabels = fallbackSlideLabels;
+    if (mount.dataset.sceneLabels) {
+      try {
+        const parsedLabels: unknown = JSON.parse(mount.dataset.sceneLabels);
+        if (
+          Array.isArray(parsedLabels) &&
+          parsedLabels.length === 2 &&
+          parsedLabels.every((labels) => Array.isArray(labels) && labels.length === 3 && labels.every((label) => typeof label === "string"))
+        ) {
+          slideLabels = parsedLabels;
+        }
+      } catch {
+        slideLabels = fallbackSlideLabels;
+      }
+    }
+    const connection = navigator as Navigator & { connection?: { saveData?: boolean } };
+    const conserveResources = connection.connection?.saveData === true || window.matchMedia("(max-width: 820px), (pointer: coarse)").matches;
+    const quality = conserveResources
+      ? { pixelRatio: 1.2, torusSegments: 120, torusSides: 14, capsuleCapSegments: 4, capsuleRadialSegments: 8, tubeSegments: 72, tubeSides: 8, ringSegments: 120, pointCount: 80 }
+      : { pixelRatio: 1.8, torusSegments: 180, torusSides: 18, capsuleCapSegments: 6, capsuleRadialSegments: 12, tubeSegments: 120, tubeSides: 12, ringSegments: 180, pointCount: 130 };
     const dots = Array.from(mount.querySelectorAll("[data-scene-dot]"));
     const host = mount as HTMLElement;
     const targetCanvas = canvas as HTMLCanvasElement;
     const scene = new THREE.Scene();
     const renderer = new THREE.WebGLRenderer({ canvas: targetCanvas, antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, quality.pixelRatio));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.08;
@@ -116,7 +159,7 @@ const c = copy[lang];
 
     function makeTube(points: THREE.Vector3[], radius: number, tubeMaterial: THREE.Material) {
       const curve = new THREE.CatmullRomCurve3(points);
-      const geometry = new THREE.TubeGeometry(curve, 120, radius, 12, false);
+      const geometry = new THREE.TubeGeometry(curve, quality.tubeSegments, radius, quality.tubeSides, false);
       geometry.computeVertexNormals();
       return new THREE.Mesh(geometry, tubeMaterial);
     }
@@ -124,20 +167,20 @@ const c = copy[lang];
     function makeOriginalGroup() {
       const group = new THREE.Group();
 
-      const torus = new THREE.Mesh(new THREE.TorusKnotGeometry(1.06, 0.22, 180, 18), metal.clone());
+      const torus = new THREE.Mesh(new THREE.TorusKnotGeometry(1.06, 0.22, quality.torusSegments, quality.torusSides), metal.clone());
       torus.rotation.x = 0.6;
       group.add(torus);
 
       for (let i = 0; i < 18; i++) {
         const capsuleMaterial = i % 5 === 0 ? red.clone() : metal.clone();
-        const capsule = new THREE.Mesh(new THREE.CapsuleGeometry(0.055, 0.55, 6, 12), capsuleMaterial);
+        const capsule = new THREE.Mesh(new THREE.CapsuleGeometry(0.055, 0.55, quality.capsuleCapSegments, quality.capsuleRadialSegments), capsuleMaterial);
         const angle = (i / 18) * Math.PI * 2;
         capsule.position.set(Math.cos(angle) * 2.1, Math.sin(angle * 1.7) * 0.55, Math.sin(angle) * 1.1);
         capsule.rotation.set(angle, angle * 0.7, angle * 1.4);
         group.add(capsule);
       }
 
-      const ring = new THREE.Mesh(new THREE.TorusGeometry(2.25, 0.01, 8, 160), cyan.clone());
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(2.25, 0.01, 8, quality.ringSegments), cyan.clone());
       ring.rotation.x = Math.PI / 2.15;
       group.add(ring);
       group.userData.ring = ring;
@@ -149,11 +192,11 @@ const c = copy[lang];
       const group = new THREE.Group();
       group.scale.setScalar(0.96);
 
-      const core = new THREE.Mesh(new THREE.TorusKnotGeometry(0.84, 0.16, 180, 18), dimMetal.clone());
+      const core = new THREE.Mesh(new THREE.TorusKnotGeometry(0.84, 0.16, quality.torusSegments, quality.torusSides), dimMetal.clone());
       core.rotation.set(0.86, -0.2, 0.18);
       group.add(core);
 
-      const outerRing = new THREE.Mesh(new THREE.TorusGeometry(2.05, 0.012, 8, 180), cyan.clone());
+      const outerRing = new THREE.Mesh(new THREE.TorusGeometry(2.05, 0.012, 8, quality.ringSegments), cyan.clone());
       outerRing.rotation.x = Math.PI / 2.25;
       outerRing.rotation.z = -0.34;
       group.add(outerRing);
@@ -184,7 +227,7 @@ const c = copy[lang];
 
       for (let i = 0; i < 14; i++) {
         const angle = (i / 14) * Math.PI * 2;
-        const bead = new THREE.Mesh(new THREE.CapsuleGeometry(0.046, 0.32, 6, 12), i % 4 === 0 ? red.clone() : metal.clone());
+        const bead = new THREE.Mesh(new THREE.CapsuleGeometry(0.046, 0.32, quality.capsuleCapSegments, quality.capsuleRadialSegments), i % 4 === 0 ? red.clone() : metal.clone());
         bead.position.set(Math.cos(angle) * 1.42, Math.sin(angle * 1.35) * 0.48, Math.sin(angle) * 0.82);
         bead.rotation.set(angle * 0.6, angle, angle * 1.2);
         group.add(bead);
@@ -197,7 +240,7 @@ const c = copy[lang];
     }
 
     const points = [];
-    for (let i = 0; i < 130; i++) {
+    for (let i = 0; i < quality.pointCount; i++) {
       points.push((Math.random() - 0.5) * 5, (Math.random() - 0.5) * 3, (Math.random() - 0.5) * 4);
     }
     const pointGeometry = new THREE.BufferGeometry();
@@ -237,12 +280,12 @@ const c = copy[lang];
     const slides = [
       {
         group: originalGroup,
-        labels: ["MIM CORE ONLINE", "SCAN: 98.7%", "ALLOY MATRIX READY"],
+        labels: slideLabels[0],
         materials: collectMaterials(originalGroup)
       },
       {
         group: flowGroup,
-        labels: ["ALLOY FLOW ONLINE", "SURFACE PATH READY", "PRECISION MIM CORE"],
+        labels: slideLabels[1],
         materials: collectMaterials(flowGroup)
       }
     ];
@@ -269,20 +312,67 @@ const c = copy[lang];
       });
     }
 
-    function resize() {
-      const rect = host.getBoundingClientRect();
-      renderer.setSize(rect.width, rect.height, false);
-      camera.aspect = rect.width / rect.height;
-      camera.updateProjectionMatrix();
-    }
-    resize();
-    window.addEventListener("resize", resize);
-
+    let disposed = false;
+    let inViewport = false;
+    let animationFrame: number | undefined;
+    let lastWidth = 0;
+    let lastHeight = 0;
+    let renderedStaticFrame = false;
     let frame = 0;
-    const carouselStart = performance.now();
+    let carouselElapsed = 0;
+    let lastTimestamp = 0;
     const slideDuration = 6200;
     const fadeDuration = 1100;
-    function animate() {
+
+    function canRender() {
+      return !disposed && inViewport && document.visibilityState === "visible";
+    }
+
+    function resizeIfNeeded() {
+      if (!canRender()) {
+        return false;
+      }
+      const rect = host.getBoundingClientRect();
+      const width = Math.round(rect.width);
+      const height = Math.round(rect.height);
+      if (width === 0 || height === 0 || (width === lastWidth && height === lastHeight)) {
+        return false;
+      }
+      lastWidth = width;
+      lastHeight = height;
+      renderer.setSize(width, height, false);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      return true;
+    }
+
+    function renderStaticFrame() {
+      if (!reduceMotion || renderedStaticFrame || !canRender()) {
+        return;
+      }
+      resizeIfNeeded();
+      setSlideOpacity(0, 1);
+      setSlideOpacity(1, 0);
+      setSlideCopy(0);
+      renderer.render(scene, camera);
+      renderedStaticFrame = true;
+    }
+
+    function pauseAnimation() {
+      if (animationFrame !== undefined) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = undefined;
+      }
+    }
+
+    function animate(timestamp: number) {
+      animationFrame = undefined;
+      if (!canRender()) {
+        return;
+      }
+
+      carouselElapsed += Math.max(0, Math.min(timestamp - lastTimestamp, 100));
+      lastTimestamp = timestamp;
       frame += 0.01;
 
       originalGroup.rotation.y += 0.006;
@@ -294,9 +384,8 @@ const c = copy[lang];
       flowGroup.userData.ring.rotation.z -= 0.009;
       flowGroup.userData.core.rotation.z += 0.004;
 
-      const elapsed = performance.now() - carouselStart;
       const cycle = slideDuration * slides.length;
-      const position = elapsed % cycle;
+      const position = carouselElapsed % cycle;
       const active = Math.floor(position / slideDuration);
       const local = position - active * slideDuration;
       const next = (active + 1) % slides.length;
@@ -308,24 +397,107 @@ const c = copy[lang];
       setSlideCopy(blend > 0.55 ? next : active);
 
       renderer.render(scene, camera);
-      requestAnimationFrame(animate);
+      if (canRender()) {
+        animationFrame = requestAnimationFrame(animate);
+      }
     }
 
-    if (reduceMotion) {
-      setSlideOpacity(0, 1);
-      setSlideOpacity(1, 0);
-      setSlideCopy(0);
-      renderer.render(scene, camera);
-    } else {
-      animate();
+    function resumeAnimation() {
+      if (!canRender()) {
+        return;
+      }
+      if (reduceMotion) {
+        renderStaticFrame();
+        return;
+      }
+      resizeIfNeeded();
+      if (animationFrame === undefined) {
+        lastTimestamp = performance.now();
+        animationFrame = requestAnimationFrame(animate);
+      }
     }
+
+    const intersectionObserver = new IntersectionObserver(
+      ([entry]) => {
+        inViewport = entry.isIntersecting;
+        if (inViewport) {
+          resumeAnimation();
+        } else {
+          pauseAnimation();
+        }
+      },
+      { threshold: 0.01 }
+    );
+    const resizeObserver = new ResizeObserver(() => {
+      if (canRender() && (!reduceMotion || !renderedStaticFrame)) {
+        resizeIfNeeded();
+      }
+    });
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        resumeAnimation();
+      } else {
+        pauseAnimation();
+      }
+    };
+    const rect = host.getBoundingClientRect();
+    inViewport = rect.bottom > 0 && rect.right > 0 && rect.top < window.innerHeight && rect.left < window.innerWidth;
+    intersectionObserver.observe(host);
+    resizeObserver.observe(host);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    resumeAnimation();
 
     host.dataset.productModel = "restored-original-carousel";
+
+    return () => {
+      if (disposed) {
+        return;
+      }
+      disposed = true;
+      pauseAnimation();
+      intersectionObserver.disconnect();
+      resizeObserver.disconnect();
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+
+      const materials = new Set<THREE.Material>();
+      scene.traverse((object) => {
+        const target = object as THREE.Object3D & { geometry?: THREE.BufferGeometry; material?: THREE.Material | THREE.Material[] };
+        target.geometry?.dispose();
+        const objectMaterials = target.material ? (Array.isArray(target.material) ? target.material : [target.material]) : [];
+        objectMaterials.forEach((item) => materials.add(item));
+      });
+      [metal, red, cyan, dimMetal, pointMaterial].forEach((item) => materials.add(item));
+      materials.forEach((item) => item.dispose());
+      renderer.renderLists.dispose();
+      renderer.dispose();
+      renderer.forceContextLoss();
+      scene.clear();
+      delete host.dataset.sceneReady;
+      delete host.dataset.productModel;
+    };
+  }
+
+  function initializeMetalScene() {
+    const mount = document.querySelector("[data-metal-scene]");
+    if (mount instanceof HTMLElement && mount.dataset.sceneReady === "true") {
+      return;
+    }
+    disposeMetalScene?.();
+    disposeMetalScene = setupMetalScene();
+  }
+
+  function teardownMetalScene() {
+    disposeMetalScene?.();
+    disposeMetalScene = undefined;
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", setupMetalScene, { once: true });
+    document.addEventListener("DOMContentLoaded", initializeMetalScene, { once: true });
   } else {
-    setupMetalScene();
+    initializeMetalScene();
   }
+  document.addEventListener("astro:page-load", initializeMetalScene);
+  document.addEventListener("astro:before-swap", teardownMetalScene);
+  window.addEventListener("pagehide", teardownMetalScene);
+  window.addEventListener("pageshow", initializeMetalScene);
 </script>

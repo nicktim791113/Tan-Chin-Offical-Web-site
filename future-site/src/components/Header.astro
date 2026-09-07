@@ -6,6 +6,8 @@ const { lang, active } = Astro.props as { lang: Lang; active: string };
 const homeHref = withBase(`/${lang}/`);
 const brandLabel = "震欣科技股份有限公司 TANCHIN TECHNOLOGY CO., LTD";
 const currentLanguage = languages.find((item) => item.lang === lang) ?? languages[0];
+const navigationLabel = { zh: "導覽選單", en: "Navigation menu", ja: "ナビゲーションメニュー" }[lang];
+const languageSelectionLabel = { zh: "選擇語言", en: "Language selection", ja: "言語を選択" }[lang];
 ---
 
 <header class="site-header">
@@ -25,7 +27,7 @@ const currentLanguage = languages.find((item) => item.lang === lang) ?? language
     </span>
   </a>
 
-  <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" data-nav-toggle>
+  <button class="nav-toggle" type="button" aria-label={navigationLabel} aria-expanded="false" data-nav-toggle>
     <span></span>
     <span></span>
   </button>
@@ -44,7 +46,7 @@ const currentLanguage = languages.find((item) => item.lang === lang) ?? language
           <span class="language-pill-label">{currentLanguage.label}</span>
         </span>
       </summary>
-      <div class="language-options" aria-label="Language selection">
+      <div class="language-options" aria-label={languageSelectionLabel}>
         {languages.map((item) => (
           <a class:list={{ active: lang === item.lang }} href={withBase(item.href)}>{item.label}</a>
         ))}
