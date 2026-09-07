@@ -2,6 +2,11 @@
 import { copy, materials, ui, type Lang } from "../data/site";
 const { lang } = Astro.props as { lang: Lang };
 const text = ui[lang];
+const labels = {
+  zh: { note: "先整理詢問內容，再由你的電子郵件程式寄出。圖面可在信件中另行附加。", ready: "詢問草稿已整理好，尚未寄出。", open: "開啟郵件草稿", download: "下載文字草稿", preview: "詢問內容預覽", subject: "MIM 製造可行性詢問", fallback: "若未設定郵件程式，可下載草稿並寄至 tanchinadd@gmail.com。", required: "姓名、電子郵件與需求說明為必填。" },
+  en: { note: "Prepare your inquiry, then send it using your email app. Drawings can be attached to the email.", ready: "Your inquiry draft is ready. It has not been sent.", open: "Open email draft", download: "Download text draft", preview: "Inquiry preview", subject: "MIM manufacturing feasibility inquiry", fallback: "If no email app is configured, download the draft and email it to tanchinadd@gmail.com.", required: "Name, email and requirement are required." },
+  ja: { note: "相談内容をまとめた後、メールソフトから送信できます。図面はメールに添付してください。", ready: "相談内容の下書きを作成しました。まだ送信されていません。", open: "メールの下書きを開く", download: "下書きを保存", preview: "相談内容の確認", subject: "MIM製造可否のご相談", fallback: "メールソフトを設定していない場合は、下書きを保存し、tanchinadd@gmail.com 宛てにお送りください。", required: "氏名・メールアドレス・ご要望は必須です。" }
+}[lang];
 ---
 
 <section class="section contact-panel" id="contact-panel">
@@ -9,17 +14,19 @@ const text = ui[lang];
     <p class="eyebrow">{text.contactPanelEyebrow}</p>
     <h2>{copy[lang].contactTitle}</h2>
     <p>{text.contactPanelText}</p>
+    <p class="inquiry-note">{labels.note}</p>
   </div>
-  <form class="inquiry-form">
+  <form class="inquiry-form" data-inquiry-form data-subject={labels.subject} data-ready={labels.ready} data-field-labels={JSON.stringify([text.nameCompanyLabel, text.emailLabel, text.materialLabel, text.requirementLabel])}>
+    <p class="wide inquiry-required">{labels.required}</p>
     <label>
       <span>{text.nameCompanyLabel}</span>
-      <input type="text" name="name" />
+      <input type="text" name="name" autocomplete="name" maxlength="120" required />
     </label>
     <label>
       <span>{text.emailLabel}</span>
-      <input type="email" name="email" />
+      <input type="email" name="email" autocomplete="email" maxlength="254" required />
     </label>
-    <label>
+    <label class="wide">
       <span>{text.materialLabel}</span>
       <select name="material">
         <option>{text.notSureYet}</option>
@@ -28,10 +35,80 @@ const text = ui[lang];
     </label>
     <label class="wide">
       <span>{text.requirementLabel}</span>
-      <textarea name="message" rows="4"></textarea>
+      <textarea name="message" rows="4" maxlength="4000" required></textarea>
     </label>
-    <button class="button primary" type="button">
+    <button class="button primary wide" type="button" data-inquiry-submit disabled>
       {text.prepareInquiry}
     </button>
+    <noscript><p>{labels.fallback} <a href="mailto:tanchinadd@gmail.com">tanchinadd@gmail.com</a></p></noscript>
+    <div class="inquiry-result wide" data-inquiry-result hidden>
+      <p class="inquiry-feedback" role="status" tabindex="-1" data-inquiry-feedback></p>
+      <label>
+        <span>{labels.preview}</span>
+        <textarea class="inquiry-draft" data-inquiry-draft readonly rows="7"></textarea>
+      </label>
+      <div class="inquiry-result-actions">
+        <a class="button primary" data-inquiry-mail>{labels.open}</a>
+        <a class="text-link" data-inquiry-download download="tanchin-inquiry.txt">{labels.download}</a>
+      </div>
+      <p class="inquiry-note">{labels.fallback}</p>
+    </div>
   </form>
 </section>
+
+<script>
+  function setupInquiries() {
+    document.querySelectorAll<HTMLFormElement>("[data-inquiry-form]").forEach((form) => {
+      if (form.dataset.readyBound) return;
+      form.dataset.readyBound = "true";
+      const result = form.querySelector<HTMLElement>("[data-inquiry-result]");
+      const feedback = form.querySelector<HTMLElement>("[data-inquiry-feedback]");
+      const preview = form.querySelector<HTMLTextAreaElement>("[data-inquiry-draft]");
+      const mail = form.querySelector<HTMLAnchorElement>("[data-inquiry-mail]");
+      const download = form.querySelector<HTMLAnchorElement>("[data-inquiry-download]");
+      const submit = form.querySelector<HTMLButtonElement>("[data-inquiry-submit]");
+      if (!result || !feedback || !preview || !mail || !download || !submit) return;
+      submit.type = "submit";
+      submit.disabled = false;
+      let draftUrl: string | undefined;
+      const invalidate = () => {
+        result.hidden = true;
+        if (draftUrl) URL.revokeObjectURL(draftUrl);
+        draftUrl = undefined;
+        mail.removeAttribute("href");
+        download.removeAttribute("href");
+      };
+      form.addEventListener("input", invalidate);
+      form.addEventListener("change", invalidate);
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+        const values = new FormData(form);
+        const fields: string[] = JSON.parse(form.dataset.fieldLabels ?? "[]");
+        const body = ["name", "email", "material", "message"].map((key, index) => `${fields[index]}: ${String(values.get(key) ?? "").trim()}`).join("\n\n");
+        const subject = form.dataset.subject ?? "MIM inquiry";
+        invalidate();
+        preview.value = `${subject}\n\n${body}`;
+        mail.href = `mailto:tanchinadd@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        draftUrl = URL.createObjectURL(new Blob(["\uFEFF", preview.value], { type: "text/plain;charset=utf-8" }));
+        download.href = draftUrl;
+        result.hidden = false;
+        feedback.textContent = form.dataset.ready ?? "";
+        feedback.focus({ preventScroll: true });
+      });
+      window.addEventListener("pagehide", invalidate);
+    });
+  }
+  setupInquiries();
+  document.addEventListener("astro:page-load", setupInquiries);
+</script>
+
+<style>
+  .inquiry-note, .inquiry-required { font-size: 13px; line-height: 1.75; color: #5a6268; }
+  .inquiry-required { margin: 0; }
+  .inquiry-result[hidden] { display: none; }
+  .inquiry-result { padding-top: 24px; border-top: 1px solid #c8cdd0; }
+  .inquiry-feedback { margin: 0 0 18px; color: #171e21; font-weight: 600; }
+  .inquiry-draft { resize: vertical; white-space: pre-wrap; }
+  .inquiry-result-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; margin-top: 20px; }
+</style>

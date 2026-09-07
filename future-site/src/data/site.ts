@@ -155,7 +155,7 @@ export const ui = {
     materialLabel: "材料",
     notSureYet: "尚未確定",
     requirementLabel: "需求說明",
-    prepareInquiry: "送出詢問草稿",
+    prepareInquiry: "整理詢問內容",
     footerLine: "精密金屬射出成型與客製化金屬零件製造。",
     footerContact: "聯絡資訊",
     materialTraits: "材料特性",
@@ -183,7 +183,7 @@ export const ui = {
     materialLabel: "Material",
     notSureYet: "Not sure yet",
     requirementLabel: "Requirement",
-    prepareInquiry: "Prepare Inquiry",
+    prepareInquiry: "Prepare inquiry draft",
     footerLine: "Precision MIM manufacturing and customized metal components.",
     footerContact: "Contact",
     materialTraits: "Material Traits",
@@ -211,7 +211,7 @@ export const ui = {
     materialLabel: "材料",
     notSureYet: "未定",
     requirementLabel: "ご要望",
-    prepareInquiry: "相談内容を準備する",
+    prepareInquiry: "相談内容をまとめる",
     footerLine: "精密MIM部品・カスタム金属部品の製造。",
     footerContact: "お問い合わせ",
     materialTraits: "材料特性",
@@ -240,9 +240,9 @@ export const processSteps = [
     ja: ["射出成形", "専用金型で複雑形状の成形体（グリーン体）をつくり、形状自由度を確保します。"]
   },
   {
-    zh: ["脫脂與燒結", "去除結合劑後高溫燒結，使零件緻密化並取得金屬強度。"],
-    en: ["Debinding + Sintering", "Binder is removed and parts are sintered into dense metal components."],
-    ja: ["脱脂と焼結", "バインダーを除去した後に焼結し、緻密な金属部品へ仕上げます。"]
+    zh: ["脫脂與真空燒結", "去除結合劑後，於真空燒結爐中控制燒結條件，使零件緻密化並取得金屬強度。"],
+    en: ["Debinding + Vacuum Sintering", "After binder removal, controlled processing in a vacuum sintering furnace densifies the metal parts."],
+    ja: ["脱脂と真空焼結", "バインダーを除去した後、真空焼結炉で焼結条件を管理し、緻密な金属部品へ仕上げます。"]
   },
   {
     zh: ["後加工與檢驗", "依需求整形、加工、熱處理、表面處理並完成品質確認。"],

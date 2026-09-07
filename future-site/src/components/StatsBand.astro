@@ -1,13 +1,9 @@
 ---
-import { copy, stats, type Lang } from "../data/site";
+import { stats, type Lang } from "../data/site";
 const { lang } = Astro.props as { lang: Lang };
 ---
 
-<section class="section stats-section">
-  <div class="section-heading">
-    <p class="eyebrow">Manufacturing Signals</p>
-    <h2>{copy[lang].statsTitle}</h2>
-  </div>
+<section class="stats-band" aria-label={{ zh: "製造能力佐證", en: "Manufacturing proof points", ja: "製造能力の根拠" }[lang]}>
   <div class="stats-grid">
     {stats.map((item) => (
       <div class="stat-card">

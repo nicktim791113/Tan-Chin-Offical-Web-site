@@ -1,20 +1,58 @@
 ---
 import { copy, processSteps, type Lang } from "../data/site";
+import { Picture } from "astro:assets";
+import ResponsiveImage from "./ResponsiveImage.astro";
+import feedstock from "../assets/images/mim-feedstock.png";
+import { withBase } from "../utils/paths";
 const { lang } = Astro.props as { lang: Lang };
+const labels = {
+  zh: { title: "四大步驟，精準成就複雜零件", link: "了解完整製程", powder: "金屬粉末與混煉原料示意", injection: "震欣射出成型設備", vacuum: "震欣真空燒結爐，密閉爐體與圓形爐門", sample: "震欣精密金屬零件實物樣品", captions: ["原料示意", "射出成型設備", "真空燒結爐", "成品樣品"] },
+  en: { title: "Four steps. Precision in every part.", link: "Explore the MIM process", powder: "Illustration of metal powder and compounded feedstock", injection: "TANCHIN injection molding equipment", vacuum: "TANCHIN vacuum sintering furnace with a sealed chamber and circular door", sample: "An actual TANCHIN precision metal component", captions: ["Feedstock illustration", "Injection molding equipment", "Vacuum sintering furnace", "Finished sample"] },
+  ja: { title: "4つの工程で、複雑形状を精密に。", link: "MIMプロセスを詳しく見る", powder: "金属粉末と混練原料のイメージ", injection: "TANCHINの射出成形設備", vacuum: "密閉チャンバーと円形扉を備えたTANCHINの真空焼結炉", sample: "TANCHINの精密金属部品サンプル", captions: ["原料イメージ", "射出成形設備", "真空焼結炉", "製品サンプル"] }
+}[lang];
+const equipmentImages = ["", "/assets/equipment/injection-machine.jpg", "/assets/equipment/sintering-furnace.jpg", "/assets/products/chrome-mo-02.png"];
+const imageLabels = [labels.powder, labels.injection, labels.vacuum, labels.sample];
 ---
 
-<section class="section process-section">
-  <div class="section-heading">
-    <p class="eyebrow">Process Intelligence</p>
-    <h2>{copy[lang].processTitle}</h2>
+<section class="section process-section" aria-labelledby="process-heading">
+  <div class="section-heading split">
+    <div>
+      <p class="eyebrow">{copy[lang].processTitle}</p>
+      <h2 id="process-heading">{labels.title}</h2>
+    </div>
+    <a class="text-link" href={withBase(`/${lang}/mim-process/`)}>{labels.link}</a>
   </div>
-  <div class="process-rail">
+  <ol class="process-rail">
     {processSteps.map((step, index) => (
-      <article class="process-step">
-        <span>{String(index + 1).padStart(2, "0")}</span>
+      <li class="process-step">
+        <span class="process-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
         <h3>{step[lang][0]}</h3>
         <p>{step[lang][1]}</p>
-      </article>
+        <figure class="process-image">
+          {index === 0 ? (
+            <Picture src={feedstock} alt={labels.powder} widths={[240, 480]} sizes="(max-width: 600px) 80vw, (max-width: 960px) 40vw, 22vw" formats={["avif"]} fallbackFormat="webp" loading="lazy" />
+          ) : (
+            <ResponsiveImage src={equipmentImages[index]} alt={imageLabels[index]} widths={index < 3 ? [200, 350] : [256, 480]} sizes="(max-width: 600px) 80vw, (max-width: 960px) 40vw, 22vw" />
+          )}
+          <figcaption>{labels.captions[index]}</figcaption>
+        </figure>
+      </li>
     ))}
-  </div>
+  </ol>
 </section>
+
+<style>
+  .process-section { background: var(--paper, #f3f3f3); color: var(--ink, #111719); }
+  .process-rail { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; }
+  .process-step { display: flex; flex-direction: column; min-width: 0; padding: 0; border: 0; border-radius: 0; background: transparent; }
+  .process-number { display: flex; gap: 14px; align-items: center; color: #bf0010; font-size: 20px; font-weight: 600; }
+  .process-number::after { content: ""; flex: 1; height: 1px; background: #c9ced0; }
+  .process-step h3 { margin: 20px 0 12px; font-size: 20px; line-height: 1.45; font-weight: 600; }
+  .process-step p { margin: 0 0 24px; color: #51585d; font-size: 15px; line-height: 1.8; }
+  .process-image { margin: auto 0 0; background: #fff; }
+  .process-image :global(picture) { display: block; }
+  .process-image :global(img) { width: 100%; height: 174px; object-fit: contain; padding: 12px 16px; }
+  .process-image figcaption { padding: 0 14px 14px; color: #596166; text-align: center; font-size: 12px; }
+  @media (max-width: 960px) { .process-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 24px; } }
+  @media (max-width: 600px) { .process-rail { grid-template-columns: 1fr; gap: 32px; } .process-step h3 { margin-top: 16px; } .process-image :global(img) { height: 210px; } }
+</style>

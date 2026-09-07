@@ -1,503 +1,503 @@
 ---
+import { Picture } from "astro:assets";
+import heroPoster from "../assets/images/mim-powder-hero.png";
 import { copy, type Lang } from "../data/site";
 import { withBase } from "../utils/paths";
+
 const { lang } = Astro.props as { lang: Lang };
 const c = copy[lang];
-const sceneLabel = {
-  zh: "金屬製造概念的 3D 視覺輪播",
-  en: "3D visualization carousel inspired by metal manufacturing",
-  ja: "金属製造を表現した3Dビジュアル"
-}[lang];
-const telemetrySlides = {
-  zh: [
-    ["MIM 核心運行中", "掃描：98.7%", "合金資料就緒"],
-    ["合金流動分析中", "表面品質分析就緒", "精密 MIM 資料"]
-  ],
-  en: [
-    ["MIM CORE ONLINE", "SCAN: 98.7%", "ALLOY MATRIX READY"],
-    ["ALLOY FLOW ONLINE", "SURFACE PATH READY", "PRECISION MIM CORE"]
-  ],
-  ja: [
-    ["MIMコア稼働中", "スキャン：98.7％", "合金データ準備完了"],
-    ["合金流動解析中", "表面品質解析準備完了", "精密MIMデータ"]
-  ]
+const labels = {
+  zh: {
+    visual: "金屬粉末逐步形成精密 MIM 零件的製程視覺",
+    pause: "暫停",
+    replay: "重播",
+    paused: "製程動畫已暫停",
+    replayed: "從金屬粉末階段重新播放",
+    phases: ["金屬粉末", "射出成形", "真空燒結"]
+  },
+  en: {
+    visual: "Process view of metal powder forming into a precision MIM component",
+    pause: "Pause",
+    replay: "Replay",
+    paused: "Process animation paused",
+    replayed: "Process replayed from the powder phase",
+    phases: ["Powder", "Form", "Vacuum sintering"]
+  },
+  ja: {
+    visual: "金属粉末から精密 MIM 部品が形成される工程イメージ",
+    pause: "一時停止",
+    replay: "もう一度見る",
+    paused: "工程アニメーションを一時停止しました",
+    replayed: "金属粉末の段階から再生しました",
+    phases: ["金属粉末", "射出成形", "真空焼結"]
+  }
 }[lang];
 ---
 
-<section class="hero-section">
-  <div class="hero-bg" aria-hidden="true">
-    <div class="scan-grid"></div>
-    <div class="radar-ring radar-ring-a"></div>
-    <div class="radar-ring radar-ring-b"></div>
-  </div>
-
-  <div class="hero-copy">
-    <p class="eyebrow">{c.heroKicker}</p>
-    <h1>{c.heroTitle}</h1>
-    <p>{c.heroText}</p>
-    <div class="hero-actions">
-      <a class="button primary" href={withBase(`/${lang}/contact/`)}>{c.primaryCta}</a>
-      <a class="button ghost" href={withBase(`/${lang}/materials/`)}>{c.secondaryCta}</a>
-    </div>
-  </div>
-
-  <div class="hero-visual">
-    <div class="scene-frame" data-metal-scene data-scene-labels={JSON.stringify(telemetrySlides)}>
-      <canvas aria-label={sceneLabel}></canvas>
-      <div class="scene-carousel-dots" aria-hidden="true">
-        <span class="active" data-scene-dot></span>
-        <span data-scene-dot></span>
+<section
+  class="mim-hero is-static"
+  data-metal-hero
+  data-phase="2"
+  data-pause-label={labels.pause}
+  data-replay-label={labels.replay}
+  data-paused-message={labels.paused}
+  data-replayed-message={labels.replayed}
+>
+  <div class="mim-hero__inner">
+    <div class="mim-hero__copy">
+      <h1>{c.heroTitle}</h1>
+      <p>{c.heroText}</p>
+      <div class="mim-hero__actions">
+        <a class="mim-hero__cta mim-hero__cta--primary" href={withBase(`/${lang}/contact/`)}>{c.primaryCta}</a>
+        <a class="mim-hero__cta mim-hero__cta--secondary" href={withBase(`/${lang}/materials/`)}>{c.secondaryCta}</a>
       </div>
     </div>
-    <div class="telemetry">
-      {telemetrySlides[0].map((label) => <span>{label}</span>)}
-    </div>
+
+    <figure class="mim-hero__visual" aria-label={labels.visual}>
+      <div class="mim-hero__poster" data-metal-stage>
+        <Picture
+          src={heroPoster}
+          widths={[640, 960, 1440]}
+          sizes="(max-width: 760px) 100vw, (max-width: 1120px) 82vw, 52vw"
+          formats={["webp"]}
+          fallbackFormat="webp"
+          alt=""
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+        <canvas class="mim-hero__canvas" data-metal-canvas aria-hidden="true"></canvas>
+        <span class="mim-hero__datum" aria-hidden="true"></span>
+      </div>
+
+      <div class="mim-hero__controls" data-metal-controls>
+        <button class="mim-hero__playback" type="button" data-metal-playback aria-label={labels.pause}>
+          <svg class="mim-hero__pause-icon" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M4.25 2.5h2.1v11h-2.1zM9.65 2.5h2.1v11h-2.1z"></path>
+          </svg>
+          <svg class="mim-hero__replay-icon" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M13.25 3.1v3.7h-3.7"></path>
+            <path d="M12.2 6.1A5.15 5.15 0 1 0 12 11"></path>
+          </svg>
+          <span data-metal-playback-label>{labels.pause}</span>
+        </button>
+
+        <div class="mim-hero__phases" aria-label={labels.visual}>
+          {labels.phases.map((phase, index) => (
+            <button
+              class="mim-hero__phase"
+              type="button"
+              data-metal-phase={index}
+              aria-pressed={index === 0 ? "true" : "false"}
+            >
+              <span class="mim-hero__phase-index" aria-hidden="true">0{index + 1}</span>
+              <span>{phase}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      <span class="mim-hero__sr-only" data-metal-status aria-live="polite"></span>
+    </figure>
   </div>
 </section>
 
 <script>
-  import * as THREE from "three";
-
-  let disposeMetalScene: (() => void) | undefined;
-
-  function setupMetalScene() {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const mount = document.querySelector("[data-metal-scene]");
-    const canvas = mount?.querySelector("canvas");
-    const telemetryItems = Array.from(document.querySelectorAll(".telemetry span"));
-
-    if (!(mount instanceof HTMLElement) || !(canvas instanceof HTMLCanvasElement)) {
-      return;
-    }
-
-    if (mount.dataset.sceneReady === "true") {
-      return;
-    }
-
-    mount.dataset.sceneReady = "true";
-    const fallbackSlideLabels = [
-      ["MIM CORE ONLINE", "SCAN: 98.7%", "ALLOY MATRIX READY"],
-      ["ALLOY FLOW ONLINE", "SURFACE PATH READY", "PRECISION MIM CORE"]
-    ];
-    let slideLabels = fallbackSlideLabels;
-    if (mount.dataset.sceneLabels) {
-      try {
-        const parsedLabels: unknown = JSON.parse(mount.dataset.sceneLabels);
-        if (
-          Array.isArray(parsedLabels) &&
-          parsedLabels.length === 2 &&
-          parsedLabels.every((labels) => Array.isArray(labels) && labels.length === 3 && labels.every((label) => typeof label === "string"))
-        ) {
-          slideLabels = parsedLabels;
-        }
-      } catch {
-        slideLabels = fallbackSlideLabels;
-      }
-    }
-    const connection = navigator as Navigator & { connection?: { saveData?: boolean } };
-    const conserveResources = connection.connection?.saveData === true || window.matchMedia("(max-width: 820px), (pointer: coarse)").matches;
-    const quality = conserveResources
-      ? { pixelRatio: 1.2, torusSegments: 120, torusSides: 14, capsuleCapSegments: 4, capsuleRadialSegments: 8, tubeSegments: 72, tubeSides: 8, ringSegments: 120, pointCount: 80 }
-      : { pixelRatio: 1.8, torusSegments: 180, torusSides: 18, capsuleCapSegments: 6, capsuleRadialSegments: 12, tubeSegments: 120, tubeSides: 12, ringSegments: 180, pointCount: 130 };
-    const dots = Array.from(mount.querySelectorAll("[data-scene-dot]"));
-    const host = mount as HTMLElement;
-    const targetCanvas = canvas as HTMLCanvasElement;
-    const scene = new THREE.Scene();
-    const renderer = new THREE.WebGLRenderer({ canvas: targetCanvas, antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, quality.pixelRatio));
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.08;
-
-    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-    camera.position.set(0, 0.35, 6);
-
-    const sceneRoot = new THREE.Group();
-    scene.add(sceneRoot);
-
-    function material<T extends THREE.Material>(instance: T, opacity = 1) {
-      instance.transparent = opacity < 1;
-      instance.opacity = opacity;
-      instance.userData.baseOpacity = opacity;
-      return instance;
-    }
-
-    const metal = material(
-      new THREE.MeshStandardMaterial({
-        color: 0xbfc8d2,
-        metalness: 0.92,
-        roughness: 0.23
-      })
-    );
-    const red = material(
-      new THREE.MeshStandardMaterial({
-        color: 0xe40012,
-        metalness: 0.8,
-        roughness: 0.18,
-        emissive: 0x4a0008,
-        emissiveIntensity: 0.35
-      })
-    );
-    const cyan = material(
-      new THREE.MeshStandardMaterial({
-        color: 0x16d9ff,
-        metalness: 0.2,
-        roughness: 0.12,
-        emissive: 0x16d9ff,
-        emissiveIntensity: 0.65
-      })
-    );
-    const dimMetal = material(
-      new THREE.MeshPhysicalMaterial({
-        color: 0x8794a0,
-        metalness: 0.95,
-        roughness: 0.31,
-        clearcoat: 0.58,
-        clearcoatRoughness: 0.18
-      })
-    );
-
-    function makeTube(points: THREE.Vector3[], radius: number, tubeMaterial: THREE.Material) {
-      const curve = new THREE.CatmullRomCurve3(points);
-      const geometry = new THREE.TubeGeometry(curve, quality.tubeSegments, radius, quality.tubeSides, false);
-      geometry.computeVertexNormals();
-      return new THREE.Mesh(geometry, tubeMaterial);
-    }
-
-    function makeOriginalGroup() {
-      const group = new THREE.Group();
-
-      const torus = new THREE.Mesh(new THREE.TorusKnotGeometry(1.06, 0.22, quality.torusSegments, quality.torusSides), metal.clone());
-      torus.rotation.x = 0.6;
-      group.add(torus);
-
-      for (let i = 0; i < 18; i++) {
-        const capsuleMaterial = i % 5 === 0 ? red.clone() : metal.clone();
-        const capsule = new THREE.Mesh(new THREE.CapsuleGeometry(0.055, 0.55, quality.capsuleCapSegments, quality.capsuleRadialSegments), capsuleMaterial);
-        const angle = (i / 18) * Math.PI * 2;
-        capsule.position.set(Math.cos(angle) * 2.1, Math.sin(angle * 1.7) * 0.55, Math.sin(angle) * 1.1);
-        capsule.rotation.set(angle, angle * 0.7, angle * 1.4);
-        group.add(capsule);
-      }
-
-      const ring = new THREE.Mesh(new THREE.TorusGeometry(2.25, 0.01, 8, quality.ringSegments), cyan.clone());
-      ring.rotation.x = Math.PI / 2.15;
-      group.add(ring);
-      group.userData.ring = ring;
-      group.userData.kind = "original";
-      return group;
-    }
-
-    function makeFlowGroup() {
-      const group = new THREE.Group();
-      group.scale.setScalar(0.96);
-
-      const core = new THREE.Mesh(new THREE.TorusKnotGeometry(0.84, 0.16, quality.torusSegments, quality.torusSides), dimMetal.clone());
-      core.rotation.set(0.86, -0.2, 0.18);
-      group.add(core);
-
-      const outerRing = new THREE.Mesh(new THREE.TorusGeometry(2.05, 0.012, 8, quality.ringSegments), cyan.clone());
-      outerRing.rotation.x = Math.PI / 2.25;
-      outerRing.rotation.z = -0.34;
-      group.add(outerRing);
-
-      const sweep = makeTube(
-        [
-          new THREE.Vector3(-1.9, -0.55, -0.3),
-          new THREE.Vector3(-0.78, 0.18, 0.52),
-          new THREE.Vector3(0.36, 0.55, 0.18),
-          new THREE.Vector3(1.66, 0.16, -0.38)
-        ],
-        0.035,
-        metal.clone()
-      );
-      group.add(sweep);
-
-      const redSweep = makeTube(
-        [
-          new THREE.Vector3(-1.28, 0.72, 0.2),
-          new THREE.Vector3(-0.26, 0.44, -0.34),
-          new THREE.Vector3(0.88, -0.42, 0.2),
-          new THREE.Vector3(1.48, -0.86, 0.06)
-        ],
-        0.022,
-        red.clone()
-      );
-      group.add(redSweep);
-
-      for (let i = 0; i < 14; i++) {
-        const angle = (i / 14) * Math.PI * 2;
-        const bead = new THREE.Mesh(new THREE.CapsuleGeometry(0.046, 0.32, quality.capsuleCapSegments, quality.capsuleRadialSegments), i % 4 === 0 ? red.clone() : metal.clone());
-        bead.position.set(Math.cos(angle) * 1.42, Math.sin(angle * 1.35) * 0.48, Math.sin(angle) * 0.82);
-        bead.rotation.set(angle * 0.6, angle, angle * 1.2);
-        group.add(bead);
-      }
-
-      group.userData.ring = outerRing;
-      group.userData.core = core;
-      group.userData.kind = "flow";
-      return group;
-    }
-
-    const points = [];
-    for (let i = 0; i < quality.pointCount; i++) {
-      points.push((Math.random() - 0.5) * 5, (Math.random() - 0.5) * 3, (Math.random() - 0.5) * 4);
-    }
-    const pointGeometry = new THREE.BufferGeometry();
-    pointGeometry.setAttribute("position", new THREE.Float32BufferAttribute(points, 3));
-    const pointMaterial = new THREE.PointsMaterial({ color: 0x16d9ff, size: 0.018, transparent: true, opacity: 0.75 });
-    scene.add(new THREE.Points(pointGeometry, pointMaterial));
-
-    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-    const key = new THREE.DirectionalLight(0xffffff, 2.2);
-    key.position.set(3, 4, 5);
-    scene.add(key);
-    const rim = new THREE.PointLight(0x16d9ff, 16, 9);
-    rim.position.set(-2.4, 1.5, 2);
-    scene.add(rim);
-
-    const originalGroup = makeOriginalGroup();
-    const flowGroup = makeFlowGroup();
-    sceneRoot.add(originalGroup, flowGroup);
-
-    function collectMaterials(group: THREE.Group) {
-      const materials = new Set<THREE.Material>();
-      group.traverse((object) => {
-        const target = object as THREE.Object3D & { material?: THREE.Material | THREE.Material[] };
-        if (!target.material) {
-          return;
-        }
-        const list = Array.isArray(target.material) ? target.material : [target.material];
-        list.forEach((item) => {
-          item.transparent = true;
-          item.userData.baseOpacity = item.opacity ?? 1;
-          materials.add(item);
-        });
-      });
-      return Array.from(materials);
-    }
-
-    const slides = [
-      {
-        group: originalGroup,
-        labels: slideLabels[0],
-        materials: collectMaterials(originalGroup)
-      },
-      {
-        group: flowGroup,
-        labels: slideLabels[1],
-        materials: collectMaterials(flowGroup)
-      }
-    ];
-
-    function setSlideOpacity(index: number, opacity: number) {
-      const slide = slides[index];
-      slide.group.visible = opacity > 0.015;
-      slide.materials.forEach((item) => {
-        item.opacity = (item.userData.baseOpacity ?? 1) * opacity;
-      });
-    }
-
-    let currentCopy = -1;
-    function setSlideCopy(index: number) {
-      if (currentCopy === index) {
-        return;
-      }
-      currentCopy = index;
-      telemetryItems.forEach((item, itemIndex) => {
-        item.textContent = slides[index].labels[itemIndex] ?? "";
-      });
-      dots.forEach((dot, dotIndex) => {
-        dot.classList.toggle("active", dotIndex === index);
-      });
-    }
-
-    let disposed = false;
-    let inViewport = false;
-    let animationFrame: number | undefined;
-    let lastWidth = 0;
-    let lastHeight = 0;
-    let renderedStaticFrame = false;
-    let frame = 0;
-    let carouselElapsed = 0;
-    let lastTimestamp = 0;
-    const slideDuration = 6200;
-    const fadeDuration = 1100;
-
-    function canRender() {
-      return !disposed && inViewport && document.visibilityState === "visible";
-    }
-
-    function resizeIfNeeded() {
-      if (!canRender()) {
-        return false;
-      }
-      const rect = host.getBoundingClientRect();
-      const width = Math.round(rect.width);
-      const height = Math.round(rect.height);
-      if (width === 0 || height === 0 || (width === lastWidth && height === lastHeight)) {
-        return false;
-      }
-      lastWidth = width;
-      lastHeight = height;
-      renderer.setSize(width, height, false);
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-      return true;
-    }
-
-    function renderStaticFrame() {
-      if (!reduceMotion || renderedStaticFrame || !canRender()) {
-        return;
-      }
-      resizeIfNeeded();
-      setSlideOpacity(0, 1);
-      setSlideOpacity(1, 0);
-      setSlideCopy(0);
-      renderer.render(scene, camera);
-      renderedStaticFrame = true;
-    }
-
-    function pauseAnimation() {
-      if (animationFrame !== undefined) {
-        cancelAnimationFrame(animationFrame);
-        animationFrame = undefined;
-      }
-    }
-
-    function animate(timestamp: number) {
-      animationFrame = undefined;
-      if (!canRender()) {
-        return;
-      }
-
-      carouselElapsed += Math.max(0, Math.min(timestamp - lastTimestamp, 100));
-      lastTimestamp = timestamp;
-      frame += 0.01;
-
-      originalGroup.rotation.y += 0.006;
-      originalGroup.rotation.x = Math.sin(frame) * 0.06;
-      originalGroup.userData.ring.rotation.z += 0.01;
-
-      flowGroup.rotation.y -= 0.005;
-      flowGroup.rotation.x = Math.sin(frame * 1.2) * 0.07;
-      flowGroup.userData.ring.rotation.z -= 0.009;
-      flowGroup.userData.core.rotation.z += 0.004;
-
-      const cycle = slideDuration * slides.length;
-      const position = carouselElapsed % cycle;
-      const active = Math.floor(position / slideDuration);
-      const local = position - active * slideDuration;
-      const next = (active + 1) % slides.length;
-      const blend = local > slideDuration - fadeDuration ? (local - (slideDuration - fadeDuration)) / fadeDuration : 0;
-
-      slides.forEach((_, index) => setSlideOpacity(index, 0));
-      setSlideOpacity(active, 1 - blend);
-      setSlideOpacity(next, blend);
-      setSlideCopy(blend > 0.55 ? next : active);
-
-      renderer.render(scene, camera);
-      if (canRender()) {
-        animationFrame = requestAnimationFrame(animate);
-      }
-    }
-
-    function resumeAnimation() {
-      if (!canRender()) {
-        return;
-      }
-      if (reduceMotion) {
-        renderStaticFrame();
-        return;
-      }
-      resizeIfNeeded();
-      if (animationFrame === undefined) {
-        lastTimestamp = performance.now();
-        animationFrame = requestAnimationFrame(animate);
-      }
-    }
-
-    const intersectionObserver = new IntersectionObserver(
-      ([entry]) => {
-        inViewport = entry.isIntersecting;
-        if (inViewport) {
-          resumeAnimation();
-        } else {
-          pauseAnimation();
-        }
-      },
-      { threshold: 0.01 }
-    );
-    const resizeObserver = new ResizeObserver(() => {
-      if (canRender() && (!reduceMotion || !renderedStaticFrame)) {
-        resizeIfNeeded();
-      }
-    });
-    const onVisibilityChange = () => {
-      if (document.visibilityState === "visible") {
-        resumeAnimation();
-      } else {
-        pauseAnimation();
-      }
-    };
-    const rect = host.getBoundingClientRect();
-    inViewport = rect.bottom > 0 && rect.right > 0 && rect.top < window.innerHeight && rect.left < window.innerWidth;
-    intersectionObserver.observe(host);
-    resizeObserver.observe(host);
-    document.addEventListener("visibilitychange", onVisibilityChange);
-    resumeAnimation();
-
-    host.dataset.productModel = "restored-original-carousel";
-
-    return () => {
-      if (disposed) {
-        return;
-      }
-      disposed = true;
-      pauseAnimation();
-      intersectionObserver.disconnect();
-      resizeObserver.disconnect();
-      document.removeEventListener("visibilitychange", onVisibilityChange);
-
-      const materials = new Set<THREE.Material>();
-      scene.traverse((object) => {
-        const target = object as THREE.Object3D & { geometry?: THREE.BufferGeometry; material?: THREE.Material | THREE.Material[] };
-        target.geometry?.dispose();
-        const objectMaterials = target.material ? (Array.isArray(target.material) ? target.material : [target.material]) : [];
-        objectMaterials.forEach((item) => materials.add(item));
-      });
-      [metal, red, cyan, dimMetal, pointMaterial].forEach((item) => materials.add(item));
-      materials.forEach((item) => item.dispose());
-      renderer.renderLists.dispose();
-      renderer.dispose();
-      renderer.forceContextLoss();
-      scene.clear();
-      delete host.dataset.sceneReady;
-      delete host.dataset.productModel;
-    };
-  }
-
-  function initializeMetalScene() {
-    const mount = document.querySelector("[data-metal-scene]");
-    if (mount instanceof HTMLElement && mount.dataset.sceneReady === "true") {
-      return;
-    }
-    disposeMetalScene?.();
-    disposeMetalScene = setupMetalScene();
-  }
-
-  function teardownMetalScene() {
-    disposeMetalScene?.();
-    disposeMetalScene = undefined;
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initializeMetalScene, { once: true });
-  } else {
-    initializeMetalScene();
-  }
-  document.addEventListener("astro:page-load", initializeMetalScene);
-  document.addEventListener("astro:before-swap", teardownMetalScene);
-  window.addEventListener("pagehide", teardownMetalScene);
-  window.addEventListener("pageshow", initializeMetalScene);
+  import "../scripts/metal-hero";
 </script>
+
+<style>
+  .mim-hero {
+    --mim-accent: var(--color-accent, #e40012);
+    --mim-copy: #f4f5f3;
+    --mim-muted: #aeb5b8;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: 610px;
+    background: #0b1013;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .mim-hero::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(circle at 76% 48%, rgba(108, 119, 124, 0.1), transparent 30%), linear-gradient(90deg, rgba(11, 16, 19, 0.98) 0%, rgba(11, 16, 19, 0.92) 40%, rgba(11, 16, 19, 0.16) 68%, transparent 100%);
+    pointer-events: none;
+    content: "";
+  }
+
+  .mim-hero__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 72px);
+    align-items: center;
+    width: min(calc(100% - clamp(44px, 7.5vw, 112px)), var(--site-max-width, 1320px));
+    min-height: 610px;
+    margin: 0 auto;
+    padding: 48px 0 42px;
+  }
+
+  .mim-hero__copy {
+    position: relative;
+    z-index: 3;
+    max-width: 620px;
+  }
+
+  .mim-hero__copy h1 {
+    max-width: 10.5em;
+    margin: 0;
+    color: var(--mim-copy);
+    font-family: var(--font-display, var(--font-sans, inherit));
+    font-size: clamp(44px, 4.3vw, 68px);
+    font-weight: 760;
+    line-height: 1.08;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+
+  .mim-hero__copy > p {
+    max-width: 590px;
+    margin: 24px 0 0;
+    color: var(--mim-muted);
+    font-family: var(--font-sans, inherit);
+    font-size: clamp(15px, 1.2vw, 17px);
+    line-height: 1.85;
+    letter-spacing: 0.01em;
+  }
+
+  .mim-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .mim-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 22px;
+    color: var(--mim-copy);
+    font-family: var(--font-sans, inherit);
+    font-size: 14px;
+    font-weight: 650;
+    line-height: 1;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 0;
+    transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+  }
+
+  .mim-hero__cta:hover { transform: translateY(-2px); }
+
+  .mim-hero__cta:focus-visible,
+  .mim-hero__playback:focus-visible,
+  .mim-hero__phase:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
+  }
+
+  .mim-hero__cta--primary {
+    color: #ffffff;
+    border-color: var(--mim-accent);
+    background: var(--mim-accent);
+  }
+
+  .mim-hero__cta--primary:hover {
+    border-color: #ff2635;
+    background: #c90010;
+  }
+
+  .mim-hero__cta--secondary { background: rgba(255, 255, 255, 0.015); }
+
+  .mim-hero__cta--secondary:hover {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .mim-hero__visual {
+    position: relative;
+    z-index: 1;
+    mix-blend-mode: lighten;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .mim-hero__poster {
+    --mim-image-opacity: 0.88;
+    --mim-image-brightness: 0.9;
+    position: relative;
+    height: clamp(390px, 38vw, 520px);
+    overflow: visible;
+    transform: translate3d(var(--mim-parallax-x, 0), var(--mim-parallax-y, 0), 0);
+    transition: transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .mim-hero__poster :global(picture) {
+    position: absolute;
+    inset: -5% -7% -5% -13%;
+    display: block;
+  }
+
+  .mim-hero__poster :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    opacity: var(--mim-image-opacity);
+    filter: brightness(var(--mim-image-brightness)) contrast(1.08) saturate(0.82);
+    mix-blend-mode: screen;
+    transition: opacity 800ms ease, filter 800ms ease;
+  }
+
+  .mim-hero[data-phase="1"] .mim-hero__poster {
+    --mim-image-opacity: 0.95;
+    --mim-image-brightness: 0.96;
+  }
+
+  .mim-hero[data-phase="2"] .mim-hero__poster,
+  .mim-hero.is-static .mim-hero__poster {
+    --mim-image-opacity: 1;
+    --mim-image-brightness: 1;
+  }
+
+  .mim-hero__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .mim-hero__datum {
+    position: absolute;
+    top: 48%;
+    left: -7%;
+    width: 34%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(228, 0, 18, 0.92) 22%, rgba(228, 0, 18, 0.48));
+    transform: scaleX(0.58);
+    transform-origin: right center;
+    opacity: 0.78;
+    transition: transform 900ms ease, opacity 500ms ease;
+  }
+
+  .mim-hero__datum::after {
+    position: absolute;
+    top: 50%;
+    right: -3px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--mim-accent);
+    box-shadow: 0 0 12px rgba(228, 0, 18, 0.42);
+    transform: translateY(-50%);
+    content: "";
+  }
+
+  .mim-hero[data-phase="1"] .mim-hero__datum { transform: scaleX(0.82); }
+  .mim-hero[data-phase="2"] .mim-hero__datum { transform: scaleX(1); }
+
+  .mim-hero__controls {
+    position: relative;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    width: min(100%, 590px);
+    margin: -4px auto 0;
+    color: #d7dadb;
+    font-family: var(--font-sans, inherit);
+  }
+
+  .mim-hero__playback,
+  .mim-hero__phase {
+    padding: 0;
+    color: inherit;
+    font: inherit;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .mim-hero__playback {
+    display: inline-flex;
+    flex: 0 0 auto;
+    gap: 8px;
+    align-items: center;
+    min-height: 38px;
+    color: #f1f2f2;
+    font-size: 12px;
+    font-weight: 650;
+    letter-spacing: 0.04em;
+  }
+
+  .mim-hero__playback svg {
+    width: 15px;
+    height: 15px;
+    fill: currentColor;
+  }
+
+  .mim-hero__replay-icon {
+    display: none;
+    fill: none !important;
+    stroke: currentColor;
+    stroke-linecap: square;
+    stroke-linejoin: miter;
+    stroke-width: 1.4;
+  }
+
+  .mim-hero.is-paused .mim-hero__pause-icon { display: none; }
+  .mim-hero.is-paused .mim-hero__replay-icon { display: block; }
+
+  .mim-hero__phases {
+    display: grid;
+    flex: 1;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .mim-hero__phase {
+    position: relative;
+    min-height: 42px;
+    color: #8e979b;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: left;
+    border-top: 1px solid rgba(255, 255, 255, 0.24);
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+
+  :global(html[lang="en"]) .mim-hero__phase {
+    font-size: 10px;
+  }
+
+  .mim-hero__phase:hover {
+    color: #d7dadb;
+    border-color: rgba(255, 255, 255, 0.56);
+  }
+
+  .mim-hero__phase[aria-pressed="true"] {
+    color: #ffffff;
+    border-color: var(--mim-accent);
+  }
+
+  .mim-hero__phase-index {
+    display: inline-block;
+    margin-right: 6px;
+    color: var(--mim-accent);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+
+  .mim-hero__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .mim-hero.is-static .mim-hero__canvas,
+  .mim-hero.is-static .mim-hero__controls { display: none; }
+
+  @media (max-width: 1120px) {
+    .mim-hero__inner {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 20px;
+    }
+
+    .mim-hero__copy h1 { font-size: clamp(38px, 5vw, 54px); }
+    .mim-hero__poster { height: clamp(380px, 45vw, 500px); }
+  }
+
+  @media (max-width: 820px) {
+    .mim-hero { min-height: auto; }
+
+    .mim-hero::before {
+      background: linear-gradient(180deg, #0b1013 0%, rgba(11, 16, 19, 0.5) 62%, #0b1013 100%);
+    }
+
+    .mim-hero__inner {
+      grid-template-columns: 1fr;
+      gap: 18px;
+      width: min(calc(100% - 40px), 680px);
+      min-height: auto;
+      padding: 64px 0 34px;
+    }
+
+    .mim-hero__copy { max-width: 650px; }
+
+    .mim-hero__copy h1 {
+      max-width: 12em;
+      font-size: clamp(38px, 8.5vw, 54px);
+    }
+
+    .mim-hero__copy > p {
+      margin-top: 18px;
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .mim-hero__actions { margin-top: 26px; }
+    .mim-hero__poster { height: clamp(330px, 68vw, 470px); }
+    .mim-hero__poster :global(picture) { inset: -4% -12% -4% -12%; }
+    .mim-hero__controls { width: 100%; }
+  }
+
+  @media (max-width: 560px) {
+    .mim-hero__inner {
+      width: calc(100% - 36px);
+      padding-top: 48px;
+    }
+
+    .mim-hero__copy h1 {
+      max-width: 11em;
+      font-size: clamp(34px, 10.3vw, 44px);
+      letter-spacing: -0.035em;
+    }
+
+    .mim-hero__actions {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .mim-hero__poster {
+      height: min(96vw, 410px);
+      margin-inline: -18px;
+    }
+
+    .mim-hero__poster :global(picture) { inset: 0 -4%; }
+
+    .mim-hero__controls {
+      display: block;
+      margin-top: 4px;
+    }
+
+    .mim-hero__playback { margin-bottom: 8px; }
+    .mim-hero__phases { gap: 8px; }
+
+    .mim-hero__phase {
+      min-height: 46px;
+      font-size: 10px;
+    }
+
+    .mim-hero__phase-index {
+      display: block;
+      margin: 0 0 4px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mim-hero__poster,
+    .mim-hero__poster :global(img),
+    .mim-hero__datum,
+    .mim-hero__cta { transition: none; }
+  }
+</style>

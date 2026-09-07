@@ -26,7 +26,7 @@ const htmlLang = { zh: "zh-Hant", en: "en", ja: "ja" }[lang];
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#07090D" />
+    <meta name="theme-color" content="#0b1013" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -37,7 +37,10 @@ const htmlLang = { zh: "zh-Hant", en: "en", ja: "ja" }[lang];
   <body>
     <div class="site-shell">
       <Header lang={lang} active={active} />
-      <slot />
+      <a class="skip-link" href="#main-content">{lang === "zh" ? "跳至主要內容" : lang === "ja" ? "メインコンテンツへ" : "Skip to main content"}</a>
+      <main id="main-content" tabindex="-1">
+        <slot />
+      </main>
       <Footer lang={lang} />
     </div>
   </body>

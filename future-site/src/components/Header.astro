@@ -27,12 +27,19 @@ const languageSelectionLabel = { zh: "選擇語言", en: "Language selection", j
     </span>
   </a>
 
-  <button class="nav-toggle" type="button" aria-label={navigationLabel} aria-expanded="false" data-nav-toggle>
+  <button
+    class="nav-toggle"
+    type="button"
+    aria-label={navigationLabel}
+    aria-expanded="false"
+    aria-controls="site-navigation"
+    data-nav-toggle
+  >
     <span></span>
     <span></span>
   </button>
 
-  <nav class="site-nav" data-site-nav>
+  <nav class="site-nav" id="site-navigation" aria-label={navigationLabel} data-site-nav>
     {nav[lang].map(([key, label, href]) => (
       <a class:list={{ active: active === key }} href={withBase(href)}>{label}</a>
     ))}
@@ -53,6 +60,25 @@ const languageSelectionLabel = { zh: "選擇語言", en: "Language selection", j
       </div>
     </details>
   </nav>
+
+  <noscript>
+    <style>
+      @media (max-width: 1180px) {
+        .site-header { flex-wrap: wrap; }
+        .site-header .nav-toggle { display: none; }
+        .site-header .site-nav {
+          position: static;
+          display: grid;
+          width: 100%;
+          max-block-size: none;
+          padding-bottom: 12px;
+          overflow: visible;
+        }
+        .site-header .language-menu,
+        .site-header .language-menu[open] .language-options { position: static; }
+      }
+    </style>
+  </noscript>
 </header>
 
 <script>
@@ -69,10 +95,76 @@ const languageSelectionLabel = { zh: "選擇語言", en: "Language selection", j
     }
 
     toggle.dataset.ready = "true";
+    const languageMenu = nav.querySelector(".language-menu");
+    const languageToggle = languageMenu?.querySelector("summary");
+
+    const closeNavigation = (restoreFocus = false) => {
+      const wasOpen = nav.classList.contains("open");
+      const wasLanguageOpen = languageMenu instanceof HTMLDetailsElement && languageMenu.open;
+      nav.classList.remove("open");
+      toggle.classList.remove("open");
+      toggle.setAttribute("aria-expanded", "false");
+      if (languageMenu instanceof HTMLDetailsElement) {
+        languageMenu.open = false;
+      }
+      if (restoreFocus) {
+        if (wasOpen) {
+          toggle.focus();
+        } else if (wasLanguageOpen && languageToggle instanceof HTMLElement) {
+          languageToggle.focus();
+        }
+      }
+    };
+
+    const openNavigation = () => {
+      nav.classList.add("open");
+      toggle.classList.add("open");
+      toggle.setAttribute("aria-expanded", "true");
+      window.requestAnimationFrame(() => nav.querySelector<HTMLAnchorElement>("a")?.focus());
+    };
+
     toggle.addEventListener("click", () => {
-      const isOpen = nav.classList.toggle("open");
-      toggle.classList.toggle("open", isOpen);
-      toggle.setAttribute("aria-expanded", String(isOpen));
+      if (nav.classList.contains("open")) {
+        closeNavigation();
+      } else {
+        openNavigation();
+      }
+    });
+
+    nav.addEventListener("click", (event) => {
+      if (event.target instanceof HTMLAnchorElement) {
+        closeNavigation();
+      }
+    });
+
+    document.addEventListener("pointerdown", (event) => {
+      const target = event.target;
+      if (target instanceof Node && !nav.contains(target) && !toggle.contains(target)) {
+        closeNavigation();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") {
+        return;
+      }
+
+      if (languageMenu instanceof HTMLDetailsElement && languageMenu.open) {
+        languageMenu.open = false;
+        if (languageToggle instanceof HTMLElement) {
+          languageToggle.focus();
+        }
+        return;
+      }
+
+      closeNavigation(true);
+    });
+
+    const desktopMedia = window.matchMedia("(min-width: 1181px)");
+    desktopMedia.addEventListener("change", (event) => {
+      if (event.matches) {
+        closeNavigation();
+      }
     });
   }
 
