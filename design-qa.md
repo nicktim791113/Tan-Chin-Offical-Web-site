@@ -1,4 +1,4 @@
-# v0.6.0 Design QA
+# v0.6.0 / v0.6.1 Design QA
 
 Date: 2026-09-07
 
@@ -27,6 +27,7 @@ Evidence files are local and git-ignored under `_verification/v0.6.0/`:
 - `desktop-inquiry.png`: prepared draft, visible status and literal HTML-looking input displayed safely as text.
 - `mobile-zh-final.png`, `mobile-ja-hero.png`, `mobile-ja-process.png`: mobile typography, CTA stacking, product crop and actual vacuum furnace.
 - `desktop-ja-hss.png`: Japanese HSS material detail route.
+- `contrast-patch-final.png`: v0.6.1 accent-color follow-up at the default in-app viewport; browser computed colors confirm the light/dark text accents and unchanged brand-red primary button.
 
 The full-height viewport capture experiment is not used as full-page evidence: the screenshot surface cropped it. Review uses the saved viewport captures above, rather than asserting a full-page screenshot was obtained.
 
@@ -51,6 +52,7 @@ The reference and final implementation screenshots were opened together for visu
 - P2 resolved: 320px layout had 15px overflow from body's minimum width plus Windows scrollbar; final client width, body width and scroll width all measured 305px.
 - P2 resolved: excessive first-pass heading/section sizes and contact single-character orphan; corrected and recaptured.
 - P2 resolved: image fallback was generating large PNGs; hero now uses responsive WebP including fallback.
+- P2 resolved in v0.6.1: small brand-red text measured 3.92:1 on graphite and 4.39:1 on paper. Text accents now measure 6.51:1 and 5.97:1 respectively, while the brand logo and default primary buttons keep the original red. Primary hover is darker to retain readable white text.
 - P3 observation: some historical dark-metal product photos are naturally low-lit. Kept genuine source imagery rather than inventing replacement products; future source photography can improve consistency.
 
 No open P0/P1/P2 issues identified within the tested scope.
@@ -60,7 +62,7 @@ No open P0/P1/P2 issues identified within the tested scope.
 - `npm run check`: 59 files, 0 errors, 0 warnings, 0 hints.
 - Root-path build: 57 pages; GitHub Pages base-path build: 57 pages. No Three.js runtime chunk emitted.
 - Static root-build audit: 1,380 hrefs, 250 src attributes, 1,854 srcset entries and 54 hash references; 0 missing local paths or anchors. External/mailto/tel/data references excluded.
-- Four package/lockfile versions and lockfile root/workspace versions agree on 0.6.0.
+- Four package/lockfile versions and lockfile root/workspace versions agreed on 0.6.0 for the initial static audit; the contrast-only patch synchronously advances them to 0.6.1.
 - Browser: Chinese/English/Japanese homepages; Japanese process and HSS material pages; desktop 1440px and mobile 390px/320px. Visible images loaded, no page-width overflow after correction, no captured console errors/warnings on the final preview.
 - Browser interaction: phase selection updates pressed state and pauses; sample next control moves the rail and enables previous; mobile navigation opens with focus, nested Esc works, desktop breakpoint clears mobile open state, language link reaches Japanese.
 - Inquiry: required name/email/requirement fields, local draft preview with explicit not-sent status, encoded mailto and Blob download link; editing invalidates old draft and links. Test input containing `<script>` remains literal textarea text. No real email was sent.
@@ -70,6 +72,8 @@ No open P0/P1/P2 issues identified within the tested scope.
 ## Limits
 
 Canvas fallback tests use Node VM mocks, not real-device media emulation. Safari/iOS hardware, real Save-Data connections and production Core Web Vitals were not measured. No backend email, file-upload service or automatic inquiry sending is implemented or claimed. Extremely long mailto drafts may need the provided text-download fallback.
+
+The npm backup wrapper could not load `Get-FileHash` in this host's Windows PowerShell environment. The same tracked-file backup script was successfully run directly in PowerShell 7.6.5, with 310 ZIP entries and zero SHA-256 mismatches. This is an environment-specific invocation fallback, not a website build failure.
 
 final result: passed
 
