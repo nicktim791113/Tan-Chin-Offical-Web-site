@@ -1,3 +1,69 @@
+# v0.7.1 Approved Hero Revision QA
+
+Date: 2026-09-09
+
+## Source truth and scope
+
+The user approved the displayed three-stage set and explicitly authorized implementation and production deployment. This is a scoped asset replacement in the existing Astro site, not a new layout or physical manufacturing simulation.
+
+Source visual truth (all 1374×1145):
+
+- Stage 0: `C:/Users/nickt/.codex/generated_images/01a07ad4-9388-7740-9687-1e5751fa79b8/exec-bd99f963-307e-4b3f-80cc-aa360a289a9b.png`, copied to `future-site/src/assets/images/mim-powder-aggregation.png`.
+- Stage 1: unchanged `D:/Developer/Tan-Chin-Offical-Web-site/future-site/src/assets/images/mim-powder-stage.png`.
+- Stage 2: `C:/Users/nickt/.codex/generated_images/01a07ad3-f0ee-7193-bd39-b249482d1a2c/exec-52f3f0ab-08cb-4bfd-a245-9487070ae062.png`, copied to `future-site/src/assets/images/mim-vacuum-transition.png`.
+
+Both new PNGs match their approved source SHA-256 byte-for-byte. All previous source images remain. Only the imports and stage-source mapping in `MetalHero.astro` changed; JavaScript, CSS, labels, page layout, equipment imagery and dependencies are unchanged. The shared component applies to all three languages. SSR and manual-only fallback now use the approved stage-2 particle-to-dense-metal image.
+
+## Browser evidence and comparison
+
+Flow under test: homepage loads → choose each stage → corresponding decoded image and pressed state appear; manual selection pauses; replay restarts at powder; keyboard navigation changes the selected stage.
+
+Implementation: `http://127.0.0.1:4322/zh/`, `/en/`, `/ja/`, served from the root-path production build. Browser: Codex IAB through CUA and its supported locator/DOM APIs; no external Playwright fallback or new dependencies.
+
+Evidence directory: `C:/Users/nickt/.codex/tmp/tanchin-v0.7.1-qa/`.
+
+| CSS viewport / state | Implementation screenshots | Actual capture size |
+| --- | --- | --- |
+| 1440×900, Chinese, scroll 0, paused stages 0/1/2 | `desktop-stage-0.jpg`, `desktop-stage-1.jpg`, `desktop-stage-2.jpg` | 1425×891 |
+| 1440×900, old production stage 2, scroll 0 | `desktop-before.jpg` | 1425×891 |
+| 825×787, English, paused stage 2 | `tablet-en-stage-2.jpg` | 810×773 |
+| 390×844, Chinese first viewport and paused stages 0/1/2 | `mobile-first.jpg`, `mobile-stage-0.jpg`, `mobile-stage-1.jpg`, `mobile-stage-2.jpg` | 375×812 |
+| 320×568, Japanese first viewport and paused stage 2 | `narrow-ja-first.jpg`, `narrow-ja-stage-2.jpg` | 305×541 |
+
+Captured devicePixelRatio is 1. The host exports a smaller client screenshot than the requested CSS viewport; the source reference is an individual bitmap, not a page mock. Comparison therefore uses matched desktop before/after captures and the source asset's aspect ratio within the image region, not a pixel-error metric between unlike canvas sizes. Responsive WebP variants are 640×533, 960×800 and 1374×1145. No source retouching or creative cropping was performed.
+
+The main reviewer opened each approved source together with its corresponding desktop implementation in the same comparison input. The old production screenshot was also paired with the new stage-2 screen to review surrounding layout. An independent reviewer repeated the three source/render comparisons and inspected all mobile screenshots. The hero region is clearly visible in the desktop captures and the mobile stage captures; no additional focused crop was needed. Initial automation captures taken during crossfade or scrolled away from the top were replaced with settled, matching-state captures; those capture corrections did not require a website change.
+
+| Required fidelity surface | Result |
+| --- | --- |
+| Fonts / typography | Logo, heading, body, CTA and phase-label hierarchy and wrapping retain the existing design; no unintended font change. English and Japanese remain readable. |
+| Spacing / layout rhythm | Existing copy/image grid, CTA spacing and proof strip retained. No page-width overflow at any tested viewport. Mobile first-screen content continues naturally below the fold; separate stage captures show the full component and reachable controls. |
+| Colors / tokens | Graphite background, brand red, active-state colors and existing margin mask retained; no new color overlay or material tint. |
+| Image quality / fidelity | Correct source in each stage; same six-post component, central hole, base and camera. Stage 0 has dispersed-to-aggregated particles; stage 1 uses the exact previous powder source; stage 2 has particle geometry on the left and dense metal on the right. Component is not clipped. Responsive scaling makes fine particles softer, an accepted display difference. |
+| Copy / content | Homepage copy, three-language stage labels, routes and equipment descriptions are unchanged. No new manufacturing claims. |
+
+## Verification results
+
+- Page identity, meaningful nonblank content, absence of framework error overlays, and captured relevant console warnings/errors passed on all three language homepages.
+- All three phase buttons produced the expected distinct WebP URL and matching `aria-pressed` state in Chinese, English and Japanese; manual selection paused playback.
+- Home selected stage 0; ArrowRight selected stage 1; Replay returned to stage 0 with playback active and the Pause label; Pause stopped playback and restored the Replay label.
+- Astro check: 59 files, 0 errors/warnings/hints. Root-path and GitHub Pages builds: 57 pages each. Both scans found 0 missing paths, hashes or stage metadata resources (1,380 hrefs, 250 src attributes, 399 srcset attributes, 54 hash references per build).
+- Source-level asynchronous lifecycle regression: 9/9 pass against the current component and TypeScript, including decode delays/errors, deduplication, retry, stale requests, manual-only modes and page lifecycle.
+- Nine Hero WebP variants validated. 960w powder/form/vacuum: 139,992 / 120,854 / 80,540 bytes. Hero JS remains 7,105 bytes, gzip 3,079 bytes, with the same emitted script hash as v0.7.0. Granular imagery is larger than the previous solid image; no claim of lower image transfer or improved real-user Core Web Vitals is made.
+- Backup: `_backups/tan-chin-core-20260909-065408-203.zip`; 316 tracked files / 316 ZIP entries, SHA-256 mismatches 0, 437.51 MiB. New images were included in the tracked backup manifest.
+
+External machine-readable evidence: `root-dist-scan.json`, `pages-dist-scan.json`, `root-hero-build-artifacts.json`, `pages-hero-build-artifacts.json`, `pages-hero-stage-order.json`, `source-regression-results.md` in the evidence directory above.
+
+## Findings, history and limits
+
+No actionable P0/P1/P2 findings in this scoped revision. The first settled visual comparison passed and required no visual-code correction. The independent review also found no P0/P1/P2 blocker. Intentional differences are the three approved material states, normal responsive scaling and the existing edge fade.
+
+Reduced-motion, Save-Data, missing Canvas and load-failure behavior are covered by source-level mocks, not new browser preference emulation. Safari/Firefox, physical mobile devices, slow-network measurements and production Core Web Vitals were not tested. Untouched pages and form submission are outside this image-replacement smoke test. Deployment is checked separately after pushing this verified release.
+
+final result: passed
+
+---
+
 # v0.7.0 Image Integration QA
 
 Date: 2026-09-08

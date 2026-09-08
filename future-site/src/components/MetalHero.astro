@@ -1,8 +1,8 @@
 ---
 import { getImage } from "astro:assets";
-import heroPoster from "../assets/images/mim-powder-hero.png";
-import powderStage from "../assets/images/mim-powder-stage.png";
-import sinteredStage from "../assets/images/mim-sintered-stage.png";
+import powderStage from "../assets/images/mim-powder-aggregation.png";
+import formedStage from "../assets/images/mim-powder-stage.png";
+import sinteredStage from "../assets/images/mim-vacuum-transition.png";
 import { copy, type Lang } from "../data/site";
 import { withBase } from "../utils/paths";
 
@@ -22,7 +22,7 @@ const makeStageSource = async (src: typeof powderStage) => {
 };
 const stageSources = await Promise.all([
   makeStageSource(powderStage),
-  makeStageSource(heroPoster),
+  makeStageSource(formedStage),
   makeStageSource(sinteredStage)
 ]);
 const labels = {
