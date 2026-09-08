@@ -479,16 +479,16 @@ export const buyerSignals = [
 
 export const equipment = [
   {
-    image: "/assets/equipment/injection-machine.jpg",
-    zh: ["射出成型設備", "使用穩定射出設備與客製模具，形成複雜幾何毛胚。"],
-    en: ["Injection Molding Equipment", "Stable injection equipment and custom tooling form complex green parts."],
-    ja: ["射出成形設備", "射出成形設備と専用金型で複雑形状の成形体（グリーン体）をつくります。"]
+    image: "/assets/equipment/injection-machine-illustration.png",
+    zh: ["射出成型設備示意", "使用穩定射出設備與客製模具，形成複雜幾何毛胚。"],
+    en: ["Injection Molding Equipment Illustration", "Stable injection equipment and custom tooling form complex green parts."],
+    ja: ["射出成形設備イメージ", "射出成形設備と専用金型で複雑形状の成形体（グリーン体）をつくります。"]
   },
   {
-    image: "/assets/equipment/sintering-furnace.jpg",
-    zh: ["真空燒結爐", "透過燒結條件控制，使零件緻密化並取得金屬強度。"],
-    en: ["Vacuum Sintering Furnace", "Sintering control densifies parts and delivers metal strength."],
-    ja: ["真空焼結炉", "焼結条件の管理により部品を緻密化し、所定の機械的特性を得ます。"]
+    image: "/assets/equipment/vacuum-sintering-illustration.png",
+    zh: ["真空燒結設備示意", "透過燒結條件控制，使零件緻密化並取得金屬強度。"],
+    en: ["Vacuum Sintering Equipment Illustration", "Sintering control densifies parts and delivers metal strength."],
+    ja: ["真空焼結設備イメージ", "焼結条件の管理により部品を緻密化し、所定の機械的特性を得ます。"]
   }
 ];
 

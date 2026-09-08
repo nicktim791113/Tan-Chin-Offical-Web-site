@@ -1,11 +1,30 @@
 ---
-import { Picture } from "astro:assets";
+import { getImage } from "astro:assets";
 import heroPoster from "../assets/images/mim-powder-hero.png";
+import powderStage from "../assets/images/mim-powder-stage.png";
+import sinteredStage from "../assets/images/mim-sintered-stage.png";
 import { copy, type Lang } from "../data/site";
 import { withBase } from "../utils/paths";
 
 const { lang } = Astro.props as { lang: Lang };
 const c = copy[lang];
+const stageWidths = [640, 960, 1374];
+const stageSizes = "(max-width: 760px) 100vw, (max-width: 1120px) 82vw, 52vw";
+const makeStageSource = async (src: typeof powderStage) => {
+  const variants = await Promise.all(stageWidths.map((width) => getImage({ src, width, format: "webp" })));
+  return {
+    src: variants.at(-1)?.src ?? variants[0].src,
+    srcset: variants.map((variant, index) => `${variant.src} ${stageWidths[index]}w`).join(", "),
+    sizes: stageSizes,
+    width: src.width,
+    height: src.height
+  };
+};
+const stageSources = await Promise.all([
+  makeStageSource(powderStage),
+  makeStageSource(heroPoster),
+  makeStageSource(sinteredStage)
+]);
 const labels = {
   zh: {
     visual: "金屬粉末逐步形成精密 MIM 零件的製程視覺",
@@ -42,6 +61,7 @@ const labels = {
   data-replay-label={labels.replay}
   data-paused-message={labels.paused}
   data-replayed-message={labels.replayed}
+  data-metal-sources={JSON.stringify(stageSources)}
 >
   <div class="mim-hero__inner">
     <div class="mim-hero__copy">
@@ -55,17 +75,21 @@ const labels = {
 
     <figure class="mim-hero__visual" aria-label={labels.visual}>
       <div class="mim-hero__poster" data-metal-stage>
-        <Picture
-          src={heroPoster}
-          widths={[640, 960, 1440]}
-          sizes="(max-width: 760px) 100vw, (max-width: 1120px) 82vw, 52vw"
-          formats={["webp"]}
-          fallbackFormat="webp"
-          alt=""
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-        />
+        <div class="mim-hero__media is-active" data-metal-image-slot aria-hidden="true">
+          <img
+            src={stageSources[2].src}
+            srcset={stageSources[2].srcset}
+            sizes={stageSizes}
+            width={sinteredStage.width}
+            height={sinteredStage.height}
+            alt=""
+            loading="eager"
+            fetchpriority="auto"
+            decoding="async"
+            data-metal-stage-image="2"
+          />
+        </div>
+        <div class="mim-hero__media" data-metal-image-slot aria-hidden="true"></div>
         <canvas class="mim-hero__canvas" data-metal-canvas aria-hidden="true"></canvas>
         <span class="mim-hero__datum" aria-hidden="true"></span>
       </div>
@@ -88,7 +112,7 @@ const labels = {
               class="mim-hero__phase"
               type="button"
               data-metal-phase={index}
-              aria-pressed={index === 0 ? "true" : "false"}
+              aria-pressed={index === 2 ? "true" : "false"}
             >
               <span class="mim-hero__phase-index" aria-hidden="true">0{index + 1}</span>
               <span>{phase}</span>
@@ -221,14 +245,11 @@ const labels = {
   .mim-hero__visual {
     position: relative;
     z-index: 1;
-    mix-blend-mode: lighten;
     min-width: 0;
     margin: 0;
   }
 
   .mim-hero__poster {
-    --mim-image-opacity: 0.88;
-    --mim-image-brightness: 0.9;
     position: relative;
     height: clamp(390px, 38vw, 520px);
     overflow: visible;
@@ -236,32 +257,38 @@ const labels = {
     transition: transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
   }
 
-  .mim-hero__poster :global(picture) {
+  .mim-hero__media {
     position: absolute;
     inset: -5% -7% -5% -13%;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 760ms ease, visibility 0s linear 760ms;
   }
 
-  .mim-hero__poster :global(img) {
-    width: 100%;
-    height: 100%;
+  .mim-hero__media :global(img) {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
     object-fit: contain;
     object-position: center;
-    opacity: var(--mim-image-opacity);
-    filter: brightness(var(--mim-image-brightness)) contrast(1.08) saturate(0.82);
-    mix-blend-mode: screen;
-    transition: opacity 800ms ease, filter 800ms ease;
+    /* Fade only the bitmap margins, including when its frame is letterboxed. */
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent), linear-gradient(0deg, transparent, #000 5%, #000 95%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent), linear-gradient(0deg, transparent, #000 5%, #000 95%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
   }
 
-  .mim-hero[data-phase="1"] .mim-hero__poster {
-    --mim-image-opacity: 0.95;
-    --mim-image-brightness: 0.96;
-  }
-
-  .mim-hero[data-phase="2"] .mim-hero__poster,
-  .mim-hero.is-static .mim-hero__poster {
-    --mim-image-opacity: 1;
-    --mim-image-brightness: 1;
+  .mim-hero__media.is-active {
+    z-index: 2;
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s;
   }
 
   .mim-hero__canvas {
@@ -269,6 +296,7 @@ const labels = {
     inset: 0;
     width: 100%;
     height: 100%;
+    z-index: 3;
     pointer-events: none;
   }
 
@@ -278,6 +306,7 @@ const labels = {
     left: -7%;
     width: 34%;
     height: 1px;
+    z-index: 4;
     background: linear-gradient(90deg, transparent, rgba(228, 0, 18, 0.92) 22%, rgba(228, 0, 18, 0.48));
     transform: scaleX(0.58);
     transform-origin: right center;
@@ -407,6 +436,9 @@ const labels = {
   .mim-hero.is-static .mim-hero__canvas,
   .mim-hero.is-static .mim-hero__controls { display: none; }
 
+  .mim-hero.is-manual .mim-hero__canvas,
+  .mim-hero.is-manual .mim-hero__playback { display: none; }
+
   @media (max-width: 1120px) {
     .mim-hero__inner {
       grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
@@ -447,7 +479,7 @@ const labels = {
 
     .mim-hero__actions { margin-top: 26px; }
     .mim-hero__poster { height: clamp(330px, 68vw, 470px); }
-    .mim-hero__poster :global(picture) { inset: -4% -12% -4% -12%; }
+    .mim-hero__media { inset: -4% -12% -4% -12%; }
     .mim-hero__controls { width: 100%; }
   }
 
@@ -473,7 +505,7 @@ const labels = {
       margin-inline: -18px;
     }
 
-    .mim-hero__poster :global(picture) { inset: 0 -4%; }
+    .mim-hero__media { inset: 0 -4%; }
 
     .mim-hero__controls {
       display: block;
@@ -496,7 +528,7 @@ const labels = {
 
   @media (prefers-reduced-motion: reduce) {
     .mim-hero__poster,
-    .mim-hero__poster :global(img),
+    .mim-hero__media,
     .mim-hero__datum,
     .mim-hero__cta { transition: none; }
   }

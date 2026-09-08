@@ -1,3 +1,48 @@
+# v0.7.0 Image Integration QA
+
+Date: 2026-09-08
+
+## Approved scope and assets
+
+The user approved the four image previews and authorized implementation. The original `mim-powder-hero.png` remains the middle forming concept. Approved PNGs were copied byte-for-byte into `future-site/src/assets/images/`:
+
+- `mim-powder-stage.png`: particle-formation concept, 1374×1145.
+- `mim-sintered-stage.png`: complete six-post component, 1374×1145.
+- `injection-machine-illustration.png`: generic equipment illustration, 1536×1024.
+- `vacuum-sintering-illustration.png`: sealed vacuum-furnace illustration, 1536×1024; not a continuous furnace.
+
+The originals and optimized browser images were inspected with `view_image`. No raster content was regenerated, retouched, or cropped. The two equipment illustrations are labeled as illustrations in Chinese, English, and Japanese; authentic old JPGs and their public URLs remain available. These assets are process/design concepts, not photographs of the company's equipment or a physical simulation.
+
+## Fidelity and interaction review
+
+Target flow: homepage loads → choose powder / forming / vacuum sintering → a decoded, distinct image is displayed with matching phase state; manual choice pauses playback; replay restarts at powder.
+
+Browser: Codex IAB via CUA, using built output at `http://127.0.0.1:4322/`. No external Playwright fallback or added dependencies. Viewports checked: 1440×900 desktop, 910×787 matching the user's browser annotations, 390×844 mobile, and 320×568 narrow layout. Windows scrollbar/client capture dimensions differ slightly from layout viewport dimensions. Assets retain their native aspect ratios inside the existing responsive composition; the reference is an asset, not a full-page mockup.
+
+| Comparison point | Result |
+| --- | --- |
+| Component geometry | Same six-post base, central hole, camera direction and silver/graphite palette; original middle image retained. |
+| Image placement | Existing media frame and layout retained; full component and entire equipment visible with contain sizing. |
+| Background and edges | Corrected stacking-layer dark rectangle. Final neutral linear masks fade only the bitmap's outer 5% margins; no color overlay or new tint. |
+| Copy and typography | Hero/nav/CTA/proof copy and typography unchanged. Intentional text changes are equipment illustration labels only. |
+| Responsive layout | No horizontal overflow at the four checked widths; phase controls remain reachable. |
+| Interaction | Distinct URLs and active images verified for all three phases; manual selection, Home/ArrowRight keyboard navigation, pause and replay states verified. |
+
+Page identity, meaningful content, absence of framework overlays, clean relevant browser error/warning logs, loaded equipment AVIFs and real image state changes passed. No material mismatch remains within this image-integration scope.
+
+Local evidence and test scripts are outside the repository at `C:/Users/nickt/.codex/tmp/tanchin-v0.7.0-qa/`: `desktop-sintered-final.png`, `mobile-sintered-final.png`, `mobile-ja-final.png`, `tablet-en-form.png`, `desktop-process-final.png`, `scan-root.json`, `scan-pages.json`, and `metal-hero-async-lifecycle.test.cjs`.
+
+## Build and resilience checks
+
+- Astro check: 59 files, 0 errors, 0 warnings, 0 hints.
+- Root and GitHub Pages base builds: 57 pages each. Static scans: 0 missing local paths or hashes, including all three stages' metadata URLs and srcsets.
+- Async Node VM regression: 9/9 pass, including decode delay/rejection, 20 repeated clicks sharing one in-flight load, failed-load retry, stale promise suppression, pause, manual-only modes, and pagehide/pageshow cleanup.
+- SSR downloads the complete solid image. Normal JS also requests powder at startup; the forming image is demand-loaded. Thus normal startup intentionally downloads solid plus powder rather than promising a single image request; static manual-only modes do not proactively load the other stages.
+- Optimized hero JS: 7,105 bytes, gzip 3,079 bytes. 960w WebP powder/form/solid: 120,854 / 86,778 / 29,032 bytes. 500w equipment AVIF injection/vacuum: 7,348 / 13,351 bytes.
+- Remaining scope limits: reduced-motion, Save-Data, missing Canvas and loading-failure cases are source-level mocks, not browser emulation; no Safari/Firefox or real mobile-network/Core Web Vitals claim.
+
+---
+
 # v0.6.0 / v0.6.1 Design QA
 
 Date: 2026-09-07

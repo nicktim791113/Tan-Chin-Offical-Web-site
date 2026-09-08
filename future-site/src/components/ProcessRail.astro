@@ -6,11 +6,11 @@ import feedstock from "../assets/images/mim-feedstock.png";
 import { withBase } from "../utils/paths";
 const { lang } = Astro.props as { lang: Lang };
 const labels = {
-  zh: { title: "四大步驟，精準成就複雜零件", link: "了解完整製程", powder: "金屬粉末與混煉原料示意", injection: "震欣射出成型設備", vacuum: "震欣真空燒結爐，密閉爐體與圓形爐門", sample: "震欣精密金屬零件實物樣品", captions: ["原料示意", "射出成型設備", "真空燒結爐", "成品樣品"] },
-  en: { title: "Four steps. Precision in every part.", link: "Explore the MIM process", powder: "Illustration of metal powder and compounded feedstock", injection: "TANCHIN injection molding equipment", vacuum: "TANCHIN vacuum sintering furnace with a sealed chamber and circular door", sample: "An actual TANCHIN precision metal component", captions: ["Feedstock illustration", "Injection molding equipment", "Vacuum sintering furnace", "Finished sample"] },
-  ja: { title: "4つの工程で、複雑形状を精密に。", link: "MIMプロセスを詳しく見る", powder: "金属粉末と混練原料のイメージ", injection: "TANCHINの射出成形設備", vacuum: "密閉チャンバーと円形扉を備えたTANCHINの真空焼結炉", sample: "TANCHINの精密金属部品サンプル", captions: ["原料イメージ", "射出成形設備", "真空焼結炉", "製品サンプル"] }
+  zh: { title: "四大步驟，精準成就複雜零件", link: "了解完整製程", powder: "金屬粉末與混煉原料示意", injection: "射出成型設備示意", vacuum: "真空燒結設備示意", sample: "震欣精密金屬零件實物樣品", captions: ["原料示意", "射出成型設備示意", "真空燒結設備示意", "成品樣品"] },
+  en: { title: "Four steps. Precision in every part.", link: "Explore the MIM process", powder: "Illustration of metal powder and compounded feedstock", injection: "Injection molding equipment illustration", vacuum: "Vacuum sintering equipment illustration", sample: "An actual TANCHIN precision metal component", captions: ["Feedstock illustration", "Injection molding equipment illustration", "Vacuum sintering equipment illustration", "Finished sample"] },
+  ja: { title: "4つの工程で、複雑形状を精密に。", link: "MIMプロセスを詳しく見る", powder: "金属粉末と混練原料のイメージ", injection: "射出成形設備イメージ", vacuum: "真空焼結設備イメージ", sample: "TANCHINの精密金属部品サンプル", captions: ["原料イメージ", "射出成形設備イメージ", "真空焼結設備イメージ", "製品サンプル"] }
 }[lang];
-const equipmentImages = ["", "/assets/equipment/injection-machine.jpg", "/assets/equipment/sintering-furnace.jpg", "/assets/products/chrome-mo-02.png"];
+const equipmentImages = ["", "/assets/equipment/injection-machine-illustration.png", "/assets/equipment/vacuum-sintering-illustration.png", "/assets/products/chrome-mo-02.png"];
 const imageLabels = [labels.powder, labels.injection, labels.vacuum, labels.sample];
 ---
 
@@ -32,7 +32,7 @@ const imageLabels = [labels.powder, labels.injection, labels.vacuum, labels.samp
           {index === 0 ? (
             <Picture src={feedstock} alt={labels.powder} widths={[240, 480]} sizes="(max-width: 600px) 80vw, (max-width: 960px) 40vw, 22vw" formats={["avif"]} fallbackFormat="webp" loading="lazy" />
           ) : (
-            <ResponsiveImage src={equipmentImages[index]} alt={imageLabels[index]} widths={index < 3 ? [200, 350] : [256, 480]} sizes="(max-width: 600px) 80vw, (max-width: 960px) 40vw, 22vw" />
+            <ResponsiveImage src={equipmentImages[index]} alt={imageLabels[index]} widths={index < 3 ? [200, 350, 500] : [256, 480]} sizes="(max-width: 600px) 80vw, (max-width: 960px) 40vw, 22vw" />
           )}
           <figcaption>{labels.captions[index]}</figcaption>
         </figure>
